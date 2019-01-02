@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "qiniu": "^7.0.5",
-    "moment": "^2.22.2"
+    "moment": "^2.23.0",
+    "qiniu": "^7.2.1"
   }
 }

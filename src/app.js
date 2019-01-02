@@ -62,7 +62,7 @@ App({
   checkUser(){
     const WXContext = this.globalData.WXContext
     if(WXContext && WXContext.OPENID){
-      db.collection('qlz_user').where({
+      db.collection('xpc_user').where({
         _openid: WXContext.OPENID // 填入当前用户 openid
       }).get({
         success: (res)=> {
@@ -111,7 +111,7 @@ App({
       return
     }
     const OPENID = this.globalData.WXContext.OPENID
-    db.collection('qlz_user').where({
+    db.collection('xpc_user').where({
       _openid: OPENID // 填入当前用户 openid
     }).get({
       success: (res)=> {
@@ -119,7 +119,7 @@ App({
           if(res.data && res.data instanceof Array && res.data.length>0){
             console.log('新增用户提示：用户已存在')
             const user = res.data[0]
-            db.collection('qlz_user').doc(user._id).update({
+            db.collection('xpc_user').doc(user._id).update({
               data: {
                 updated_at: util.formatTime(new Date(), '-:'),
                 ...this.globalData.WXUserInfo                
@@ -136,7 +136,7 @@ App({
               updated_at: util.formatTime(new Date(),'-:'),
               ...this.globalData.WXUserInfo
             }
-            db.collection('qlz_user').add({
+            db.collection('xpc_user').add({
               data: newUser
             }).then(res => {
               // console.log(res)

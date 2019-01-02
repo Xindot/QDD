@@ -2,8 +2,8 @@ const superagent = require('superagent')
 const moment = require('moment')
 
 const QLZ = {
-  APPID: 'wx180a229233227493',
-  APPSECRET: '5dba70d1c4ea78dcfa26bfab7ae42a9e'
+  APPID: 'wxebdf16d05e5efaa7',
+  APPSECRET: '2c7b165971c799a2cd8d31822250b412'
 }
 const url = `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${QLZ.APPID}&secret=${QLZ.APPSECRET}`
 
