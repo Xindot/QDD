@@ -8,12 +8,14 @@ Page({
     today: util.formatTime(new Date(),'CN'),
     pubForm: {
       pointA: {
-        name: '', // 地址 省,市,区,详细地址 英文逗号分隔
-        location: '', // 经纬度 lng,lat 英文逗号分隔
+        name: '',
+        address: '',
+        lnglat: '',
       },
       pointB: {
         name: '',
-        location: '',
+        address: '',
+        lnglat: '',
       },
       userInfo: null, // 用户信息
       tripTime: '', // 精确到年月日日时 左右
@@ -26,6 +28,9 @@ Page({
     if(xpid){
       this.getPubDetail(xpid)
     }
+    this.setData({
+      'pubForm.tripTime': util.formatTime(new Date(), '-:')
+    })
   },
   onReady() {},
   onShow() {},
@@ -49,6 +54,55 @@ Page({
         })
       }
     })
+  },
+  getPoint(e){
+    const p = e.currentTarget.dataset.p || ''
+    if(p){
+      this.wxChooseLocation(p)
+    }
+  },
+  wxChooseLocation(p){
+    wx.chooseLocation({
+      type: 'wgs84',
+      success:(res)=> {
+        console.log(res)
+        if(res.errMsg==="chooseLocation:ok"){
+          if(p ==='A' || p ==='B'){
+            const point = {
+              name: res.name,
+              address: res.address,
+              lnglat: res.longitude + ',' + res.latitude,
+            }
+            this.data.pubForm['point'+p] = point
+            this.setData({
+              pubForm: this.data.pubForm
+            })
+          }
+        }
+      }
+    })
+  },
+  pubSubmit(){
+    const userInfo = app.globalData.WXUserInfo
+    const pubForm = this.data.pubForm
+
+    console.log(pubForm)
+
+    console.log('新增发布行程')
+    const sForm = {
+      created_at: util.formatTime(new Date(), '-:'),
+      updated_at: util.formatTime(new Date(), '-:'),
+      userInfo,
+      ...pubForm,
+    }
+    db.collection('xpc_pub').add({
+      data: sForm
+    }).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.error(err)
+    })
+
   },
   // 作业标题改变
   titleChange(e) {

@@ -6,17 +6,19 @@
         <text style="color:#666;font-size:13px;">从这里出发</text>
       </view>
 
-      <view class="point A">
+      <view class="point" data-p="A" bindtap="getPoint">
         <view>
           <text></text>
-          <text>出发地</text>
+          <text>出发地：</text>
+          <text>{{pubForm.pointA.name}}</text>
         </view>
       </view>
 
-      <view class="point B">
+      <view class="point" data-p="B" bindtap="getPoint">
         <view>
           <text></text>
           <text>目的地</text>
+          <text>{{pubForm.pointB.name}}</text>
         </view>
       </view>
 

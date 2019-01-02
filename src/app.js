@@ -90,14 +90,6 @@ App({
     if(WXUserInfo.nickName){
       wx.setStorageSync('WXUserInfo', WXUserInfo)
       this.globalData.WXUserInfo = WXUserInfo
-      const InsertUserInfo = {
-        openId: WXUserInfo._openid,
-        nickName: WXUserInfo.nickName,
-        avatarUrl: WXUserInfo.avatarUrl,
-        gender: WXUserInfo.gender,
-      }
-      wx.setStorageSync('InsertUserInfo', InsertUserInfo)
-      this.globalData.InsertUserInfo = InsertUserInfo
     }
   },
   // 增加用户到数据库
@@ -284,7 +276,6 @@ App({
     db, // 小程序数据库
     WXContext: null, // 含微信OPENID
     WXUserInfo: null, // 微信用户信息（较全）
-    InsertUserInfo: null,// 冗余到记录中的用户信息（仅供展示使用）
     QNConfig: {
       upHost: 'https://up.qbox.me', // 七牛云上传域名
     },

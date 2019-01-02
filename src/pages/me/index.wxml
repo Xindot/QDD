@@ -1,12 +1,11 @@
-<view class="me-box section">
-	<view class="WXUserInfo flex-wrp" data-text="微信登录" bindtap="goPage">
+<view class="me-box">
+	<view style="text-align:center;padding:10px 0;" data-text="微信登录" bindtap="goPage">
     <view class="flex-item flex-item-1">
       <image wx:if="{{WXUserInfo.avatarUrl}}" style="width: 50px; height: 50px;font-size: 0;border-radius: 50px;vertical-align:middle;" src="{{WXUserInfo.avatarUrl}}"></image>
     </view>
     <view class="flex-item flex-item-2">
       <view class="flex-item-one">
         <text>{{WXUserInfo.nickName}}</text>
-        <image wx:if="{{WXUserInfo.gender}}" style="width: 15px; height: 15px;margin:0 3px;font-size: 0;vertical-align:middle;" src="../../images/common/sex-icon-{{WXUserInfo.gender}}.png"></image>
       </view>
       <view class="flex-item-one" style="opacity: .5;font-size: 12px;">
         <text>{{WXUserInfo.city}}</text>
@@ -19,7 +18,7 @@
 
   <view class="h-10px"></view>
 
-  <view class="my-list-1 flex-wrp">
+  <view class="my-list-1">
     <view wx:for="{{list1}}" wx:key="{{index}}" data-text="{{item}}" bindtap="goPage" class="flex-item">
       <view>
         <image style="width: 30px; height: 30px;font-size: 0;" src="../../images/common/me-list-1-{{index}}.png"></image>
