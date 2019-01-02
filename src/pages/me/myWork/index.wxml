@@ -1,0 +1,38 @@
+<view>
+  <view class="myWork-h-tabs">
+    <view wx:for="{{header.tabs}}" wx:key="{{index}}" class="myWork-h-tab-one {{header.selectIndex==index?'active':''}}" style="width:{{100/header.tabs.length}}%;" data-idx="{{index}}" bindtap="selectTabOne">{{item}}</view>
+  </view>
+
+  <view class="myWork-list">
+    <view wx:if="{{header.selectIndex==0}}">
+      <view class="myWork-list-1-one" wx:for="{{myWorkSubmitList}}" wx:key="{{index}}" id="{{item._id}}" bindtap="editMyWorkSubmitOne">
+        <view class="left">
+          <image class="img" src="{{item.img[0]}}{{QNImgStyle.wXS}}" mode="aspectFill"></image>      
+        </view>
+        <view class="right">
+          <view style="font-size:16px;">{{item.desc}}</view>
+          <view style="opacity:.5;font-size:12px;">{{item.created_at}}</view>
+          <view style="margin-top:5px;">
+            <text wx:if="{{item.original}}" class="btn-original">原创</text>
+            <text wx:if="{{item.representative}}" class="btn-representative">代表作</text>
+            <text class="btn-viewAllow">{{item.viewAllow=='Public'?'所有人可见':'仅自己可见'}}</text>
+          </view>
+        </view>
+      </view>
+      <view wx:if="{{myWorkSubmitList.length==0}}" class="data-empty">
+        <text>暂无数据</text>
+      </view>
+    </view>
+    <view wx:if="{{header.selectIndex==1}}">
+      <view class="myWork-list-2-one" wx:for="{{myWorkAdminList}}" wx:key="{{index}}" id="{{item._id}}" bindtap="editMyWorkAdminOne">
+        <view>
+          <text>{{item.title}}</text>
+          <text class="right">{{item.created_at}}</text>      
+        </view>
+      </view>
+      <view wx:if="{{myWorkAdminList.length==0}}" class="data-empty">
+        <text>暂无数据</text>
+      </view>
+    </view>
+  </view>
+</view>

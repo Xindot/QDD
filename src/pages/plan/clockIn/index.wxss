@@ -1,0 +1,54 @@
+.clockIn-box {
+	width: 100%;
+	padding:30px 60px;
+	box-sizing: border-box;
+}
+
+.clockIn-box .today{
+	text-align: center;	
+	font-weight: 500;
+	font-size: 14px;
+	margin-bottom: 15px;
+}
+
+.clockIn-box .section-1{
+	text-align:center;
+	font-size:15px;
+	opacity: .5;
+}
+.clockIn-box .section-1 .img-icon{
+	width: 60px;
+	height: 60px;
+}
+
+.clockIn-box .section-1 .img-select{
+	width: 100%;
+}
+
+.clockIn-box .section-2 .textarea{
+	margin:5px 0;
+	padding:0;
+	font-size:14px;
+	background-color:;
+	width:100%;
+	box-sizing:border-box;
+	height:80px;
+}
+
+.clockIn-box .section-3 {
+	margin-top: 30px;
+}
+.clockIn-box .section-3.opacity-5{
+	opacity: .5
+}
+
+.clockIn-box .section-3 .submit{
+	padding:10px 15px;
+	font-size:12px;
+	border:none;
+	color:#fff;
+	text-align: center;
+	background-color:#3db034;
+	border-radius:8px;
+	font-weight: 500;
+}

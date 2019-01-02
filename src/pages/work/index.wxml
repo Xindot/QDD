@@ -1,0 +1,77 @@
+<view class="work-box">
+	<view class="header">
+		<text wx:for="{{header.tabs}}" class="h-text {{header.selectIndex==index?'active':''}} {{header.tabs.length==index+1?'last-tab':''}}" wx:key="{{index}}" data-index="{{index}}" bindtap="selectTab">{{item}}</text>
+	</view>
+
+	<scroll-view scroll-y style="height: 100%;">
+		<!-- 下拉加载 -->
+		<view style="height: 40px;background-color: #eee;text-align: center;">
+			<image src="../../images/common/yumao-icon-1.png" mode="aspectFit" class="img-1" style="height: 100%;font-size: 0;opacity: .5"></image>
+		</view>
+
+		<!-- 正文 -->
+		<view class="content">
+			<view wx:if="{{header.selectIndex==0 || header.selectIndex==1}}">
+				<view wx:if="{{workList}}">
+					<view wx:if="{{workList.length>0}}" wx:for="{{workList}}" wx:key="{{index}}" style="margin-bottom: 10px;background-color:#fff;overflow:hidden;border-radius:5px;" id="{{item._id}}" bindtap="targetDetail">
+						<view style="font-size: 0;position:relative;">
+							<image wx:if="{{item.img}}" src="{{item.img}}-wM" style="width:100%;height: 150px;" mode="center"/>
+              <view class="gradient-A" style="position:absolute;bottom:0;left:0;padding:0 10px;border-radius:0 5px 0 0;height:40px;line-height:40px;width:100%;color:#fff;">
+                <text style="font-size:16px;">{{item.title}}</text>
+              </view>
+						</view>
+						<view style="padding: 10px;position:relative;min-height:30px;">
+							<view style="width:75%;">
+								<view style="font-size: 14px;">
+									<text>{{item.desc}}</text>
+								</view>
+							</view>
+							<view catchtap="workSubmit" data-id="{{item._id}}" style="position:absolute;right:10px;top:10px;padding:5px 10px;border-radius:50px;background-color:#ffe001;font-size:14px;">提交作品</view>
+						</view>
+					</view>
+					<view wx:if="{{workList.length==0}}">
+						<view style="padding:80px 0;text-align:center;font-size:14px;opacity:.8;">
+							<view>
+								<image src="../../images/common/sleep-icon.png" mode="widthFix" class="img-1" style="width: 50px;"></image>
+							</view>
+							<text>未找到布置的作业</text>
+						</view>
+						<view wx:if="{{header.selectIndex==0}}" style="text-align: center;" bindtap="createOneWork">
+							<text class="btn-s">我来布置</text>
+						</view>
+					</view>
+				</view>
+			</view>
+
+			<view wx:if="{{header.selectIndex==2}}">
+
+				<!-- 在页面上放一个隐藏区域，并用image组件去加载一个或多个图片资源 -->
+				<view style="display:none" wx:if="{{workSubmitList}}">
+				  <image wx:for="{{workSubmitList}}" wx:key="index" data-idx="{{index}}" src="{{item.img[0]}}" bindload="onImageLoad"></image>
+				</view>
+
+				<!-- 瀑布流布局 -->
+			  <view style="font-size: 0;">
+			    <view wx:for="{{waterfall.column}}" wx:key="{{index}}" style="width: 50%;display: inline-block;vertical-align:top;box-sizing:border-box;{{index==0?'padding-right:5px':'padding-left:5px'}};">
+				    <view wx:for="{{item.list}}" wx:for-item="item2" wx:key="{{index}}" style="border-radius: 5px;overflow:hidden;margin-bottom:10px;" wx:if="{{item2.img[0]}}" id="{{item2._id}}" bindtap="oneDetial">
+							<image src="{{item2.img[0]}}{{item2.imgStyle=='QN'&&QNImgStyle.wS||''}}" mode="widthFix" style="width: 100%;height: auto;"></image>
+				    </view>
+			    </view>
+			  </view>
+
+        <view wx:if="{{workSubmitList.length==0}}" class="data-empty">
+          <text>暂无数据</text>
+        </view>
+
+			</view>
+		</view>
+	</scroll-view>
+
+</view>
+
+
+
+
+
+
+

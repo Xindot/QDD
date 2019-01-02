@@ -1,0 +1,51 @@
+/* 头部 */
+.fb-header .fb-tab-one {
+	width:50%;
+  display:inline-block;
+  text-align:center;
+  height:44px;
+  line-height:44px;
+  font-size: 14px;
+  opacity: .5;
+}
+.fb-header .fb-tab-one.active{
+  opacity: 1;
+}
+
+/* 主体 */
+.fb-submit textarea {
+  padding: 10px;
+  font-size: 14px;
+  width: 100%;
+  background-color: #fff;
+  box-sizing:border-box;
+}
+.fb-submit .fb-btn {
+  text-align: center;
+  width: 90%;
+  margin: 5%;
+  background-color: #ffe001;
+  font-size: 15px;
+  height: 44px;
+  line-height: 44px;
+  border-radius: 50px;
+  border: solid 1px #ffe001;
+  overflow: hidden
+}
+.fb-list-one{
+  background-color: #fff;
+  padding: 10px;
+}
+.fb-list-one+.fb-list-one{
+  border-top: solid 1px #eee;
+}
+.fb-list-tips {
+  font-size: 14px;
+  text-align: center;
+  height: 100px;
+  line-height: 100px;
+  background-color: #fff;
+}
+.fb-list-tips > text{
+  opacity: .5;
+}

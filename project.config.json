@@ -1,0 +1,133 @@
+{
+	"description": "项目配置文件。",
+	"setting": {
+		"urlCheck": false,
+		"es6": true,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true,
+		"nodeModules": true,
+		"autoAudits": false,
+		"uglifyFileName": true
+	},
+	"compileType": "miniprogram",
+	"libVersion": "2.4.1",
+	"appid": "wx180a229233227493",
+	"projectname": "%E8%B6%A3%E7%BB%83%E5%AD%97",
+	"miniprogramRoot": "src/",
+	"qcloudRoot": "svr/",
+	"cloudfunctionRoot": "functions/",
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"current": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": 12,
+			"list": [
+				{
+					"id": -1,
+					"name": "今日打卡",
+					"pathName": "pages/plan/clockIn/index",
+					"query": ""
+				},
+				{
+					"id": 1,
+					"name": "最近作业",
+					"pathName": "pages/work/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "个人中心",
+					"pathName": "pages/me/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "关于趣练字",
+					"pathName": "pages/me/about/index",
+					"query": ""
+				},
+				{
+					"id": 4,
+					"name": "作业详情",
+					"pathName": "pages/submit/targetDetail/index",
+					"query": "wid=XCcvrcDR1TiNLedW"
+				},
+				{
+					"id": -1,
+					"name": " 发现",
+					"pathName": "pages/find/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "我的计划",
+					"pathName": "pages/plan/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "统一分享页",
+					"pathName": "pages/share/index",
+					"query": "id=XAKnEu0Pzca7mMM7&idType=workSubmit"
+				},
+				{
+					"id": -1,
+					"name": "意见反馈",
+					"pathName": "pages/me/feedback/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "管理我的作业",
+					"pathName": "pages/me/myWork/index",
+					"query": ""
+				},
+				{
+					"id": 11,
+					"name": "提交作业 或 编辑已提交作业",
+					"pathName": "pages/work/submit/index",
+					"query": "wsid=XAKKu7RuRUiORRaT"
+				},
+				{
+					"id": -1,
+					"name": "登录",
+					"pathName": "pages/me/login/index",
+					"query": ""
+				},
+				{
+					"id": 12,
+					"name": "布置作业",
+					"pathName": "pages/work/add/index",
+					"query": "wid=XCcwR8DR1TiNLeqL"
+				},
+				{
+					"id": -1,
+					"name": "创建计划",
+					"pathName": "pages/plan/add/index",
+					"query": "wid=XCcwR8DR1TiNLeqL"
+				},
+				{
+					"id": 14,
+					"name": "作品详情",
+					"pathName": "pages/submit/oneDetail/index",
+					"query": "sid=XCdQUt7E7L4w_crx"
+				}
+			]
+		}
+	}
+}

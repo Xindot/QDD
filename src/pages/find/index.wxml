@@ -1,0 +1,36 @@
+<view style="">
+
+	<!-- 推荐作者 -->
+	<view style="background-color: #fff;overflow:hidden;padding: 5px;">
+	  <view style="font-size:14px;opacity:.5;margin-bottom:5px;">推荐作者</view>
+	  <scroll-view scroll-x style="width: 100%;white-space: nowrap;">
+	    <view wx:for="{{userList}}" wx:key="{{index}}" style="width:50px;height:50px;border-radius:50px;overflow:hidden;border:solid 1px #eee;margin-right:5px;box-sizing:border-box;display:inline-block">
+				<image src="{{item.avatarUrl}}" mode="aspectFit" style="width: 100%;height: 100%;font-size: 0;"></image>
+	    </view>
+	  </scroll-view>
+	</view>
+
+	<view>
+		<!-- 广告栏 -->
+		<swiper style="height: 100px;overflow:hidden;" 
+			indicator-dots="{{bannerSwiper.indicatorDots}}" 
+			indicator-color="{{bannerSwiper.indicatorColor}}"
+			indicator-active-color="{{bannerSwiper.indicatorActiveColor}}"
+		  autoplay="{{bannerSwiper.autoplay}}" 
+		  interval="{{bannerSwiper.interval}}" 
+		  duration="{{bannerSwiper.duration}}">
+		  <block wx:for="{{bannerSwiper.imgUrls}}" wx:key="{{index}}" style="height: 100%;border-radius: 5px;overflow:hidden;">
+		    <swiper-item>
+		    	<image src="{{item.img}}" style="width:100%;font-size: 0;" mode="center"/>
+		    </swiper-item>
+		  </block>
+		</swiper>
+	</view>
+
+	<view style="position:fixed;right:15px;bottom:15px;">
+		<view style="width:50px;height:50px;text-align:center;font-size:30px;background-color:#ffe001;border-radius:50px;box-shadow:0 0 10px 0 #ccc;">
+			<text>+</text>
+		</view>
+	</view>
+
+</view>

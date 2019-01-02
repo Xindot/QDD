@@ -1,0 +1,52 @@
+page {
+	background-color:#eee;
+	height:100%;
+}
+
+/* 伪类清除浮动 开始 */
+.clearfix::after {
+  content: ".";
+  clear: both;
+  display: block;
+  overflow: hidden;
+  font-size: 0;
+  height: 0;
+}
+.clearfix {
+  zoom: 1;
+}
+/* 伪类清除浮动 结束 */
+
+/* btn组 */
+.btn-s {
+  padding:5px 10px;
+  border-radius:50px;
+  background-color:#ffe001;
+  font-size:14px;
+}
+.btn-b {
+  margin:30px 0;
+  font-size:14px;
+  border:none;
+  text-align:center;
+  background-color:#ffe001;
+  border-radius:50px;
+  color:#000;
+  height:44px;
+  line-height:44px;
+}
+
+.data-empty {
+  height:44px;
+  line-height:44px;
+  font-size:14px;
+  text-align:center;
+  background-color:#fff;
+}
+.data-empty > text {
+  opacity: .5;
+}
+
+textarea {
+  padding: 0;
+}

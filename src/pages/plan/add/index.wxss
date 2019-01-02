@@ -1,0 +1,15 @@
+.add-work-box {
+	width: 100%;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.add-work-box .today{
+	text-align: center;	
+	font-weight: 500;
+	font-size: 14px;
+	margin-bottom: 15px;
+  opacity: .5;
+}
+
+

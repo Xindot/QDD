@@ -1,0 +1,14 @@
+{
+  "name": "getWXContext",
+  "version": "1.0.0",
+  "description": "在云函数中获取微信调用上下文，该方法无需传入参数 https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-server-api/utils/getWXContext.html?search-key=getWXContext",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

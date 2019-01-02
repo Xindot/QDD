@@ -1,0 +1,8 @@
+<view style="padding: 40px;" wx:if="{{share.img}}">
+	<view style="font-size:0;width:100%;background-color:#fff;border-radius:5px;overflow:hidden;box-shadow:0 0 20px 5px #ccc;">
+		<image src="{{share.img}}" mode="widthFix" style="width: 100%;height: auto;"></image>
+	</view>
+	<view style="margin-top:40px;border-radius:50px;background-color:#ffe001;height:50px;line-height:50px;text-align:center;" bindtap="wxSaveImageToPhotosAlbum">
+		<text>保存图片，分享到朋友圈</text>
+	</view>
+</view>

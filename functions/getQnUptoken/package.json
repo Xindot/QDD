@@ -1,0 +1,15 @@
+{
+  "name": "getQnUptoken",
+  "version": "1.0.0",
+  "description": "简单上传的凭证：最简单的上传凭证只需要AccessKey，SecretKey和Bucket就可以。https://developer.qiniu.com/kodo/sdk/1289/nodejs#simple-uptoken",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "qiniu": "^7.0.5",
+    "moment": "^2.22.2"
+  }
+}

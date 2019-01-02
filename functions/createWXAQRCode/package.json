@@ -1,0 +1,15 @@
+{
+  "name": "createWXAQRCode",
+  "version": "1.0.0",
+  "description": "获取小程序二维码，适用于需要的码数量较少的业务场景。通过该接口生成的小程序码，永久有效，有数量限制，https://developers.weixin.qq.com/miniprogram/dev/api/createWXAQRCode.html",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "wx-server-sdk": "latest",
+    "superagent": "^3.4.1"
+  }
+}

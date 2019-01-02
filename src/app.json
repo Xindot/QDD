@@ -1,0 +1,60 @@
+{
+  "pages":[
+    "pages/work/index",
+    "pages/work/add/index",
+    "pages/plan/index",
+    "pages/plan/add/index",
+    "pages/plan/clockIn/index",
+    "pages/find/index",
+    "pages/me/index",
+    "pages/me/login/index",
+    "pages/me/myWork/index",
+    "pages/me/mySubmitA/index",
+    "pages/me/myPlan/index",
+    "pages/me/bimoim/index",
+    "pages/me/myZidou/index",
+    "pages/me/feedback/index",
+    "pages/me/about/index",
+    "pages/me/setting/index",
+    "pages/submit/index",
+    "pages/submit/targetDetail/index",
+    "pages/submit/oneDetail/index",
+    "pages/operate/share/index",
+    "pages/operate/like/index"
+  ],
+  "window":{
+    "backgroundColor": "#eee",
+    "backgroundTextStyle":"black",
+    "navigationBarBackgroundColor": "#ffe001",
+    "navigationBarTitleText": "趣练字 · 作业",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+    "color": "#ffe00180",
+    "selectedColor": "#ffe001",
+    "borderStyle": "white",
+    "backgroundColor": "#000",
+    "box-shadow": "0 0 6px 0",
+    "list": [
+      {
+        "pagePath": "pages/work/index",
+        "iconPath": "images/nav/work-off.png",
+        "selectedIconPath": "images/nav/work-on.png",
+        "text": "作业"
+      },
+      {
+        "pagePath": "pages/plan/index",
+        "iconPath": "images/nav/plan-off.png",
+        "selectedIconPath": "images/nav/plan-on.png",
+        "text": "计划"
+      },
+      {
+        "pagePath": "pages/me/index",
+        "iconPath": "images/nav/me-off.png",
+        "selectedIconPath": "images/nav/me-on.png",
+        "text": "我"
+      }
+    ]
+  },
+  "cloud": true
+}

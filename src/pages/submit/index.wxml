@@ -1,0 +1,54 @@
+<view class="work-submit-box">
+
+	<view class="tips-1">
+    <text>请上传您已完成的作品</text>
+    <text class="right clearfix">{{today}}</text>
+  </view>
+
+  <view class="wsb-img">
+    <view wx:for="{{AEForm.img}}" wx:key="{{index}}" class="img-div">
+      <image src="{{item}}-wXS" class="img" mode="aspectFill" data-img="{{item}}" bindtap="wxPreviewImage"></image>
+      <view class="del-img" data-img="{{item}}" bindtap="deleteImg">
+        <text>删除</text>    
+      </view>
+    </view>
+    <view wx:if="{{!AEForm.img || AEForm.img.length<9}}" class="img-add-div">
+      <view class="img-add" bindtap="chooseImageUpload"></view>    
+    </view>
+  </view>
+
+  <view>
+    <textarea class="textarea" placeholder="书写心得..." maxlength="140" bindinput="bindTextAreaInput" value="{{AEForm.desc}}"/>
+  </view>
+
+  <view class="select-div">
+    <view class="select-one">
+      <text>是否原创</text>
+      <view class="right clearfix">
+        <text style="color:#666;margin-right:5px;">{{AEForm.original?'原创':''}}</text>
+        <switch checked="{{AEForm.original}}" bindchange="switchOriginalChange" class="switch"/>
+      </view>
+    </view>
+
+    <view class="select-one" wx:if="{{AEForm.original}}">
+      <text>是否代表作</text>
+      <view class="right clearfix">
+        <text style="color:#666;margin-right:5px;">{{AEForm.representative?'代表作':''}}</text>
+        <switch checked="{{AEForm.representative}}" bindchange="switchRepresentativeChange" class="switch"/>
+      </view>
+    </view>
+
+    <view class="select-one">
+      <text>谁可以看</text>
+      <view class="right clearfix">
+        <text style="color:#666;margin-right:5px;">{{AEForm.viewAllow=='Public'?'所有人':'仅自己'}}</text>
+        <switch checked="{{AEForm.viewAllow=='Public'}}" bindchange="switchViewAllowChange" class="switch"/>
+      </view>
+    </view>
+  </view>
+
+  <view class="submit" bindtap="goSubmit">
+    <text style="{{!AEForm.img?'opacity: .5':''}}">提交</text>
+  </view>
+
+</view>
