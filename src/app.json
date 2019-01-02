@@ -10,18 +10,18 @@
     "pages/me/setting/index"
   ],
   "window":{
-    "navigationBarBackgroundColor": "#666666",
-    "navigationBarTitleText": "心拼车",
-    "navigationBarTextStyle":"#666666",
     "backgroundColor": "#f3f4f5",
-    "backgroundTextStyle":"#000000"
+    "backgroundTextStyle":"#000000",
+    "navigationBarBackgroundColor": "#eeeeee",
+    "navigationBarTitleText": "心拼车",
+    "navigationBarTextStyle":"black"
   },
   "tabBar": {
     "color": "#999999",
     "selectedColor": "#666666",
     "borderStyle": "ffffff",
     "backgroundColor": "#ffffff",
-    "box-shadow": "0 0 6px 0",
+    "box-shadow": "0 0 5px 0",
     "list": [
       {
         "pagePath": "pages/pub/index",
