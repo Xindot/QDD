@@ -35,8 +35,14 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 12,
-			"list": []
+			"current": 0,
+			"list": [
+				{
+					"id": -1,
+					"name": "发布行程",
+					"pathName": "pages/pub/add/index"
+				}
+			]
 		}
 	}
 }

@@ -11,6 +11,9 @@ Page({
   data: {
     QNImgStyle,
     pubList: null,
+    wheel: {
+      loader: false 
+    }
   },
   onLoad() {
     this.getPubList()
@@ -18,9 +21,15 @@ Page({
   onShow(){},
   // 下拉刷新
   onPullDownRefresh(){
+    this.setData({
+      'wheel.loader': true
+    })
     this.getPubList()
-    setTimeout(function(){
+    setTimeout(()=>{
       wx.stopPullDownRefresh()
+      this.setData({
+        'wheel.loader': false
+      })
     },Timeout.wx.stopPullDownRefresh)
   },
   // 获取作业
@@ -81,7 +90,7 @@ Page({
     }
   },
   // 布置作业
-  createOneWork(){
+  pubMyTrip(){
     wx.navigateTo({
       url: 'add/index'
     })

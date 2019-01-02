@@ -1,4 +1,4 @@
-<view class="work-box">
+<view class="pub-box">
 
 	<scroll-view scroll-y style="height: 100%;">
 
@@ -25,12 +25,12 @@
 					<view wx:if="{{pubList.length==0}}">
 						<view style="padding:80px 0;text-align:center;font-size:14px;opacity:.8;">
 							<view>
-								<image src="../../images/common/sleep-icon.png" mode="widthFix" class="img-1" style="width: 50px;"></image>
+								<image src="../../images/common/wheel.png" mode="widthFix" class="{{wheel.loader?'img-1 wheel-loader':'img-1'}}" style="width: 50px;"></image>
 							</view>
-							<text>未找到布置的作业</text>
+							<text wx:if="{{!wheel.loader}}" style="color: #666;">未找到可搭拼的行程</text>
 						</view>
-						<view wx:if="{{header.selectIndex==0}}" style="text-align: center;" bindtap="createOneWork">
-							<text class="btn-s">我来布置</text>
+						<view style="text-align: center;" bindtap="pubMyTrip">
+							<text class="btn-s">发布我的行程</text>
 						</view>
 					</view>
 				</view>

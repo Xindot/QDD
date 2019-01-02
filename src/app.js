@@ -3,7 +3,7 @@ const Version = 'v1.0.0'
 const util=require('utils/util')
 // console.log('wx.cloud=>',wx.cloud)
 wx.cloud.init({
-  ENV: ENV=='prod' ? 'prod-86cd95' : 'dev-86cd95'
+  ENV: ENV=='prod' ? 'prod-e2a464' : 'dev-e2a464'
 })
 const db = wx.cloud.database()
 
@@ -166,36 +166,6 @@ App({
         }
       }
     })
-    // 调用云函数
-    // wx.cloud.callFunction({
-    //   name: 'addUser',      // 要调用的云函数名称
-    //   data: {
-    //     newUser,
-    //   }      // 传递给云函数的event参数
-    // }).then(res => {
-    //   // console.log('addUser res=>',res)
-    //   if(res.errMsg=='cloud.callFunction:ok' && res.result){
-    //     console.log(res.result.msg)
-    //   }else{
-    //     console.error(res.errMsg)
-    //   }
-    //   wx.showModal({
-    //     title: '',
-    //     content: '登录成功',
-    //     showCancel: false,
-    //     success:(res) => {
-    //       if (res.confirm) {
-    //         // console.log('用户点击确定')
-    //         // 返回上一页
-    //         wx.navigateBack({
-    //           delta: 1
-    //         })
-    //       }
-    //     }
-    //   })
-    // }).catch(err => {
-    //   console.error(err)
-    // })
   },
   // 获取七牛上传token by缓存
   getQNConfig(){
@@ -259,7 +229,7 @@ App({
       return
     }
     const OPENID8 = OPENID.substring(0,8)
-    const key = 'qlz/'+ENV+'/'+Version+'/'+util.formatTime(new Date(),'19')+'/'+OPENID8+'/'+rStr4+'.png';
+    const key = 'xpc/'+ENV+'/'+Version+'/'+util.formatTime(new Date(),'19')+'/'+OPENID8+'/'+rStr4+'.png';
 
     const url = this.globalData.QNConfig.upHost;
     const token = this.globalData.QNConfig.uptoken;

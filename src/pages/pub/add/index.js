@@ -6,22 +6,25 @@ const db = app.globalData.db
 Page({
   data: {
     today: util.formatTime(new Date(),'CN'),
-    workForm: {
-      img: '',
-      title: '',
-      desc: '',
-      remark: '',
-      status: 1
+    pubForm: {
+      pointA: {
+        name: '', // 地址 省,市,区,详细地址 英文逗号分隔
+        location: '', // 经纬度 lng,lat 英文逗号分隔
+      },
+      pointB: {
+        name: '',
+        location: '',
+      },
+      userInfo: null, // 用户信息
+      tripTime: '', // 精确到年月日日时 左右
+      remark: '', // 备注
+      status: 1, // 是否发布 0取消发布 1发布
     },
-    wid: null,
   },
   onLoad(options) {
-    const wid = options.wid
-    if (wid) {
-      this.setData({
-        wid,
-      })
-      this.getWorkDetail(wid);
+    const xpid = options.xpid || ''
+    if(xpid){
+      this.getPubDetail(xpid)
     }
   },
   onReady() {},
@@ -29,51 +32,21 @@ Page({
   onHide() {},
   onUnload() {},
   onPullDownRefresh() {},
-  getWorkDetail(wid){
-    db.collection('qlz_work').doc(wid).get().then(res => {
+  getPubDetail(wid){
+    db.collection('xpc_pub').doc(xpid).get().then(res => {
       // console.log(res)
       if (res.errMsg === 'document.get:ok') {
         const detail = res.data
-        // console.log(detail)
+        console.log(detail)
         if(detail && detail.img) {
-          this.setData({
-            'workForm.img': detail.img || '',
-            'workForm.title': detail.title || '',
-            'workForm.desc': detail.desc || '',
-            'workForm.remark': detail.remark || '',
-            'workForm.status': detail.status || 0,
-          })
+
         }
       } else {
         wx.showModal({
           title: '',
-          content: '获取布置作业详情错误',
+          content: '获取详情错误',
           showCancel: false,
         })
-      }
-    })
-  },
-  /**
-   * 上传图片
-   */
-  chooseImageUpload: function() {
-    wx.chooseImage({
-      count: 1, // 默认9
-      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-      sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-      success:(res)=> {
-        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-        const tempFilePaths = res.tempFilePaths
-        app.uploadQiniu(res.tempFilePaths,(res)=>{
-          // console.log(res)
-          if(res.code==200){
-            if(res.url){
-              this.setData({
-                'workForm.img': res.url
-              })
-            }
-          }
-        });
       }
     })
   },

@@ -1,29 +1,26 @@
-<view class="add-work-box">
-	<view class="today">{{today}}</view>
-	<view style="background-color:#fff;padding: 10px;">
-    <view style="font-size:15px;margin-bottom:15px;">
+<view class="pub-box">
+	<view style="padding: 10px;">
+    <view style="background-color:#fff;padding: 10px;font-size:15px;">
 
-      <view style="margin-bottom:15px;">
-        <text wx:if="{{workForm.title}}" style="font-size:14px;color:#666;">作业标题：</text>
-        <input value="{{workForm.title}}" bindinput="titleChange" placeholder="请输入作业标题"></input>
+      <view>
+        <text style="color:#666;font-size:13px;">从这里出发</text>
       </view>
 
-      <view style="margin-bottom:15px;">
-        <text wx:if="{{workForm.desc}}" style="font-size:14px;color:#666;">作业内容：</text>
-        <textarea value="{{workForm.desc}}" bindinput="descChange" auto-height placeholder="请输入作业内容（可以是文摘或诗歌片段）" wrap="hard" style="width:100%;min-height:50px;"/>
+      <view class="point A">
+        <view>
+          <text></text>
+          <text>出发地</text>
+        </view>
       </view>
 
-      <view style="margin-bottom:15px;">
-        <text wx:if="{{workForm.remark}}" style="font-size:14px;color:#666;">作业要求：</text>
-        <textarea value="{{workForm.remark}}" bindinput="remarkChange" auto-height placeholder="请输入要求作业要求" wrap="hard" style="width:100%;min-height:50px;"/>
-      </view>
-
-      <view style="position:relative;width:100px;height:100px;">
-        <view wx:if="{{!workForm.img}}" class="img-add" bindtap="chooseImageUpload"></view>
-        <image wx:if="{{workForm.img}}" src="{{workForm.img}}" style="width:100%;height:100px;display:inline-block;" mode="center"></image>
+      <view class="point B">
+        <view>
+          <text></text>
+          <text>目的地</text>
+        </view>
       </view>
 
     </view>
-	  <view class="btn-b" bindtap="workSubmit">提交</view>
+	  <view style="text-align:center;background-color:#666;color:#fff;height:50px;line-height:50px;" bindtap="pubSubmit">提交</view>
 	</view>
 </view>

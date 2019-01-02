@@ -1,49 +1,7 @@
-.add-work-box {
-	width: 100%;
-	box-sizing: border-box;
-}
 
-/* 时间 */
-.add-work-box .today{
-	text-align: center;	
-	font-weight: 500;
-	font-size: 14px;
-  opacity: .5;
-  padding:5px;
+.point {
+  height: 60px;
 }
-/* 时间 */
-
-.btn-b {
-  margin: 0;
+.point + .point {
+  border-top: solid 1px #eee;
 }
-
-
-/* 加号 开始 */
-.img-add {
-  background-color:#eee;
-  color:#ccc;
-  width:100px;
-  height:100px;
-  position: relative;
-}
-.img-add::before{
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 40px;
-  margin-left: -20px;
-  margin-top: -2px;
-  border-top: 4px solid;
-}
-.img-add::after {
- content: '';
- position: absolute;
- left: 50%;
- top: 50%;
- height: 40px;
- margin-top: -20px;
- margin-left: -2px;
- border-left: 4px solid;
-}
-/* 加号 结束 */

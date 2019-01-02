@@ -78,7 +78,7 @@ Page({
         confirmColor: '#000'
       })
     }else{
-      db.collection('qlz_feedback').add({
+      db.collection('xpc_feedback').add({
         // data 字段表示需新增的 JSON 数据
         data: fbSubmit
       }).then(res => {
@@ -118,7 +118,7 @@ Page({
       setTimeout(function () {
         wx.hideLoading()
       }, Timeout.wx.hideLoading)
-      db.collection('qlz_feedback').where({
+      db.collection('xpc_feedback').where({
         _openid: WXContext.OPENID // 填入当前用户 openid
       })
       .orderBy('created_at', 'desc')

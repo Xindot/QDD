@@ -10,11 +10,11 @@
     "pages/me/setting/index"
   ],
   "window":{
-    "backgroundColor": "#f3f4f5",
-    "backgroundTextStyle":"#000000",
-    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarBackgroundColor": "#666666",
     "navigationBarTitleText": "心拼车",
-    "navigationBarTextStyle":"#666666"
+    "navigationBarTextStyle":"#666666",
+    "backgroundColor": "#f3f4f5",
+    "backgroundTextStyle":"#000000"
   },
   "tabBar": {
     "color": "#999999",
