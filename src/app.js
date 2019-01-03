@@ -1,6 +1,6 @@
 const ENV = ['dev','prod'][0]
 const Version = 'v1.0.0'
-const util=require('utils/util')
+const util = require('utils/util')
 // console.log('wx.cloud=>',wx.cloud)
 wx.cloud.init({
   ENV: ENV=='prod' ? 'prod-e2a464' : 'dev-e2a464'
@@ -16,9 +16,6 @@ App({
     // 获取七牛配置项
     this.getQNConfig()
 
-    // 获取当前帐号信息
-    // const accountInfo = wx.getAccountInfoSync();
-    // console.log('accountInfo=>',accountInfo)
   },
   // 获取用户OPENID by缓存
   getWXOPENID(){
@@ -90,6 +87,14 @@ App({
     if(WXUserInfo.nickName){
       wx.setStorageSync('WXUserInfo', WXUserInfo)
       this.globalData.WXUserInfo = WXUserInfo
+      const InsertUserInfo = {
+        openId: WXUserInfo._openid,
+        nickName: WXUserInfo.nickName,
+        avatarUrl: WXUserInfo.avatarUrl,
+        gender: WXUserInfo.gender,
+      }
+      wx.setStorageSync('InsertUserInfo', InsertUserInfo)
+      this.globalData.InsertUserInfo = InsertUserInfo
     }
   },
   // 增加用户到数据库
@@ -257,38 +262,15 @@ App({
       }
     })
   },
-  // 根据用户名生成用户水印
-  generateUserWatermark(imgRelInfo){
-    if(imgRelInfo && imgRelInfo.author){
-      const original = imgRelInfo.original ? '©' : 'By '
-      const mark = original + imgRelInfo.author + '\r\nQulianzi.com'
-      const wm = {
-        text: util.base64.encodeUnicode(mark)
-      }
-      return `?imageView2/0/q/75|watermark/2/text/${wm.text}/font/5b6u6L2v6ZuF6buR/fontsize/480/fill/I0ZGRkZGRg==/dissolve/50/gravity/SouthWest/dx/10/dy/10|imageslim`
-    }else{
-      return this.globalData.QNImgStyle.wmQLZ || ''
-    }
-  },
   globalData:{
     Version, // 小程序版本号
     ENV, // 小程序当前环境
     db, // 小程序数据库
     WXContext: null, // 含微信OPENID
     WXUserInfo: null, // 微信用户信息（较全）
+    InsertUserInfo: null,
     QNConfig: {
       upHost: 'https://up.qbox.me', // 七牛云上传域名
-    },
-    QNImgStyle: {
-      wXXS: '-wXXS', // 图片处理样式，下同
-      wXS: '-wXS',
-      wS: '-wS',
-      wM: '-wM',
-      wL: '-wL',
-      wXL: '-wXL',
-      wmQLZ: '-wmQLZ', // 添加水印 qulinazi.com
-      wmMps: '-wmMps', // 添加水印 趣练字小程序码
-      gsM: '-gsM',
     },
     Timeout: { // 定时器时间
       wx: {
@@ -307,14 +289,6 @@ App({
   }
 })
 
-
-
-// {
-//   "pagePath": "pages/find/index",
-//   "iconPath": "images/nav/find-off.png",
-//   "selectedIconPath": "images/nav/find-on.png",
-//   "text": "发现"
-// },
 
 
 

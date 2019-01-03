@@ -50,3 +50,11 @@ page {
 textarea {
   padding: 0;
 }
+
+/*省略号*/
+.ellipsis{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/**/

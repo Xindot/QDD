@@ -3,13 +3,16 @@ const util=require('../../utils/util')
 //获取应用实例
 const app = getApp()
 const db = app.globalData.db
-const QNImgStyle = app.globalData.QNImgStyle
 const Timeout = app.globalData.Timeout
 const Tips = app.globalData.Tips
 
 Page({
   data: {
-    QNImgStyle,
+    tripTypes: [{
+      label: '人找车',
+    }, {
+      label: '车找人',
+    }],
     pubList: null,
     wheel: {
       loader: false 
@@ -35,10 +38,6 @@ Page({
   // 获取作业
   getPubList(){
     let query = {
-      created_at: db.RegExp({
-        regexp: util.formatTime(new Date(new Date().getTime() - 24 * 60 * 60 * 1000), '-'),
-        options: 'i',
-      }),
       status: 1
     }
     wx.showLoading({
@@ -47,11 +46,14 @@ Page({
     setTimeout(function () {
       wx.hideLoading()
     }, Timeout.wx.hideLoading)
-    console.log('getPubList query=>',query)
+    // console.log('getPubList query=>',query)
     db.collection('xpc_pub').where(query).get().then(res => {
-      // console.log('qlz_work res',res.data)
+      console.log('qlz_work res',res.data)
       if(res.data instanceof Array){
         let pubList = res.data || []
+        pubList.forEach(n=>{
+          n.disAB = this.disABFormat(n.disAB)
+        })
         this.setData({
           pubList,
         })
@@ -59,6 +61,17 @@ Page({
       wx.hideLoading()
       wx.stopPullDownRefresh()
     })
+  },
+  disABFormat(disAB){
+    let disABShow = {
+      num: Number(Number(disAB).toFixed(1)),
+      unit: 'm'
+    }
+    if (Number(disAB) > 1000) {
+      disABShow.num = Number((Number(disAB) / 1000).toFixed(1))
+      disABShow.unit = 'km'
+    }
+    return disABShow.num + disABShow.unit
   },
   // 作业详情
   targetDetail(e){

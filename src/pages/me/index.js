@@ -22,6 +22,9 @@ Page({
       })
     }
   },
+  addOneTrip(){
+    this.wxNavTo('../pub/add/index')
+  },
   tips: function(text){
     wx.showModal({
       title: '',

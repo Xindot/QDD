@@ -1,10 +1,10 @@
+
+// 时间格式化
 // 数字补0
 const formatNumber = (n) => {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
-
-// 时间格式化
 const formatTime = (date,returnType) => {
   const DATE = date || new Date()
 
@@ -26,6 +26,9 @@ const formatTime = (date,returnType) => {
   if(returnType=='-'){
     return [year, month, day].map(formatNumber).join('-')
   }
+  if(returnType==':4'){
+    return [hour, minute].map(formatNumber).join(':')
+  }
   if(returnType=='8'){
     return [year, month, day].map(formatNumber).join('')
   }
@@ -38,6 +41,7 @@ const formatTime = (date,returnType) => {
   }
   return [year, month, day].map(formatNumber).join('')
 }
+
 
 // 在JavaScript数组中找到最小元素的位置
 const indexOfArrSmallest = (arr,key) => {
@@ -56,9 +60,9 @@ const indexOfArrSmallest = (arr,key) => {
  return lowest;
 }
 
-//文件引用
-const CusBase64 = require('base64.js');
+
 // base64 js解码与转码
+const CusBase64 = require('base64.js');
 const base64 = {
   encodeUnicode: (str) => {
     return CusBase64.CusBASE64.encoder(str)
@@ -68,8 +72,51 @@ const base64 = {
   }
 }
 
+
+/**
+ * 获取两个经纬度之间的距离
+ * @param lng1 第一点的经度
+ * @param lat1 第一点的纬度
+ * @param lng2 第二点的经度
+ * @param lat2 第二点的纬度
+ * @returns {Number}
+ */
+const distanceByLnglat = (lng1, lat1, lng2, lat2) => {
+  var radLat1 = Rad(lat1);
+  var radLat2 = Rad(lat2);
+  var a = radLat1 - radLat2;
+  var b = Rad(lng1) - Rad(lng2);
+  var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+  s = s * 6378137.0; // 取WGS84标准参考椭球中的地球长半径(单位:m)
+  s = Math.round(s * 10000) / 10000;
+  // alert(s);
+  return s
+  // //下面为两点间空间距离（非球面体）
+  // var value= Math.pow(Math.pow(lng1-lng2,2)+Math.pow(lat1-lat2,2),1/2);
+  // alert(value);
+}
+const Rad = (d) => {
+  return d * Math.PI / 180.0;
+}
+
+
+// JS 正则表达式从地址中提取省市县 https://www.jb51.net/article/149398.htm
+const extractSSX = (address) => {
+  if (address) {
+    // const reg = /.+?(省|市|自治区|自治州|县|区)/g;
+    const reg = /.+?(省|市|县|\()/g;
+    const arr = address.match(reg)
+    // console.log(arr)
+    return (arr[arr.length-1] || '').replace(/(省|市|县)/g,'')
+  } else {
+    return ''
+  }
+}
+
 module.exports = {
   formatTime,
   indexOfArrSmallest,
   base64,
+  distanceByLnglat,
+  extractSSX,
 }

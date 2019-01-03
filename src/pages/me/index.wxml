@@ -11,9 +11,6 @@
         <text>{{WXUserInfo.city}}</text>
       </view>
     </view>
-    <!-- <view class="flex-item flex-item-1">
-      <text>代表作</text>
-    </view> -->
 	</view>
 
   <view class="h-10px"></view>
@@ -29,15 +26,14 @@
     </view>
   </view>
 
-  <view class="h-10px"></view>
+  <view bindtap="addOneTrip">
+    <button>新增行程</button>
+  </view>
+
 
   <view class="my-list-2">
     <view wx:for="{{list2}}" wx:key="{{index}}" data-text="{{item}}" bindtap="goPage" class="flex-item">
-      <image style="width: 16px; height: 16px;font-size: 0;" src="../../images/common/me-list-2-{{index}}.png" class="img"></image>
       <text style="margin-left: 10px;">{{item}}</text>
-      <view style="clear: both; float: right; margin-right: 10px;">
-        <image style="width: 24px; height: 24px;font-size: 0;" src="../../images/common/right-icon.png" class="img"></image>
-      </view>
     </view>
   </view>
 

@@ -4,37 +4,56 @@
 
 		<!-- 正文 -->
 		<view class="content">
-			<view>
-				<view wx:if="{{pubList}}">
-					<view wx:if="{{pubList.length>0}}" wx:for="{{pubList}}" wx:key="{{index}}" style="margin-bottom: 10px;background-color:#fff;overflow:hidden;border-radius:5px;" id="{{item._id}}" bindtap="targetDetail">
-						<view style="font-size: 0;position:relative;">
-							<image wx:if="{{item.img}}" src="{{item.img}}-wM" style="width:100%;height: 150px;" mode="center"/>
-              <view class="gradient-A" style="position:absolute;bottom:0;left:0;padding:0 10px;border-radius:0 5px 0 0;height:40px;line-height:40px;width:100%;color:#fff;">
-                <text style="font-size:16px;">{{item.title}}</text>
+
+      <view wx:if="{{pubList}}">
+        <view wx:if="{{pubList.length>0}}" wx:for="{{pubList}}" wx:key="{{index}}" id="{{item._id}}" bindtap="targetDetail" class="pub-one">
+
+          <view style="font-size:20px;">
+            <view class="point-one">
+              <text>{{item.pointA.ssx}}</text>
+              <view class="ellipsis" style="font-size:12px;color:#666;">
+                <text>{{item.pointA.name}}</text>
               </view>
-						</view>
-						<view style="padding: 10px;position:relative;min-height:30px;">
-							<view style="width:75%;">
-								<view style="font-size: 14px;">
-									<text>{{item.desc}}</text>
-								</view>
-							</view>
-							<view catchtap="workSubmit" data-id="{{item._id}}" style="position:absolute;right:10px;top:10px;padding:5px 10px;border-radius:50px;background-color:#ffe001;font-size:14px;">提交作品</view>
-						</view>
-					</view>
-					<view wx:if="{{pubList.length==0}}">
-						<view style="padding:80px 0;text-align:center;font-size:14px;opacity:.8;">
-							<view>
-								<image src="../../images/common/wheel.png" mode="widthFix" class="{{wheel.loader?'img-1 wheel-loader':'img-1'}}" style="width: 50px;"></image>
-							</view>
-							<text wx:if="{{!wheel.loader}}" style="color: #666;">未找到可搭拼的行程</text>
-						</view>
-						<view style="text-align: center;" bindtap="pubMyTrip">
-							<text class="btn-s">发布我的行程</text>
-						</view>
-					</view>
-				</view>
-			</view>
+            </view>
+            <view class="point-go">
+              <image src="../../images/common/goRight.png" style="width:80%;vertical-align:top;" mode="widthFix"></image>
+              <text style="font-size:12px;vertical-align:top;display:inline-block;">{{item.disAB}}</text>
+            </view>
+            <view class="point-one">
+              <text>{{item.pointB.ssx}}</text>
+              <view class="ellipsis" style="font-size:12px;color:#666;">
+                <text>{{item.pointB.name}}</text>              
+              </view>
+            </view>
+          </view>
+
+          <view style="font-size:15px;">
+            <view style="display:inline-block;vertical-align:top;margin-right:10px;">
+              <text style="color:#000;">{{item.tripTime}}</text>
+              <text>左右出发</text>
+            </view>
+            <view style="display:inline-block;vertical-align:top;">
+              <text>{{tripTypes[item.tripType].label}}</text>
+              <text>{{item.tripPerson}}</text>
+              <text>{{item.tripType==1?'座':'人'}}</text>
+            </view>
+          </view>
+
+        </view>
+
+
+        <view wx:if="{{pubList.length==0}}">
+          <view style="padding:80px 0;text-align:center;font-size:14px;opacity:.8;">
+            <view>
+              <image src="../../images/common/wheel.png" mode="widthFix" class="{{wheel.loader?'img-1 wheel-loader':'img-1'}}" style="width: 50px;"></image>
+            </view>
+            <text wx:if="{{!wheel.loader}}" style="color: #666;">未找到可搭拼的行程</text>
+          </view>
+          <view style="text-align: center;" bindtap="pubMyTrip">
+            <text class="btn-s">发布我的行程</text>
+          </view>
+        </view>
+      </view>
 
 		</view>
 	</scroll-view>
