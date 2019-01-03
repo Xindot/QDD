@@ -1,8 +1,6 @@
 <view>
 	<view wx:if="{{visible}}" class="login">
-		<view class="logo">
-    	<image src="https://img.6h5.cn/qlz/logo/qlz2s.png" mode="widthFix" style="width: 100%;height: auto; font-size: 0;"></image>
-    </view>
+		<view class="logo"></view>
     <view class="tips">
       <view class="text">
         <text>{{tips.text}}</text>
