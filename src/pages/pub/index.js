@@ -5,6 +5,8 @@ const app = getApp()
 const db = app.globalData.db
 const Timeout = app.globalData.Timeout
 const Tips = app.globalData.Tips
+const disABFormat = app.disABFormat
+const disABrate = app.globalData.disABrate || 0.5
 
 Page({
   data: {
@@ -24,18 +26,12 @@ Page({
   onShow(){},
   // 下拉刷新
   onPullDownRefresh(){
-    this.setData({
-      'wheel.loader': true
-    })
     this.getPubList()
     setTimeout(()=>{
       wx.stopPullDownRefresh()
-      this.setData({
-        'wheel.loader': false
-      })
     },Timeout.wx.stopPullDownRefresh)
   },
-  // 获取作业
+  // 获取行程列表
   getPubList(){
     let query = {
       status: 1
@@ -52,7 +48,8 @@ Page({
       if(res.data instanceof Array){
         let pubList = res.data || []
         pubList.forEach(n=>{
-          n.disAB = this.disABFormat(n.disAB)
+          n.disABshow = disABFormat(n.disAB)
+          n.disABmoney = '￥' + ((Number(n.disAB / 1000) * disABrate).toFixed(2))
         })
         this.setData({
           pubList,
@@ -61,17 +58,6 @@ Page({
       wx.hideLoading()
       wx.stopPullDownRefresh()
     })
-  },
-  disABFormat(disAB){
-    let disABShow = {
-      num: Number(Number(disAB).toFixed(1)),
-      unit: 'm'
-    }
-    if (Number(disAB) > 1000) {
-      disABShow.num = Number((Number(disAB) / 1000).toFixed(1))
-      disABShow.unit = 'km'
-    }
-    return disABShow.num + disABShow.unit
   },
   // 作业详情
   targetDetail(e){
@@ -102,7 +88,7 @@ Page({
       })
     }
   },
-  // 布置作业
+  // 设置我的行程
   pubMyTrip(){
     wx.navigateTo({
       url: 'add/index'

@@ -1,6 +1,5 @@
 page {
-	background-color:#eee;
-	height:100%;
+	background-color:#eeeeee;
 }
 
 /* 伪类清除浮动 开始 */

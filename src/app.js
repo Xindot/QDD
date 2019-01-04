@@ -12,10 +12,8 @@ App({
   onLaunch: function () {
     // 获取用户OPENID
     this.getWXOPENID()
-
     // 获取七牛配置项
     this.getQNConfig()
-
   },
   // 获取用户OPENID by缓存
   getWXOPENID(){
@@ -257,28 +255,38 @@ App({
         }
       },
       fail: (res)=> {
-        // console.error(res)
         callback(res)
       }
     })
   },
+  disABFormat(disAB) {
+    let disABShow = {
+      num: Number(Number(disAB).toFixed(1)),
+      unit: 'm'
+    }
+    if (Number(disAB) > 1000) {
+      disABShow.num = Number((Number(disAB) / 1000).toFixed(1))
+      disABShow.unit = 'km'
+    }
+    return disABShow.num + disABShow.unit
+  },
   globalData:{
-    Version, // 小程序版本号
-    ENV, // 小程序当前环境
-    db, // 小程序数据库
-    WXContext: null, // 含微信OPENID
-    WXUserInfo: null, // 微信用户信息（较全）
+    Version,
+    ENV,
+    db,
+    WXContext: null,
+    WXUserInfo: null,
     InsertUserInfo: null,
     QNConfig: {
-      upHost: 'https://up.qbox.me', // 七牛云上传域名
+      upHost: 'https://up.qbox.me',
     },
-    Timeout: { // 定时器时间
+    Timeout: {
       wx: {
         hideLoading: 5000,
         stopPullDownRefresh: 3000,
       }
     },
-    Tips: { // 提示语
+    Tips: {
       wx: {
         showLoading: '加载中...',
         showSubmiting: '正在提交...',

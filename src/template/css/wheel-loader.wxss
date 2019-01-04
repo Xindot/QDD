@@ -1,5 +1,3 @@
-@import "../../template/tripList/index.wxss";
-
 /*轮子旋转 开始*/
 .wheel-loader {
   -webkit-animation: spin .5s linear infinite;

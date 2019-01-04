@@ -1,38 +1,31 @@
 <view class="me-box">
 	<view style="text-align:center;padding:10px 0;" data-text="微信登录" bindtap="goPage">
-    <view class="flex-item flex-item-1">
-      <image wx:if="{{WXUserInfo.avatarUrl}}" style="width: 50px; height: 50px;font-size: 0;border-radius: 50px;vertical-align:middle;" src="{{WXUserInfo.avatarUrl}}"></image>
+    <view wx:if="{{userInfo.nickName}}">
+      <view>
+        <image wx:if="{{userInfo.avatarUrl}}" style="width: 50px; height: 50px;font-size: 0;border-radius: 50px;vertical-align:middle;" src="{{userInfo.avatarUrl}}"></image>
+      </view>
+      <view>
+        <view>
+          <text>{{userInfo.nickName}}</text>
+        </view>
+        <view style="color:#666;font-size: 12px;">
+          <text>{{userInfo.city}}</text>
+        </view>
+      </view>
     </view>
-    <view class="flex-item flex-item-2">
-      <view class="flex-item-one">
-        <text>{{WXUserInfo.nickName}}</text>
-      </view>
-      <view class="flex-item-one" style="opacity: .5;font-size: 12px;">
-        <text>{{WXUserInfo.city}}</text>
-      </view>
+    <view wx:if="{{!userInfo.nickName}}" style="padding:10px 50px;">
+      <button type="primary">微信登录</button>
     </view>
 	</view>
 
-  <view class="h-10px"></view>
-
-  <view class="my-list-1">
-    <view wx:for="{{list1}}" wx:key="{{index}}" data-text="{{item}}" bindtap="goPage" class="flex-item">
-      <view>
-        <text>{{item}}</text>
-      </view>
-    </view>
-  </view>
-
-  <view bindtap="addOneTrip">
-    <button>新增行程</button>
-  </view>
-
+  <import src="../../template/tripList/index.wxml"/>
+  <template is="tripList" data="{{pubList,tripTypes}}"/>
 
   <view class="my-list-2">
-    <view wx:for="{{list2}}" wx:key="{{index}}" data-text="{{item}}" bindtap="goPage" class="flex-item">
-      <text style="margin-left: 10px;">{{item}}</text>
+    <view wx:for="{{list2}}" wx:key="{{index}}" data-text="{{item}}" bindtap="goPage" class="me-list-one">
+      <text>{{item}}</text>
     </view>
   </view>
 
-  <view class="version">{{version}}</view>
+  <view class="Version">{{Version}}</view>
 </view>

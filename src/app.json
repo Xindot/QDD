@@ -4,13 +4,11 @@
     "pages/pub/add/index",
     "pages/me/index",
     "pages/me/login/index",
-    "pages/me/myPub/index",
     "pages/me/feedback/index",
-    "pages/me/about/index",
-    "pages/me/setting/index"
+    "pages/me/about/index"
   ],
   "window":{
-    "backgroundColor": "#f3f4f5",
+    "backgroundColor": "#eeeeee",
     "backgroundTextStyle":"#000000",
     "navigationBarBackgroundColor": "#eeeeee",
     "navigationBarTitleText": "心拼车",

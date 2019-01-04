@@ -27,6 +27,22 @@
   border-top:dashed 1px #dfdfdf;
 }
 
+.picker-2 {
+  font-size:16px;
+  background-color:#eee;
+  margin-top:10px;
+}
+.picker-one {
+  display: inline-block;
+  width: 50%;
+  box-sizing:border-box;
+  padding:5px;
+  vertical-align:top;
+}
+.picker-one + .picker-one {
+  border-left: dashed 1px #dfdfdf;
+}
+
 .pf-person {
   padding:5px;
   background-color:#eee;
@@ -46,22 +62,20 @@
   color: #fff;
 }
 
-.picker-2 {
-  font-size:16px;
+.pf-remark {
+  padding:5px;
   background-color:#eee;
   margin-top:10px;
 }
-.picker-one {
-  display: inline-block;
-  width: 50%;
-  box-sizing:border-box;
-  padding:5px;
-  vertical-align:top;
+.pf-remark textarea {
+  font-size:18px;
+  width: 100%;
 }
-.picker-one + .picker-one {
-  border-left: dashed 1px #dfdfdf;
+.pf-remark textarea.empty {
+  padding:10px 0 10px 10px;
+  color: #666;
+  width: 95%;
 }
-
 
 .pub-submit-btn {
   text-align:center;

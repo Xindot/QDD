@@ -21,16 +21,12 @@
   box-sizing:border-box;
 }
 .fb-submit .fb-btn {
-  text-align: center;
-  width: 90%;
-  margin: 5%;
-  background-color: #ffe001;
-  font-size: 15px;
-  height: 44px;
-  line-height: 44px;
-  border-radius: 50px;
-  border: solid 1px #ffe001;
-  overflow: hidden
+  text-align:center;
+  background-color:#4a4c5b;
+  color:#fff;
+  height:50px;
+  line-height:50px;
+  margin-top:10px;
 }
 .fb-list-one{
   background-color: #fff;

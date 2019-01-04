@@ -35,12 +35,24 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 2,
 			"list": [
 				{
 					"id": -1,
 					"name": "发布行程",
-					"pathName": "pages/pub/add/index"
+					"pathName": "pages/pub/add/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "我",
+					"pathName": "pages/me/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "反馈",
+					"pathName": "pages/me/feedback/index"
 				}
 			]
 		}

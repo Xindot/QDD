@@ -19,25 +19,16 @@ Page({
     fbListTips: '加载中...'
   },
   onLoad(options) {
-
+    this.getMyFeedbackList()
   },
-  onReady: function() {
-    // Do something when page ready.
-  },
-  onShow: function() {
-    // Do something when page show.
-  },
-  onHide: function() {
-    // Do something when page hide.
-  },
-  onUnload: function() {
-    // Do something when page close.
-  },
+  onReady() {},
+  onShow() {},
+  onHide() {},
+  onUnload() {},
+  // 下拉刷新
   onPullDownRefresh() {
-    if (this.data.header.selectIndex == 1) {
-      this.getMyFeedbackList()
-    }
-    setTimeout(function () {
+    this.getMyFeedbackList()
+    setTimeout(() => {
       wx.stopPullDownRefresh()
     }, Timeout.wx.stopPullDownRefresh)
   },
@@ -48,10 +39,6 @@ Page({
     this.setData({
       'header.selectIndex':idx
     })
-    if(idx==1){
-      // 获取反馈列表
-      this.getMyFeedbackList()
-    }
   },
   // 输入的内容改变
   contentChange(e){

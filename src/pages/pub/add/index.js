@@ -11,7 +11,7 @@ Page({
       person: '有几个人'
     },{
       label: '车找人',
-      person: '有几个座位'
+      person: '有几个座'
     }],
     pointList: [{
       sign: 'A',
@@ -21,7 +21,7 @@ Page({
     }, {
       sign: 'B',
       label: '目的地',
-      placeholder: '去哪儿',
+      placeholder: '到哪去',
       point: {},
     }],
     pubForm: {
@@ -53,12 +53,13 @@ Page({
       start: '',
       end: '',
       label: '行程时间',
-      placeholder: '什么时候走'
+      placeholder: '啥时走'
     }],
     submitBtn: {
       clickable: false,
       tips: '提交'
-    }
+    },
+    remarkInputFocus: false 
   },
   onLoad(options) {
     const xpid = options.xpid || ''
@@ -202,6 +203,23 @@ Page({
     })
     this.setData({
       pickerList,
+    })
+  },
+  remarkFocus(){
+    this.setData({
+      remarkInputFocus: true
+    })
+  },
+  remarkBlur(){
+    this.setData({
+      remarkInputFocus: false
+    })
+  },
+  // 备注改变
+  remarkChange(e){
+    // console.log(e)
+    this.setData({
+      'pubForm.remark': e.detail.value
     })
   },
   // 提交

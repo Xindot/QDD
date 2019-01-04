@@ -1,63 +1,12 @@
+
 <view class="pub-box">
+  <!-- 正文 -->
+  <view class="content">
 
-	<scroll-view scroll-y style="height: 100%;">
+    <import src="../../template/tripList/index.wxml"/>
+    <template is="tripList" data="{{pubList,tripTypes,wheel}}"/>
 
-		<!-- 正文 -->
-		<view class="content">
-
-      <view wx:if="{{pubList}}">
-        <view wx:if="{{pubList.length>0}}" wx:for="{{pubList}}" wx:key="{{index}}" id="{{item._id}}" bindtap="targetDetail" class="pub-one">
-
-          <view style="font-size:20px;">
-            <view class="point-one">
-              <text>{{item.pointA.ssx}}</text>
-              <view class="ellipsis" style="font-size:12px;color:#666;">
-                <text>{{item.pointA.name}}</text>
-              </view>
-            </view>
-            <view class="point-go">
-              <image src="../../images/common/goRight.png" style="width:80%;vertical-align:top;" mode="widthFix"></image>
-              <text style="font-size:12px;vertical-align:top;display:inline-block;">{{item.disAB}}</text>
-            </view>
-            <view class="point-one">
-              <text>{{item.pointB.ssx}}</text>
-              <view class="ellipsis" style="font-size:12px;color:#666;">
-                <text>{{item.pointB.name}}</text>              
-              </view>
-            </view>
-          </view>
-
-          <view style="font-size:15px;">
-            <view style="display:inline-block;vertical-align:top;margin-right:10px;">
-              <text style="color:#000;">{{item.tripTime}}</text>
-              <text>左右出发</text>
-            </view>
-            <view style="display:inline-block;vertical-align:top;">
-              <text>{{tripTypes[item.tripType].label}}</text>
-              <text>{{item.tripPerson}}</text>
-              <text>{{item.tripType==1?'座':'人'}}</text>
-            </view>
-          </view>
-
-        </view>
-
-
-        <view wx:if="{{pubList.length==0}}">
-          <view style="padding:80px 0;text-align:center;font-size:14px;opacity:.8;">
-            <view>
-              <image src="../../images/common/wheel.png" mode="widthFix" class="{{wheel.loader?'img-1 wheel-loader':'img-1'}}" style="width: 50px;"></image>
-            </view>
-            <text wx:if="{{!wheel.loader}}" style="color: #666;">未找到可搭拼的行程</text>
-          </view>
-          <view style="text-align: center;" bindtap="pubMyTrip">
-            <text class="btn-s">发布我的行程</text>
-          </view>
-        </view>
-      </view>
-
-		</view>
-	</scroll-view>
-
+  </view>
 </view>
 
 

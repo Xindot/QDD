@@ -102,19 +102,15 @@ const Rad = (d) => {
 
 // JS 正则表达式从地址中提取省市县 https://www.jb51.net/article/149398.htm
 // const reg = /.+?(省|市|自治区|自治州|县|区)/g;
+const extractStrS = (str) => {
+  return (str.match(/.+?(省|市|自治区|自治州|县)/g) || []).reverse()[0] || ''
+}
 const extractSSX = (address) => {
   if (address) {
-    const reg0 = /\((.+?)\)/g;
-    const arr0 = address.match(reg0)
-    const str0 = arr0.reverse()[0]
-
-    const reg1 = /.+?(省|市|自治区|自治州)/g;
-    const arr1 = address.replace(reg0,'').match(reg1)
-    const str1 = arr1.reverse()[0]
-
-    const str = str0 || str1
-    console.log(str)
-    return str.replace(/(省|市|县|\(|\))/g,'')
+    address = address.replace(/（|）/g,'')
+    let str0 = ((address.match(/\((.+?)\)/g) || []).reverse()[0] || '').replace(/(\(|\))/g,'') || ''
+    let str1 = address.replace(/\((.+?)\)/g,'') || ''
+    return (extractStrS(str0) || extractStrS(str1) || '').replace(/(省|市|自治区|自治州|县)/g,'') || ''
   } else {
     return ''
   }
