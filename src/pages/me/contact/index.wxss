@@ -1,0 +1,25 @@
+
+.contact-one {
+  background-color:#fff;
+  padding: 10px;
+}
+
+.contact-one + .contact-one {
+  border-top: dashed 1px #efefef;
+}
+.contact-one input {
+  font-size: 18px;
+}
+.contact-one input.empty{
+  padding:10px;
+}
+
+
+.submit-btn {
+  text-align:center;
+  background-color:#4a4c5b;
+  color:#fff;
+  height:50px;
+  line-height:50px;
+  margin-top:10px;
+}

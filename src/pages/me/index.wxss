@@ -4,10 +4,19 @@
   text-align: center;
   background-color:#ffffff;
   font-size:14px;
-  height:44px;
-  line-height:44px;
   color:#666;
   margin-top:10px;
+  padding: 12px 0;
+}
+
+.contact-one {
+  width: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+.contact-one + .contact-one {
+  border-left: dashed 1px #efefef;
 }
 
 .Version {

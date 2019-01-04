@@ -1,0 +1,10 @@
+<view>
+  <view wx:for="{{contactList}}" wx:key="{{index}}" class="contact-one">
+    <text wx:if="{{item.value}}" style="color:#666;font-size:14px;">{{item.label}}</text>
+    <input placeholder="{{item.placeholder}}" class="{{item.value?'':'empty'}}" value="{{item.value}}" type="{{item.type}}" maxlength="{{item.maxlength}}" data-key="{{item.key}}" bindinput="inputValueChange"/>
+  </view>
+
+  <view class="submit-btn" bindtap="contactSubmit">
+    <text style="{{submitBtn.clickable?'':'opacity:.5'}}">{{submitBtn.tips}}</text>
+  </view>
+</view>

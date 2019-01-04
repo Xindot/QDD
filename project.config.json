@@ -35,7 +35,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 2,
+			"current": 3,
 			"list": [
 				{
 					"id": -1,
@@ -44,7 +44,7 @@
 					"query": ""
 				},
 				{
-					"id": -1,
+					"id": 1,
 					"name": "我",
 					"pathName": "pages/me/index",
 					"query": ""
@@ -52,7 +52,14 @@
 				{
 					"id": -1,
 					"name": "反馈",
-					"pathName": "pages/me/feedback/index"
+					"pathName": "pages/me/feedback/index",
+					"query": ""
+				},
+				{
+					"id": 3,
+					"name": "设置联系方式",
+					"pathName": "pages/me/contact/index",
+					"query": "uid=XCwxYHffS3SWbVWo"
 				}
 			]
 		}

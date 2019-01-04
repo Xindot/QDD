@@ -17,9 +17,11 @@ Page({
       label: '车找人',
     }],
     pubList: null,
-    list2: ['联系方式','意见或建议', '趣搭用户协议'],
+    list2: ['意见或建议', '趣搭用户协议'],
   },
   onPullDownRefresh: function(){
+    this.getUserInfo()
+    this.getPubList()
     setTimeout(function(){
       wx.stopPullDownRefresh()
     },500)
@@ -31,21 +33,31 @@ Page({
   onShow() {},
   getUserInfo(){
     const OPENID = app.globalData.WXContext.OPENID
+    wx.showLoading({
+      title: Tips.wx.showLoading,
+    })
+    setTimeout(function () {
+      wx.hideLoading()
+    }, Timeout.wx.hideLoading)
     db.collection('xpc_user').where({
       _openid: OPENID
     }).get().then(res => {
-      console.log(res)
+      // console.log(res)
       if (res.errMsg=== 'collection.get:ok'){
         const userInfo = res.data[0]
         this.setData({
           userInfo,
         })
+        app.setWXUserInfo(userInfo)
       }
+      wx.stopPullDownRefresh()
     })
   },
   // 获取行程列表
   getPubList() {
+    const OPENID = app.globalData.WXContext.OPENID
     let query = {
+      _openid: OPENID, 
       status: 1
     }
     wx.showLoading({
@@ -55,7 +67,8 @@ Page({
       wx.hideLoading()
     }, Timeout.wx.hideLoading)
     db.collection('xpc_pub').where(query).get().then(res => {
-      if (res.data instanceof Array) {
+      // console.log(res)
+      if (res.errMsg === 'collection.get:ok' && res.data instanceof Array) {
         let pubList = res.data || []
         pubList.forEach(n => {
           n.disABshow = disABFormat(n.disAB)
@@ -75,14 +88,21 @@ Page({
       url: '../pub/add/index'
     })
   },
-  tips: function(text){
+  // 设置联系方式
+  setContact(){
+    const uid = this.data.userInfo._id
+    wx.navigateTo({
+      url: 'contact/index?uid=' + uid
+    })
+  },
+  tips(text){
     wx.showModal({
       title: '',
       content: text,
       showCancel:false,
     })
   },
-  goPage: function(e) {
+  goPage(e) {
     // console.log(e.currentTarget.dataset.text)
     var name = e.currentTarget.dataset.text
     switch(name){
@@ -93,9 +113,12 @@ Page({
     }
   },
   // 页面跳转
-  wxNavTo: function(url) {
-    wx.navigateTo({
-      url: url
-    })
+  wxNavTo(url) {
+    const uid = this.data.userInfo._id
+    if(uid){
+      wx.navigateTo({
+        url: url + '?uid=' + uid
+      })
+    }
   },
 })

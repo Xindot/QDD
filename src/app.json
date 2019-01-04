@@ -4,6 +4,7 @@
     "pages/pub/add/index",
     "pages/me/index",
     "pages/me/login/index",
+    "pages/me/contact/index",
     "pages/me/feedback/index",
     "pages/me/about/index"
   ],

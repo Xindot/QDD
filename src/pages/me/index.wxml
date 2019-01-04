@@ -22,6 +22,31 @@
   <template is="tripList" data="{{pubList,tripTypes}}"/>
 
   <view class="my-list-2">
+
+    <view class="me-list-one" bindtap="setContact">
+      <view wx:if="{{userInfo.phone}}" style="color:#000;">
+        <view class="contact-one">
+          <view style="font-size:14px;color:#666">
+            <text>手机号</text>
+          </view>
+          <view style="font-size:18px;">
+            <text>{{userInfo.phone}}</text>        
+          </view>
+        </view>
+        <view class="contact-one">
+          <view style="font-size:14px;color:#666">
+            <text>其他联系方式</text>
+          </view>
+          <view style="font-size:18px;">
+            <text>{{userInfo.otherContact}}</text>     
+          </view>
+        </view>
+      </view>
+      <view wx:if="{{!userInfo.phone}}">
+        <text>设置联系方式</text>    
+      </view>
+    </view>
+
     <view wx:for="{{list2}}" wx:key="{{index}}" data-text="{{item}}" bindtap="goPage" class="me-list-one">
       <text>{{item}}</text>
     </view>

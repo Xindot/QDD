@@ -2,46 +2,46 @@
   <view wx:if="{{pubList}}">
     <view wx:if="{{pubList.length>0}}" wx:for="{{pubList}}" wx:key="{{index}}" id="{{item._id}}" bindtap="targetDetail" class="pub-one">
 
-      <view>
-        <view class="point-one">
-          <view class="ellipsis" style="font-size:20px;">
-            <text>{{item.pointA.ssx}}</text>
-          </view>
-          <view class="ellipsis" style="font-size:12px;color:#666;">
-            <text>{{item.pointA.name}}</text>
-          </view>
-          <view class="ellipsis" style="font-size:12px;color:#666;">
-            <image src="../../images/common/time.png" style="width:10px;height:10px;vertical-align:-1px;margin-right:2px;" mode="aspectFit"></image>
-            <text>{{item.tripTime}}</text>
-          </view>
+      <view class="point-one">
+        <view class="ellipsis" style="font-size:20px;">
+          <text>{{item.pointA.ssx}}</text>
         </view>
-        <view class="point-go">
-          <view style="font-size:12px;">
-            <text>{{tripTypes[item.tripType].label}}</text>
-            <text>{{item.tripPerson}}</text>
-            <text>{{item.tripType==1?'座':'人'}}</text>
-          </view>
-          <view style="font-size:0;">
-            <image src="../../images/common/go.png" style="width:100%;height:12px;" mode="aspectFit"></image>
-          </view>
-          <view style="font-size:12px;color:#666;">
-            <text>{{item.disABshow}}</text>            
-          </view>
-          <view style="font-size:10px;color:#666;">
-            <text>约{{item.disABmoney}}/人</text>            
-          </view>
+        <view class="ellipsis" style="font-size:12px;color:#666;">
+          <text>{{item.pointA.name}}</text>
         </view>
-        <view class="point-one">
-          <view class="ellipsis" style="font-size:20px;">
-            <text>{{item.pointB.ssx}}</text>
-          </view>
-          <view class="ellipsis" style="font-size:12px;color:#666;">
-            <text>{{item.pointB.name}}</text>              
-          </view>
-          <view class="ellipsis" style="font-size:12px;color:#666;">
-            <image src="../../images/common/remark.png" style="width:10px;height:10px;vertical-align:-1px;margin-right:2px;" mode="aspectFit"></image>
-            <text>{{item.remark}}</text>
-          </view>
+        <view class="ellipsis" style="font-size:12px;color:#666;">
+          <image src="../../images/common/time.png" style="width:10px;height:10px;vertical-align:-1px;margin-right:2px;" mode="aspectFit"></image>
+          <text>{{item.tripTime}}</text>
+        </view>
+      </view>
+
+      <view class="point-go">
+        <view style="font-size:12px;">
+          <text>{{tripTypes[item.tripType].label}}</text>
+          <text>{{item.tripPerson}}</text>
+          <text>{{item.tripType==1?'座':'人'}}</text>
+        </view>
+        <view style="font-size:0;">
+          <image src="../../images/common/go.png" style="width:100%;height:12px;" mode="aspectFit"></image>
+        </view>
+        <view style="font-size:12px;color:#666;">
+          <text>{{item.disABshow}}</text>            
+        </view>
+        <view style="font-size:10px;color:#666;">
+          <text>约{{item.disABmoney}}/人</text>            
+        </view>
+      </view>
+      
+      <view class="point-one">
+        <view class="ellipsis" style="font-size:20px;">
+          <text>{{item.pointB.ssx}}</text>
+        </view>
+        <view class="ellipsis" style="font-size:12px;color:#666;">
+          <text>{{item.pointB.name}}</text>              
+        </view>
+        <view class="ellipsis" style="font-size:12px;color:#666;">
+          <image src="../../images/common/remark.png" style="width:10px;height:10px;vertical-align:-1px;margin-right:2px;" mode="aspectFit"></image>
+          <text>{{item.remark}}</text>
         </view>
       </view>
 
