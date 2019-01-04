@@ -4,7 +4,7 @@ Page({
 	data: {
     WXUserInfo: null,
     list1: ['行程管理'],
-    list2: ['实名认证','意见或建议', '趣搭用户协议']
+    list2: ['实名认证','意见或建议', '趣搭个车用户协议']
   },
   onPullDownRefresh: function(){
     setTimeout(function(){
