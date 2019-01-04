@@ -76,5 +76,9 @@
       <text style="{{submitBtn.clickable?'':'opacity:.5'}}">{{submitBtn.tips}}</text>
     </view>
 
+	  <view wx:if="{{pid&&!remarkInputFocus}}" class="del-btn" id="{{pid}}" bindtap="pubDel">
+      <text style="{{submitBtn.clickable?'':'opacity:.5'}}">{{submitBtn.del}}</text>
+    </view>
+
 	</view>
 </view>

@@ -23,6 +23,9 @@ const formatTime = (date,returnType) => {
   if(returnType=='-:'){
     return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
   }
+  if (returnType == '-:2') {
+    return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute].map(formatNumber).join(':')
+  }
   if(returnType=='-'){
     return [year, month, day].map(formatNumber).join('-')
   }

@@ -6,22 +6,31 @@
   font-size:14px;
   color:#666;
   margin-top:10px;
-  padding: 12px 0;
+  padding: 12px;
 }
-
+.contact-2 {
+  text-align: center;
+  background-color:#ffffff;
+  font-size:14px;
+  color:#666;
+  margin-top:10px;
+}
+.contact-2.empty {
+  padding: 12px;
+}
 .contact-one {
   width: 50%;
   display: inline-block;
   box-sizing: border-box;
   vertical-align: top;
+  padding: 5px;
 }
 .contact-one + .contact-one {
   border-left: dashed 1px #efefef;
 }
 
 .Version {
-  position:fixed;
-  bottom:0;
+  margin-top: 10px;
   text-align:center;
   width:100%;
   color:#666;

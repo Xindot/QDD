@@ -3,8 +3,21 @@
   <!-- 正文 -->
   <view class="content">
 
+    <view wx:if="{{matchPubList}}">
+      <view wx:for="{{matchPubList}}" wx:key="{{index}}" class="my-trip-one {{selectMyPubIndex==index?'selected':''}}" style="width:{{100/matchPubList.length}}%;" data-idx="{{index}}" bindtap="selectOnePub">
+        <view class="ellipsis">
+          <text>{{item.pointA.ssx}}</text>
+          <text>-></text>
+          <text>{{item.pointB.ssx}}</text>
+        </view>
+        <view class="ellipsis" style="font-size:10px;color:#666;">
+          <text>{{item.tripTime}}</text>
+        </view>
+      </view>
+    </view>
+
     <import src="../../template/tripList/index.wxml"/>
-    <template is="tripList" data="{{pubList,tripTypes,wheel}}"/>
+    <template is="tripList" data="{{pubList:matchPubList,tripTypes,nowTime}}"/>
 
   </view>
 </view>

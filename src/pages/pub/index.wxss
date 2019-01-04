@@ -30,3 +30,13 @@
   }
 }
 /*轮子旋转 结束*/
+
+.my-trip-one {
+  display: inline-block;
+  text-align: center;
+  font-size: 15px;
+  opacity: .5;
+}
+.my-trip-one.selected {
+  opacity: 1;
+}

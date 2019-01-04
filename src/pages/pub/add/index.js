@@ -5,7 +5,8 @@ const db = app.globalData.db
 
 Page({
   data: {
-    today: util.formatTime(new Date(),'CN'),
+    pid: null,
+    nowTime: util.formatTime(new Date(), '-:2'),
     tripTypes: [{
       label: '人找车',
       person: '有几个人'
@@ -57,14 +58,18 @@ Page({
     }],
     submitBtn: {
       clickable: false,
-      tips: '提交'
+      tips: '提交',
+      del: '删除',
     },
     remarkInputFocus: false 
   },
   onLoad(options) {
-    const xpid = options.xpid || ''
-    if(xpid){
-      this.getPubDetail(xpid)
+    const pid = options.pid || ''
+    if(pid){
+      this.getPubDetail(pid)
+      this.setData({
+        pid,
+      })
     }
   },
   onReady() {},
@@ -73,15 +78,37 @@ Page({
   onUnload() {},
   onPullDownRefresh() {},
   // 获取行程详情
-  getPubDetail(wid){
-    db.collection('xpc_pub').doc(xpid).get().then(res => {
+  getPubDetail(pid){
+    db.collection('xpc_pub').doc(pid).get().then(res => {
       // console.log(res)
       if (res.errMsg === 'document.get:ok') {
         const detail = res.data
-        console.log(detail)
-        if(detail && detail.img) {
-
+        const pubForm = this.data.pubForm
+        for (var key in pubForm) {
+          if (pubForm.hasOwnProperty(key) === true) {
+            pubForm[key] = detail[key]
+          }
         }
+        // console.log(pubForm)
+        const pointList = this.data.pointList
+        pointList.forEach(n => {
+          n.point = pubForm['point' + n.sign]
+        })
+        const pickerList = this.data.pickerList
+        pickerList.forEach(n=>{
+          if(n.mode==='date'){
+            n.value = pubForm.tripTime.split(' ')[0]
+          }
+          if (n.mode === 'time') {
+            n.value = pubForm.tripTime.split(' ')[1]
+          }
+        })
+        this.setData({
+          pubForm,
+          pointList,
+          pickerList,
+        })
+        this.getDistance()
       } else {
         wx.showModal({
           title: '',
@@ -227,6 +254,10 @@ Page({
     if(!this.data.submitBtn.clickable){
       return
     }
+    this.setData({
+      'submitBtn.clickable': false,
+      'submitBtn.tips': '提交中...'
+    })
     const pubForm = this.data.pubForm
     if (!(pubForm.pointA && pubForm.pointA.name)){
       // console.log('请选择从哪走')
@@ -271,11 +302,11 @@ Page({
       arr.push(n.value)
     }
     const tripTime = arr.join(' ')
-    console.log('tripTime=>', tripTime)
+    // console.log('tripTime=>', tripTime)
     pubForm.tripTime = tripTime
 
     const userInfo = app.globalData.InsertUserInfo
-    console.log('userInfo=>', userInfo)
+    // console.log('userInfo=>', userInfo)
     if (!(userInfo && userInfo.nickName)){
       // console.log('用户信息获取错误')
       wx.showModal({
@@ -286,34 +317,105 @@ Page({
       return
     }
     pubForm.userInfo = userInfo
-    console.log('新增发布行程')
     const sForm = {
       created_at: util.formatTime(new Date(), '-:'),
       updated_at: util.formatTime(new Date(), '-:'),
       ...pubForm,
     }
     console.log('sForm=>',sForm)
-    db.collection('xpc_pub').add({
-      data: sForm
-    }).then(res => {
-      console.log(res)
-      if (res.errMsg == 'collection.add:ok'){
-        wx.showModal({
-          title: '',
-          content: '提交行程发布成功',
-          showCancel: false,
-          success: (res) => {
-            if (res.confirm) { // console.log('用户点击确定')
-              // 返回上一页
-              wx.navigateBack({
-                delta: 1
-              })
+    const pid = this.data.pid || null
+    if(pid){
+      console.log('更新行程')
+      db.collection('xpc_pub').doc(pid).update({
+        data: sForm
+      }).then(res => {
+        // console.log(res)
+        if (res.errMsg == 'document.update:ok') {
+          wx.showModal({
+            title: '',
+            content: '行程更新成功',
+            showCancel: false,
+            success: (res) => {
+              if (res.confirm) { // console.log('用户点击确定')
+                // 返回上一页
+                wx.navigateBack({
+                  delta: 1
+                })
+              }
             }
-          }
-        })
-      }
-    }).catch(err => {
-      console.error(err)
-    })
+          })
+        }
+      }).catch(err => {
+        console.error(err)
+      })
+    }else{
+      console.log('新增行程')
+      db.collection('xpc_pub').add({
+        data: sForm
+      }).then(res => {
+        // console.log(res)
+        if (res.errMsg == 'collection.add:ok') {
+          wx.showModal({
+            title: '',
+            content: '行程发布成功',
+            showCancel: false,
+            success: (res) => {
+              if (res.confirm) { // console.log('用户点击确定')
+                // 返回上一页
+                wx.navigateBack({
+                  delta: 1
+                })
+              }
+            }
+          })
+        }
+      }).catch(err => {
+        console.error(err)
+      })
+    }
   },
+  pubDel(e){
+    // console.log(e)
+    const pid = e.currentTarget.id || null
+    if(pid){
+      if (!this.data.submitBtn.clickable) {
+        return
+      }
+      wx.showModal({
+        title: '确定删除？',
+        content: '此操作不可恢复',
+        success:(res)=> {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            this.setData({
+              'submitBtn.clickable': false,
+              'submitBtn.del': '删除中...'
+            })
+            db.collection('xpc_pub').doc(pid).remove().then(res=>{
+              // console.log(res)
+              if (res.errMsg=== 'document.remove:ok'){
+                wx.showModal({
+                  title: '',
+                  content: '删除成功',
+                  showCancel: false,
+                  success: (res) => {
+                    if (res.confirm) { // console.log('用户点击确定')
+                      // 返回上一页
+                      wx.navigateBack({
+                        delta: 1
+                      })
+                    }
+                  }
+                })
+              }
+            }).catch(err=>{
+              console.error(err)
+            })
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    }
+  }
 })

@@ -5,12 +5,10 @@
         <image wx:if="{{userInfo.avatarUrl}}" style="width: 50px; height: 50px;font-size: 0;border-radius: 50px;vertical-align:middle;" src="{{userInfo.avatarUrl}}"></image>
       </view>
       <view>
-        <view>
-          <text>{{userInfo.nickName}}</text>
-        </view>
-        <view style="color:#666;font-size: 12px;">
-          <text>{{userInfo.city}}</text>
-        </view>
+        <text>{{userInfo.nickName}}</text>
+      </view>
+      <view style="color:#666;font-size: 12px;">
+        <text>{{userInfo.city}}</text>
       </view>
     </view>
     <view wx:if="{{!userInfo.nickName}}" style="padding:10px 50px;">
@@ -19,29 +17,24 @@
 	</view>
 
   <import src="../../template/tripList/index.wxml"/>
-  <template is="tripList" data="{{pubList,tripTypes}}"/>
+  <template is="tripList" data="{{pubList:myPubList,tripTypes,nowTime,pageName}}"/>
 
   <view class="my-list-2">
 
-    <view class="me-list-one" bindtap="setContact">
+    <view class="contact-2 {{userInfo.phone?'':'empty'}}" bindtap="setContact">
+
       <view wx:if="{{userInfo.phone}}" style="color:#000;">
-        <view class="contact-one">
+        <view wx:for="{{contactList}}" wx:key="cl-{{index}}" class="contact-one">
           <view style="font-size:14px;color:#666">
-            <text>手机号</text>
+            <text>{{item.label}}</text>
           </view>
           <view style="font-size:18px;">
-            <text>{{userInfo.phone}}</text>        
-          </view>
-        </view>
-        <view class="contact-one">
-          <view style="font-size:14px;color:#666">
-            <text>其他联系方式</text>
-          </view>
-          <view style="font-size:18px;">
-            <text>{{userInfo.otherContact}}</text>     
+            <text wx:if="{{userInfo[item.key]}}">{{userInfo[item.key]}}</text>
+            <text wx:if="{{!userInfo[item.key]}}" style="opacity:0;">暂无</text>
           </view>
         </view>
       </view>
+
       <view wx:if="{{!userInfo.phone}}">
         <text>设置联系方式</text>    
       </view>

@@ -1,36 +1,47 @@
+const util = require('../../utils/util')
 
 const app = getApp()
 const db = app.globalData.db
 const Timeout = app.globalData.Timeout
 const Tips = app.globalData.Tips
 const Version = app.globalData.Version
-const disABFormat = app.disABFormat
-const disABrate = app.globalData.disABrate || 0.5
 
 Page({
   data: {
     Version,
+    nowTime: util.formatTime(new Date(), '-:2'),
+    pageName: 'me',
     userInfo: null,
     tripTypes: [{
       label: '人找车',
     }, {
       label: '车找人',
     }],
-    pubList: null,
-    list2: ['意见或建议', '趣搭用户协议'],
+    myPubList: null,
+    list2: ['意见或建议', '用户使用须知'],
+    contactList: [{
+      label: '手机号',
+      key: 'phone',
+    }, {
+      label: '微信号',
+      key: 'otherContact',
+    }],
   },
   onPullDownRefresh: function(){
     this.getUserInfo()
-    this.getPubList()
+    this.getMyPubList()
     setTimeout(function(){
       wx.stopPullDownRefresh()
     },500)
   },
 	onLoad() {
     this.getUserInfo()
-    this.getPubList()
+    this.getMyPubList()
 	},
-  onShow() {},
+  onShow() {
+    this.getUserInfo()
+    this.getMyPubList()
+  },
   getUserInfo(){
     const OPENID = app.globalData.WXContext.OPENID
     wx.showLoading({
@@ -54,33 +65,44 @@ Page({
     })
   },
   // 获取行程列表
-  getPubList() {
+  getMyPubList() {
     const OPENID = app.globalData.WXContext.OPENID
-    let query = {
-      _openid: OPENID, 
-      status: 1
-    }
     wx.showLoading({
       title: Tips.wx.showLoading,
     })
     setTimeout(function () {
       wx.hideLoading()
     }, Timeout.wx.hideLoading)
-    db.collection('xpc_pub').where(query).get().then(res => {
+    db.collection('xpc_pub').where({
+      _openid: OPENID,
+      status: 1
+    }).orderBy('tripTime', 'asc').get().then(res => {
       // console.log(res)
       if (res.errMsg === 'collection.get:ok' && res.data instanceof Array) {
-        let pubList = res.data || []
-        pubList.forEach(n => {
-          n.disABshow = disABFormat(n.disAB)
+        let myPubList = res.data || []
+        myPubList.forEach(n => {
+          n.disABshow = app.disABFormat(n.disAB)
+          const disABrate = app.globalData.disABrate || 0.5
           n.disABmoney = '￥' + ((Number(n.disAB / 1000) * disABrate).toFixed(2))
         })
         this.setData({
-          pubList,
+          myPubList,
         })
       }
       wx.hideLoading()
       wx.stopPullDownRefresh()
     })
+  },
+  targetDetail(e){
+    console.log(e)
+    const pid = e.currentTarget.id
+    const openid = e.currentTarget.dataset.openid
+    const OPENID = app.globalData.WXContext.OPENID
+    if(openid===OPENID){
+      wx.navigateTo({
+        url: '../pub/add/index?pid='+pid
+      })
+    }
   },
   // 设置我的行程
   pubMyTrip() {
@@ -108,7 +130,7 @@ Page({
     switch(name){
       case '微信登录': this.wxNavTo('login/index'); break;
       case '意见或建议': this.wxNavTo('feedback/index'); break;
-      case '趣搭用户协议': this.wxNavTo('about/index'); break;
+      case '用户使用须知': this.wxNavTo('about/index'); break;
       case '': this.tips('努力开发中...'); break;
     }
   },

@@ -21,4 +21,16 @@
   vertical-align:top;
   box-sizing:border-box;
 }
+
+.trip-new {
+  text-align: center;
+  background-color:#ffffff;
+  font-size:14px;
+  height:44px;
+  line-height:44px;
+  color:#666;
+}
+.trip-new.add {
+  border-top: dashed 1px #efefef;
+}
 /* pubList end */

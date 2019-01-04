@@ -13,10 +13,10 @@ Page({
       key:'phone',
       value:''
     }, {
-      label: '其他联系方式',
+      label: '微信号',
       need: false,
       key: 'otherContact',
-      placeholder: '请输入其他联系方式，如微信号',
+      placeholder: '请输入微信号，可不填',
       maxlength: 30,
       value: ''
     }],
