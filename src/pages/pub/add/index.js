@@ -70,17 +70,12 @@ Page({
     },
   },
   onLoad(options) {
-    const MyPubOneDetail = wx.getStorageSync('MyPubOneDetail')
-    const pid = MyPubOneDetail._id || options.pid || ''
+    const pid = options.pid || ''
     if(pid){
       this.setData({
         pid,
       })
-      if (MyPubOneDetail._id){
-        this.setDetail(MyPubOneDetail)
-      }else{
-        this.getPubDetail(pid)
-      }
+      this.getPubDetail(pid)
     }
   },
   onReady() {},
@@ -90,19 +85,24 @@ Page({
   onPullDownRefresh() {},
   // 获取行程详情
   getPubDetail(pid){
-    db.collection('xpc_pub').doc(pid).get().then(res => {
-      // console.log(res)
-      if (res.errMsg === 'document.get:ok') {
-        const detail = res.data
-        this.setDetail(detail)
-      } else {
-        wx.showModal({
-          title: '',
-          content: '获取详情错误',
-          showCancel: false,
-        })
-      }
-    })
+    const MyPubOneDetail = wx.getStorageSync('MyPubOneDetail')
+    if (MyPubOneDetail._id) {
+      this.setDetail(MyPubOneDetail)
+    } else {
+      db.collection('xpc_pub').doc(pid).get().then(res => {
+        // console.log(res)
+        if (res.errMsg === 'document.get:ok') {
+          const detail = res.data
+          this.setDetail(detail)
+        } else {
+          wx.showModal({
+            title: '',
+            content: '获取详情错误',
+            showCancel: false,
+          })
+        }
+      })
+    }
   },
   setDetail(detail){
     const pubForm = this.data.pubForm
