@@ -27,8 +27,7 @@
   text-align: center;
   background-color:#ffffff;
   font-size:14px;
-  height:44px;
-  line-height:44px;
+  padding: 12px;
   color:#666;
 }
 .trip-new.add {

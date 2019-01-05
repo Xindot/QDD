@@ -9,6 +9,7 @@ const Tips = app.globalData.Tips
 Page({
   data: {
     nowTime: util.formatTime(new Date(), '-:2'),
+    YEAR_: new Date().getFullYear() + '-',
     pageName: 'pub',
     tripTypes: [{
       label: '人找车',
@@ -26,7 +27,10 @@ Page({
     this.getMyPubList()
   },
   onShow(){
-    this.getMyPubList()
+    if (app.globalData.showRefresh){
+      this.getMyPubList()
+      app.globalData.showRefresh = false
+    }
   },
   // 下拉刷新
   onPullDownRefresh(){
@@ -46,7 +50,6 @@ Page({
   getMyPubList() {
     this.setData({
       myPubList: null,
-      matchPubList: null,
     })
     wx.showLoading({
       title: Tips.wx.showLoading,
@@ -54,7 +57,8 @@ Page({
     setTimeout(function () {
       wx.hideLoading()
     }, Timeout.wx.hideLoading)
-    const OPENID = app.globalData.WXContext.OPENID    
+    const WXContext = wx.getStorageSync('WXContext')
+    const OPENID = WXContext.OPENID
     db.collection('xpc_pub').where({
       _openid: OPENID,
       status: 1
@@ -64,10 +68,15 @@ Page({
         let myPubList = res.data || []
         myPubList.forEach(n => {
           n.disABshow = app.distanceFormat(n.disAB)
-          const disABrate = app.globalData.disABrate || 0.5
-          n.disABmoney = ((Number(n.disAB / 1000) * disABrate).toFixed(0))
+          if (!(n.disABmoney > 0)) {
+            const disABrate = app.globalData.disABrate || 0.5
+            n.disABmoney = ((Number(n.disAB / 1000) * disABrate).toFixed(0))
+          }
+          n.tripTimeShow = n.tripTime.replace(this.data.YEAR_, '')
         })
+        const nowTime = util.formatTime(new Date(), '-:2')
         this.setData({
+          nowTime,
           myPubList,
         })
         if(myPubList.length>0){
@@ -120,9 +129,10 @@ Page({
         let matchPubList = res.data || []
         matchPubList.forEach(n=>{
           n.disABshow = app.distanceFormat(n.disAB)
-          const disABrate = app.globalData.disABrate || 0.5
-          n.disABmoney = ((Number(n.disAB / 1000) * disABrate).toFixed(0))
-
+          if (!(n.disABmoney > 0)) {
+            const disABrate = app.globalData.disABrate || 0.5
+            n.disABmoney = ((Number(n.disAB / 1000) * disABrate).toFixed(0))
+          }
           if(index>=0){
             n.disAA = util.distanceByLnglat(one.pointA.longitude, one.pointA.latitude, n.pointA.longitude, n.pointA.latitude)
             n.disAAshow = app.distanceFormat(n.disAA)
@@ -130,6 +140,7 @@ Page({
             n.disBB = util.distanceByLnglat(one.pointB.longitude, one.pointB.latitude, n.pointB.longitude, n.pointB.latitude)
             n.disBBshow = app.distanceFormat(n.disBB)
           }
+          n.tripTimeShow = n.tripTime.replace(this.data.YEAR_, '')
         })
         this.setData({
           matchPubList,
@@ -153,14 +164,13 @@ Page({
     console.log(PubMatchTwo)
     if (PubMatchTwo.Me._id && PubMatchTwo.Ta._id) {
       wx.setStorageSync('PubMatchTwo', PubMatchTwo)
-      app.globalData.PubMatchTwo = PubMatchTwo
       wx.navigateTo({
         url: 'detail/index'
       })
     }else{
       wx.showModal({
         title: '查看详情，需要先设置行程',
-        content: '设置行程可更准确匹配合适的行程',
+        content: '设置行程可更准确匹配合适的同程',
         success: (res) => {
           if (res.confirm) {
             this.pubMyTrip()

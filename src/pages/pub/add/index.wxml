@@ -1,6 +1,6 @@
 <view class="pub-box">
 	<view>
-    <view style="background-color:#fff;padding:10px;font-size:15px;">
+    <view style="background-color:#eee;font-size:15px;">
 
       <view class="trip-type-2">
         <view wx:for="{{tripTypes}}" wx:key="{{index}}" class="triptype-one {{pubForm.tripType===index?'selected':''}}" data-idx="{{index}}" bindtap="selectTripType">
@@ -33,51 +33,65 @@
           <text>距离约</text>
           <text style="color:#000;font-size:15px;">{{disABShow.num}}</text>
           <text>{{disABShow.unit}}</text>
-          <text style="color:red;font-size:10px;" wx:if="{{pubForm.disAB>0&&pubForm.disAB<(5*1000)}}">「暂不支持小于5km的搭车」</text>
+          <text style="color:red;font-size:10px;" wx:if="{{!distanceV}}">「暂不支持小于5km的搭车」</text>
         </view>
       </view>
 
-      <view class="picker-2">
-        <picker class="picker-one" wx:for="{{pickerList}}" wx:key="{{index}}" mode="{{item.mode}}" value="{{item.value}}" start="{{item.start}}" end="{{item.end}}" data-mode="{{item.mode}}" bindchange="bindPickerChange">
-          <view wx:if="{{item.value}}">
-            <view style="color:#666;font-size:14px;">
-              <text>{{item.label}}</text>
+      <view class="picker-2" wx:if="{{pickerList&&distanceV}}">
+        <view class="picker-one" wx:for="{{pickerList}}" wx:key="{{index}}" style="width:{{100/pickerList.length}}%;">
+          <picker wx:if="{{item.mode=='date'||item.mode=='time'}}" mode="{{item.mode}}" value="{{item.value}}" start="{{item.start}}" end="{{item.end}}" data-mode="{{item.mode}}" bindchange="bindPickerChange">
+            <view wx:if="{{item.value}}">
+              <view style="color:#666;font-size:14px;">
+                <text>{{item.label}}</text>
+              </view>
+              <view style="font-size:18px;">
+                <text>{{item.showValue||item.value}}</text>            
+              </view>
             </view>
-            <view style="font-size:18px;">
-              <text>{{item.value}}</text>                
+            <view wx:if="{{!item.value}}" style="font-size:18px;padding:15px;color:#666;">
+              <text>{{item.placeholder}}</text>
+            </view>
+          </picker>
+          <view wx:if="{{item.mode=='input'}}">
+            <view wx:if="{{pubForm.disABmoney}}">
+              <view style="color:#666;font-size:14px;">
+                <text>{{item.label}}</text>
+              </view>
+            </view>
+            <view>
+              <text wx:if="{{pubForm.disABmoney}}" style="font-size:18px;vertical-align: top;">￥</text>
+              <input type="digit" placeholder="{{item.placeholder}}" value="{{pubForm.disABmoney}}" bindinput="disABmoneyChange" class="{{pubForm.disABmoney?'':'empty'}}" maxlength="6"/>
             </view>
           </view>
-          <view wx:if="{{!item.value}}" style="font-size:18px;padding:15px;color:#666;">
-            <text>{{item.placeholder}}</text>
+        </view>
+      </view>
+
+      <view wx:if="{{distanceV}}" class="pf-p2">
+        <view class="pf-p2-one pf-person">
+          <view style="color:#666;font-size:14px;">
+            <text>{{tripTypes[pubForm.tripType].person}}</text>          
           </view>
-        </picker>
-      </view>
-
-      <view wx:if="{{!remarkInputFocus}}" class="pf-person">
-        <view style="color:#666;font-size:14px;">
-          <text>{{tripTypes[pubForm.tripType].person}}</text>          
+          <view style="padding:5px 0;">
+            <text wx:for="{{[1,2,3,4]}}" class="pf-person-one {{pubForm.tripPerson==item?'selected':''}}" wx:key="{{index}}" data-idx="{{item}}" bindtap="selectTripPerson">{{item}}</text>
+          </view>
         </view>
-        <view style="padding:5px 0;">
-          <text wx:for="{{[1,2,3,4]}}" class="pf-person-one {{pubForm.tripPerson==item?'selected':''}}" wx:key="{{index}}" data-idx="{{item}}" bindtap="selectTripPerson">{{item}}</text>
+        <view class="pf-p2-one pf-remark">
+          <view wx:if="{{pubForm.remark}}" style="color:#666;font-size:14px;">
+            <text>备注</text>
+            <text wx:if="{{pubForm.remark.length>15}}" style="font-size:10px;">「{{pubForm.remark.length}}/最多20字」</text>
+          </view>
+          <textarea bindinput="remarkChange" value="{{pubForm.remark}}" auto-height placeholder="备注点啥" maxlength="20" class="{{pubForm.remark?'':'empty'}}"/>
         </view>
-      </view>
-
-      <view class="pf-remark">
-        <view wx:if="{{pubForm.remark}}" style="color:#666;font-size:14px;">
-          <text>备注</text>
-          <text wx:if="{{pubForm.remark.length>30}}" style="font-size:10px;">「{{pubForm.remark.length}}/最多40字」</text>
-        </view>
-        <textarea bindinput="remarkChange" value="{{pubForm.remark}}" auto-height placeholder="备注说点啥" maxlength="40" bindfocus="remarkFocus" bindblur="remarkBlur" bindconfirm="remarkBlur" class="{{pubForm.remark?'':'empty'}}"/>
       </view>
 
     </view>
 
-	  <view wx:if="{{!remarkInputFocus}}" class="pub-submit-btn" bindtap="pubSubmit">
-      <text style="{{submitBtn.clickable?'':'opacity:.5'}}">{{submitBtn.tips}}</text>
+	  <view class="pub-submit-btn" bindtap="pubSubmit">
+      <text style="{{distanceV&&submitBtn.clickable?'':'opacity:.5'}}">{{submitBtn.tips}}</text>
     </view>
 
-	  <view wx:if="{{pid&&!remarkInputFocus}}" class="del-btn" id="{{pid}}" bindtap="pubDel">
-      <text style="{{submitBtn.clickable?'':'opacity:.5'}}">{{submitBtn.del}}</text>
+	  <view wx:if="{{pid}}" class="del-btn" id="{{pid}}" bindtap="pubDel">
+      <text style="{{distanceV&&submitBtn.clickable?'':'opacity:.5'}}">{{submitBtn.del}}</text>
     </view>
 
 	</view>

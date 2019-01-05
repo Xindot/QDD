@@ -2,7 +2,6 @@ const util = require('../../../utils/util')
 
 const app = getApp()
 const db = app.globalData.db
-const WXContext = app.globalData.WXContext
 const Timeout = app.globalData.Timeout
 const Tips = app.globalData.Tips
 
@@ -66,7 +65,6 @@ Page({
       })
     }else{
       db.collection('xpc_feedback').add({
-        // data 字段表示需新增的 JSON 数据
         data: fbSubmit
       }).then(res => {
         // console.log(res)
@@ -98,6 +96,7 @@ Page({
   },
   // 获取我的反馈列表
   getMyFeedbackList(){
+    const WXContext = wx.getStorageSync('WXContext')
     if (WXContext && WXContext.OPENID){
       wx.showLoading({
         title: Tips.wx.showLoading,

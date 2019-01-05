@@ -10,6 +10,7 @@ Page({
   data: {
     Version,
     nowTime: util.formatTime(new Date(), '-:2'),
+    YEAR_: new Date().getFullYear() + '-',
     pageName: 'me',
     userInfo: null,
     tripTypes: [{
@@ -39,11 +40,15 @@ Page({
     this.getMyPubList()
 	},
   onShow() {
-    this.getUserInfo()
-    this.getMyPubList()
+    if (app.globalData.showRefresh) {
+      this.getUserInfo()
+      this.getMyPubList()
+      app.globalData.showRefresh = false
+    }
   },
   getUserInfo(){
-    const OPENID = app.globalData.WXContext.OPENID
+    const WXContext = wx.getStorageSync('WXContext')
+    const OPENID = WXContext.OPENID
     wx.showLoading({
       title: Tips.wx.showLoading,
     })
@@ -66,7 +71,8 @@ Page({
   },
   // 获取行程列表
   getMyPubList() {
-    const OPENID = app.globalData.WXContext.OPENID
+    const WXContext = wx.getStorageSync('WXContext')
+    const OPENID = WXContext.OPENID
     wx.showLoading({
       title: Tips.wx.showLoading,
     })
@@ -82,10 +88,15 @@ Page({
         let myPubList = res.data || []
         myPubList.forEach(n => {
           n.disABshow = app.distanceFormat(n.disAB)
-          const disABrate = app.globalData.disABrate || 0.5
-          n.disABmoney = ((Number(n.disAB / 1000) * disABrate).toFixed(0))
+          if(!(n.disABmoney>0)){
+            const disABrate = app.globalData.disABrate || 0.5
+            n.disABmoney = ((Number(n.disAB / 1000) * disABrate).toFixed(0))
+          }
+          n.tripTimeShow = n.tripTime.replace(this.data.YEAR_, '')
         })
+        const nowTime = util.formatTime(new Date(), '-:2')
         this.setData({
+          nowTime,
           myPubList,
         })
       }
@@ -94,11 +105,15 @@ Page({
     })
   },
   targetDetail(e){
-    console.log(e)
+    // console.log(e)
     const pid = e.currentTarget.id
+    const idx = e.currentTarget.dataset.idx || 0
     const openid = e.currentTarget.dataset.openid
-    const OPENID = app.globalData.WXContext.OPENID
+    const WXContext = wx.getStorageSync('WXContext')
+    const OPENID = WXContext.OPENID
     if(openid===OPENID){
+      const MyPubOneDetail = this.data.myPubList[idx]
+      wx.setStorageSync('MyPubOneDetail', MyPubOneDetail)
       wx.navigateTo({
         url: '../pub/add/index?pid='+pid
       })
@@ -127,7 +142,8 @@ Page({
   },
   // 设置联系方式
   setContact(){
-    const uid = this.data.userInfo._id
+    const WXUserInfo = wx.getStorageSync('WXUserInfo')
+    const uid = WXUserInfo._id
     wx.navigateTo({
       url: 'contact/index?uid=' + uid
     })
@@ -145,7 +161,7 @@ Page({
     switch(name){
       case '微信登录': this.wxNavTo('login/index'); break;
       case '意见或建议': this.wxNavTo('feedback/index'); break;
-      case '用户使用须知': this.wxNavTo('about/index'); break;
+      case '用户使用须知': this.wxNavTo('notice/index'); break;
       case '': this.tips('努力开发中...'); break;
     }
   },

@@ -45,5 +45,5 @@
     </view>
   </view>
 
-  <view class="Version">{{Version}}</view>
+  <view class="Version" data-text="微信登录" bindtap="goPage">{{Version}}</view>
 </view>

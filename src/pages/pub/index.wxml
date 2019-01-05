@@ -19,13 +19,16 @@
           <text>{{item.pointB.ssx}}</text>
         </view>
         <view class="ellipsis" style="font-size:10px;color:#666;">
-          <text>{{item.tripTime}}</text>
+          <text>{{item.tripTimeShow||item.tripTime}}</text>
           <text wx:if="{{item.tripTime<nowTime}}" style="color:red;">·过期</text>
         </view>
       </view>
 
       <view wx:if="{{myPubList.length==0}}" class="trip-new set" bindtap="pubMyTrip" style="margin-bottom:1px;">
         <text>设置我的行程</text>
+        <view style="color:#ccc;font-size:10px;">
+          <text>设置行程可更准确匹配合适的同程</text>
+        </view>
       </view>
 
     </view>

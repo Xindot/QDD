@@ -39,7 +39,7 @@ Page({
   onUnload() {},
   onPullDownRefresh() {},
   setDefaultValue(){
-    const WXUserInfo = app.globalData.WXUserInfo
+    const WXUserInfo = wx.getStorageSync('WXUserInfo')
     const contactList = this.data.contactList
     contactList.forEach(n => {
       n.value = WXUserInfo[n.key] || ''
@@ -104,7 +104,7 @@ Page({
           showCancel: false,
           success: (res) => {
             if (res.confirm) {
-              // 返回上一页
+              app.globalData.showRefresh = true         
               wx.navigateBack({
                 delta: 1
               })

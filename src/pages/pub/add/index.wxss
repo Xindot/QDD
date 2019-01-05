@@ -1,3 +1,4 @@
+
 .triptype-one {
   display: inline-block;
   width: 50%;
@@ -15,7 +16,7 @@
 
 .point-one {
   padding:5px;
-  background-color:#eee;
+  background-color:#fff;
 }
 .point-one + .point-one {
   border-top: dashed 1px #dfdfdf;
@@ -23,18 +24,17 @@
 
 .dis-AB {
   padding:5px;
-  background-color:#eee;
+  background-color:#fff;
   border-top:dashed 1px #dfdfdf;
 }
 
 .picker-2 {
   font-size:16px;
-  background-color:#eee;
+  background-color:#fff;
   margin-top:10px;
 }
 .picker-one {
   display: inline-block;
-  width: 50%;
   box-sizing:border-box;
   padding:5px;
   vertical-align:top;
@@ -42,39 +42,56 @@
 .picker-one + .picker-one {
   border-left: dashed 1px #dfdfdf;
 }
+.picker-one input {
+  font-size:18px;
+  color:#000;
+  display: inline-block;
+  width: 80%;
+  vertical-align: top;
+}
+.picker-one input.empty {
+  padding:15px;
+  color: #666;
+}
 
-.pf-person {
-  padding:5px;
-  background-color:#eee;
+.pf-p2 {
+  background-color:#fff;
   margin-top:10px;
 }
 .pf-person-one {
   font-size:18px;
-  margin-right:10px;
-  padding:0 15px;
+  padding:0 10px;
   border:solid 1px #4a4c5b;
   border-radius: 3px;
   opacity: .2;
+}
+.pf-person-one + .pf-person-one {
+  margin-left:5px;
 }
 .pf-person-one.selected {
   opacity: 1;
   background-color: #4a4c5b;
   color: #fff;
 }
-
-.pf-remark {
+.pf-p2-one {
   padding:5px;
-  background-color:#eee;
-  margin-top:10px;
+  box-sizing: border-box;
+  width: 50%;
+  display: inline-block;
+  vertical-align: top;
 }
-.pf-remark textarea {
+.pf-p2-one + .pf-p2-one {
+  border-left: dashed 1px #dfdfdf;
+}
+
+.pf-p2-one.pf-remark textarea {
   font-size:18px;
   width: 100%;
 }
-.pf-remark textarea.empty {
-  padding:10px 0 10px 10px;
+.pf-p2-one.pf-remark textarea.empty {
+  padding:16px 0 16px 16px;
   color: #666;
-  width: 95%;
+  width: 90%;
 }
 
 .pub-submit-btn {

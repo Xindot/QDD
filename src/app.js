@@ -21,7 +21,6 @@ App({
       const WXContext = wx.getStorageSync('WXContext')
       if (WXContext && WXContext.OPENID) {
         console.log('OPENID缓存中存在')
-        this.globalData.WXContext = WXContext
         this.checkUser()
       } else {
         console.log('OPENID缓存中不存在')
@@ -37,13 +36,10 @@ App({
       name: 'getWXContext',      // 要调用的云函数名称
       data: {}      // 传递给云函数的event参数
     }).then(res => {
-      // console.log('getWXContext res=>',res)
       const WXContext = res.result
-      // console.log('WXContext=>',WXContext)
       if(WXContext && WXContext.OPENID){
         try {
           wx.setStorageSync('WXContext', WXContext)
-          this.globalData.WXContext = WXContext
           this.checkUser()
         } catch (e) {
           console.error(e)
@@ -55,13 +51,12 @@ App({
   },
   // 判断当前用户是否在库中
   checkUser(){
-    const WXContext = this.globalData.WXContext
+    const WXContext = wx.getStorageSync('WXContext')
     if(WXContext && WXContext.OPENID){
       db.collection('xpc_user').where({
         _openid: WXContext.OPENID // 填入当前用户 openid
       }).get({
         success: (res)=> {
-          // console.log('checkUser=>',res)
           if(res.errMsg=='collection.get:ok'){
             if(res.data && res.data instanceof Array && res.data.length>0){
               console.log('判断当前用户：在库中')
@@ -84,7 +79,6 @@ App({
   setWXUserInfo(WXUserInfo){
     if(WXUserInfo.nickName){
       wx.setStorageSync('WXUserInfo', WXUserInfo)
-      this.globalData.WXUserInfo = WXUserInfo
       const InsertUserInfo = {
         openId: WXUserInfo._openid,
         nickName: WXUserInfo.nickName,
@@ -92,20 +86,21 @@ App({
         gender: WXUserInfo.gender,
       }
       wx.setStorageSync('InsertUserInfo', InsertUserInfo)
-      this.globalData.InsertUserInfo = InsertUserInfo
     }
   },
   // 增加用户到数据库
   addUserToDB(){
-    if(!(this.globalData.WXContext && this.globalData.WXContext.OPENID)){
+    const WXContext = wx.getStorageSync('WXContext')
+    const WXUserInfo = wx.getStorageSync('WXUserInfo')
+    if(!(WXContext && WXContext.OPENID)){
       console.log('获取OPENID错误')
       return
     }
-    if(!(this.globalData.WXUserInfo && this.globalData.WXUserInfo.nickName)){
+    if(!(WXUserInfo && WXUserInfo.nickName)){
       console.log('获取用户信息错误')
       return
     }
-    const OPENID = this.globalData.WXContext.OPENID
+    const OPENID = WXContext.OPENID
     db.collection('xpc_user').where({
       _openid: OPENID // 填入当前用户 openid
     }).get({
@@ -117,7 +112,7 @@ App({
             db.collection('xpc_user').doc(user._id).update({
               data: {
                 updated_at: util.formatTime(new Date(), '-:'),
-                ...this.globalData.WXUserInfo                
+                ...WXUserInfo                
               }
             }).then(res=>{
               console.log(res)
@@ -129,7 +124,7 @@ App({
             const newUser = {
               created_at: util.formatTime(new Date(),'-:'),
               updated_at: util.formatTime(new Date(),'-:'),
-              ...this.globalData.WXUserInfo
+              ...WXUserInfo
             }
             db.collection('xpc_user').add({
               data: newUser
@@ -148,8 +143,7 @@ App({
             content: '登录成功',
             showCancel: false,
             success:(res) => {
-              if (res.confirm) { // console.log('用户点击确定')
-                // 返回上一页
+              if (res.confirm) {
                 wx.navigateBack({
                   delta: 1
                 })
@@ -186,14 +180,12 @@ App({
   // 获取七牛上传token by调用云函数
   getQNUptoken(){
     wx.cloud.callFunction({
-      name: 'getQnUptoken',      // 要调用的云函数名称
-      data: {} // 传递给云函数的event参数
+      name: 'getQnUptoken',
+      data: {}
     }).then(res => {
-      // console.log('getQNConfig res=>',res)
       if(res.errMsg=='cloud.callFunction:ok'){
         if(res.result && res.result.code ==200){
           const QNConfig = res.result.result
-          // console.log('QNConfig=>',QNConfig)
           if(QNConfig.uptoken && QNConfig.origin){
             try {
               Object.assign(this.globalData.QNConfig, QNConfig);
@@ -217,7 +209,8 @@ App({
    * 上传七牛返回url
    */
   uploadQiniu(tempFilePaths,callback) {
-    const OPENID = this.globalData.WXContext.OPENID;
+    const WXContext = wx.getStorageSync('WXContext')
+    const OPENID = WXContext.OPENID;
     const rStr4 =  Math.random().toString(36).substr(2).substring(0,4);
     if(!(ENV&&Version&&OPENID)){
       callback({code:-1,msg:'ENV或Version或OPENID错误'})
@@ -274,9 +267,7 @@ App({
     Version,
     ENV,
     db,
-    WXContext: null,
-    WXUserInfo: null,
-    InsertUserInfo: null,
+    showRefresh: false,
     QNConfig: {
       upHost: 'https://up.qbox.me',
     },

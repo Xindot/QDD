@@ -7,7 +7,7 @@
     "pages/me/login/index",
     "pages/me/contact/index",
     "pages/me/feedback/index",
-    "pages/me/about/index"
+    "pages/me/notice/index"
   ],
   "window":{
     "backgroundColor": "#eeeeee",

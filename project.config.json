@@ -35,13 +35,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
 					"name": "发布行程",
 					"pathName": "pages/pub/add/index",
-					"query": "pid=XC8HZpT75u22-s47"
+					"query": ""
 				},
 				{
 					"id": 1,

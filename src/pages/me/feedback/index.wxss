@@ -33,13 +33,12 @@
   padding: 10px;
 }
 .fb-list-one+.fb-list-one{
-  border-top: solid 1px #eee;
+  border-top: dashed 1px #efefef;
 }
 .fb-list-tips {
   font-size: 14px;
   text-align: center;
-  height: 100px;
-  line-height: 100px;
+  padding: 15px;
   background-color: #fff;
 }
 .fb-list-tips > text{

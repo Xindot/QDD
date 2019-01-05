@@ -7,6 +7,7 @@ Page({
   data: {
     pid: null,
     nowTime: util.formatTime(new Date(), '-:2'),
+    YEAR_: new Date().getFullYear() + '-',
     tripTypes: [{
       label: '人找车',
       person: '有几个人'
@@ -29,6 +30,7 @@ Page({
       pointA: null,
       pointB: null,
       disAB: null,
+      disABmoney: null,
       userInfo: null,
       tripTime: '',
       tripType: 0, //0人找车 1车找人
@@ -42,6 +44,10 @@ Page({
       fee: 0,
     },
     pickerList: [{
+      mode: 'input',
+      label: '参考费用/人',
+      placeholder: '参考费用'
+    },{
       mode: 'date',
       value: '',
       start: util.formatTime(new Date(), '-') || '',
@@ -56,20 +62,25 @@ Page({
       label: '行程时间',
       placeholder: '啥时走'
     }],
+    distanceV: false,
     submitBtn: {
-      clickable: false,
+      clickable: true,
       tips: '提交',
       del: '删除',
     },
-    remarkInputFocus: false 
   },
   onLoad(options) {
-    const pid = options.pid || ''
+    const MyPubOneDetail = wx.getStorageSync('MyPubOneDetail')
+    const pid = MyPubOneDetail._id || options.pid || ''
     if(pid){
-      this.getPubDetail(pid)
       this.setData({
         pid,
       })
+      if (MyPubOneDetail._id){
+        this.setDetail(MyPubOneDetail)
+      }else{
+        this.getPubDetail(pid)
+      }
     }
   },
   onReady() {},
@@ -83,32 +94,7 @@ Page({
       // console.log(res)
       if (res.errMsg === 'document.get:ok') {
         const detail = res.data
-        const pubForm = this.data.pubForm
-        for (var key in pubForm) {
-          if (pubForm.hasOwnProperty(key) === true) {
-            pubForm[key] = detail[key]
-          }
-        }
-        // console.log(pubForm)
-        const pointList = this.data.pointList
-        pointList.forEach(n => {
-          n.point = pubForm['point' + n.sign]
-        })
-        const pickerList = this.data.pickerList
-        pickerList.forEach(n=>{
-          if(n.mode==='date'){
-            n.value = pubForm.tripTime.split(' ')[0]
-          }
-          if (n.mode === 'time') {
-            n.value = pubForm.tripTime.split(' ')[1]
-          }
-        })
-        this.setData({
-          pubForm,
-          pointList,
-          pickerList,
-        })
-        this.getDistance()
+        this.setDetail(detail)
       } else {
         wx.showModal({
           title: '',
@@ -117,6 +103,35 @@ Page({
         })
       }
     })
+  },
+  setDetail(detail){
+    const pubForm = this.data.pubForm
+    for (var key in pubForm) {
+      if (pubForm.hasOwnProperty(key) === true) {
+        pubForm[key] = detail[key]
+      }
+    }
+    // console.log(pubForm)
+    const pointList = this.data.pointList
+    pointList.forEach(n => {
+      n.point = pubForm['point' + n.sign]
+    })
+    const pickerList = this.data.pickerList
+    pickerList.forEach(n => {
+      if (n.mode === 'date') {
+        n.value = pubForm.tripTime.split(' ')[0]
+        n.showValue = n.value.replace(this.data.YEAR_, '')
+      }
+      if (n.mode === 'time') {
+        n.value = pubForm.tripTime.split(' ')[1]
+      }
+    })
+    this.setData({
+      pubForm,
+      pointList,
+      pickerList,
+    })
+    this.getDistance()
   },
   // 选择行程类型
   selectTripType(e){
@@ -146,7 +161,7 @@ Page({
     wx.chooseLocation({
       type: 'wgs84',
       success:(res)=> {
-        console.log(res)
+        // console.log(res)
         if(res.errMsg==="chooseLocation:ok"){
           const point = {
             name: res.name,
@@ -174,6 +189,24 @@ Page({
           })
           this.getDistance()
         }
+      },
+      fail:(err)=>{
+        // console.log(err)
+        if (err.errMsg ==='chooseLocation:fail:auth denied'){
+          wx.showModal({
+            title: '您已设置【不允许使用我的地理位置】',
+            content: '如果需要开启，可以在小程序设置界面（「右上角」-「关于」-「右上角」-「设置」）中控制对该小程序的授权状态',
+            success: (res) => {
+              if (res.confirm) {
+                wx.openSetting({
+                  success: (res) => {
+                    console.log(res.authSetting)
+                  }
+                })
+              }
+            }
+          })
+        }
       }
     })
   },
@@ -197,9 +230,9 @@ Page({
     if (lngA && latA && lngB && latB){
       const disAB = util.distanceByLnglat(lngA, latA, lngB, latB) || 0
       // console.log('disAB=>',disAB)
-      let clickable = false
+      let distanceV = false
       if(Number(disAB)>=(5*1000)){
-        clickable = true  
+        distanceV = true
       }
       const pubForm = this.data.pubForm
       pubForm.disAB = disAB
@@ -211,10 +244,15 @@ Page({
         disABShow.num = Number((Number(disAB)/1000).toFixed(1))
         disABShow.unit = 'km'
       }
+      if (!(pubForm.disABmoney>0)){
+        const disABrate = app.globalData.disABrate || 0.5
+        pubForm.disABmoney = ((Number(disAB / 1000) * disABrate).toFixed(0))
+      }
+
       this.setData({
         pubForm,
         disABShow,
-        'submitBtn.clickable': clickable
+        distanceV,
       })
     }
   },
@@ -226,20 +264,13 @@ Page({
     pickerList.forEach(n=>{
       if(n.mode===mode){
         n.value = e.detail.value
+        if(n.mode==='date'){
+          n.showValue = n.value.replace(this.data.YEAR_, '')
+        }
       }
     })
     this.setData({
       pickerList,
-    })
-  },
-  remarkFocus(){
-    this.setData({
-      remarkInputFocus: true
-    })
-  },
-  remarkBlur(){
-    this.setData({
-      remarkInputFocus: false
     })
   },
   // 备注改变
@@ -249,15 +280,20 @@ Page({
       'pubForm.remark': e.detail.value
     })
   },
+  disABmoneyChange(e){
+    // console.log(e)
+    this.setData({
+      'pubForm.disABmoney': e.detail.value
+    })
+  },
   // 提交
   pubSubmit(){
+    if (!this.data.distanceV){
+      return
+    }
     if(!this.data.submitBtn.clickable){
       return
     }
-    this.setData({
-      'submitBtn.clickable': false,
-      'submitBtn.tips': '提交中...'
-    })
     const pubForm = this.data.pubForm
     if (!(pubForm.pointA && pubForm.pointA.name)){
       // console.log('请选择从哪走')
@@ -290,22 +326,35 @@ Page({
     let arr = []
     for (let i = 0;i < pickerList.length;i++){
       const n = pickerList[i]
-      if(n.value==''){
-        // console.log('请选择'+n.placeholder)
-        wx.showModal({
-          title: '',
-          content: '请选择' + n.placeholder,
-          showCancel: false,
-        })
-        return
+      if (n.mode === 'date' || n.mode === 'time'){
+        if (n.value == '') {
+          // console.log('请选择'+n.placeholder)
+          wx.showModal({
+            title: '',
+            content: '请选择' + n.placeholder,
+            showCancel: false,
+          })
+          return
+        }
+        if (n.value) {
+          arr.push(n.value)
+        }
       }
-      arr.push(n.value)
     }
     const tripTime = arr.join(' ')
     // console.log('tripTime=>', tripTime)
     pubForm.tripTime = tripTime
 
-    const userInfo = app.globalData.InsertUserInfo
+    if (!(pubForm.disABmoney >= 0)) {
+      wx.showModal({
+        title: '',
+        content: '请填写人均费用',
+        showCancel: false,
+      })
+      return
+    }
+
+    const userInfo = wx.getStorageSync('InsertUserInfo')
     // console.log('userInfo=>', userInfo)
     if (!(userInfo && userInfo.nickName)){
       // console.log('用户信息获取错误')
@@ -323,6 +372,10 @@ Page({
       ...pubForm,
     }
     console.log('sForm=>',sForm)
+    this.setData({
+      'submitBtn.clickable': false,
+      'submitBtn.tips': '提交中...'
+    })
     const pid = this.data.pid || null
     if(pid){
       console.log('更新行程')
@@ -336,8 +389,8 @@ Page({
             content: '行程更新成功',
             showCancel: false,
             success: (res) => {
-              if (res.confirm) { // console.log('用户点击确定')
-                // 返回上一页
+              if (res.confirm) {
+                app.globalData.showRefresh = true
                 wx.navigateBack({
                   delta: 1
                 })
@@ -360,8 +413,8 @@ Page({
             content: '行程发布成功',
             showCancel: false,
             success: (res) => {
-              if (res.confirm) { // console.log('用户点击确定')
-                // 返回上一页
+              if (res.confirm) {
+                app.globalData.showRefresh = true             
                 wx.navigateBack({
                   delta: 1
                 })
@@ -399,8 +452,8 @@ Page({
                   content: '删除成功',
                   showCancel: false,
                   success: (res) => {
-                    if (res.confirm) { // console.log('用户点击确定')
-                      // 返回上一页
+                    if (res.confirm) {
+                      app.globalData.showRefresh = true
                       wx.navigateBack({
                         delta: 1
                       })
