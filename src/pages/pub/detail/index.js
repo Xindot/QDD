@@ -47,19 +47,19 @@ Page({
       }]
       const markers = []
       points.forEach(n=>{
-        const PUB = (n.sige.indexOf('Me')>=0) ? Me: Ta
-        const RM = (n.sige.indexOf('Me') >= 0) ? '(我)' : (n.sige.indexOf('.A') >= 0) ? '(' + Ta.disAAshow + ')' : '('+Ta.disBBshow+')'
-        const Icon = (Number(PUB.tripType) === 1) ? 'car-1' : 'person-1'
+        const _SF = (n.sige.indexOf('Me')>=0) ? Me: Ta
+        const _BZ = (n.sige.indexOf('Me') >= 0) ? '(我)' : (n.sige.indexOf('.A') >= 0) ? '(' + Ta.disAAshow + ')' : '('+Ta.disBBshow+')'
+        const Icon = (Number(_SF.tripType) === 1) ? 'car-1' : 'person-1'
         markers.push({
-          // iconPath: PUB.userInfo.avatarUrl,
+          // iconPath: _SF.userInfo.avatarUrl,
           iconPath: '../../../images/common/' + Icon+'.png',
-          id: PUB._id,
+          id: _SF._id,
           longitude: n.longitude,
           latitude: n.latitude,
           width: 15,
           height: 15,
           callout: {
-            content: PUB.userInfo.nickName + RM,
+            content: _SF.userInfo.nickName + _BZ,
             fontSize: 10,
             color: '#666666',
             bgColor:'#ffffff',
