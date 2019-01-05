@@ -69,7 +69,7 @@ Page({
     })
   },
   checkPhone(val){
-    if ((/^0?(13|14|15|17|18)[0-9]{9}$/.test(val))) {
+    if (/^0?(13|14|15|17|18)[0-9]{9}$/.test(val)) {
       this.setData({
         'submitBtn.clickable': true
       })

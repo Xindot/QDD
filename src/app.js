@@ -18,7 +18,7 @@ App({
   // 获取用户OPENID by缓存
   getWXOPENID(){
     try {
-      var WXContext = wx.getStorageSync('WXContext')
+      const WXContext = wx.getStorageSync('WXContext')
       if (WXContext && WXContext.OPENID) {
         console.log('OPENID缓存中存在')
         this.globalData.WXContext = WXContext

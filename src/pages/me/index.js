@@ -106,9 +106,24 @@ Page({
   },
   // 设置我的行程
   pubMyTrip() {
-    wx.navigateTo({
-      url: '../pub/add/index'
-    })
+    const WXUserInfo = wx.getStorageSync('WXUserInfo')
+    if (WXUserInfo && WXUserInfo.phone && (/^0?(13|14|15|17|18)[0-9]{9}$/.test(WXUserInfo.phone))) {
+      wx.navigateTo({
+        url: '../pub/add/index'
+      })
+    } else {
+      wx.showModal({
+        title: '设置行程，需要先设置联系方式',
+        content: '方便需要的时候能联系到您',
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '../me/contact/index'
+            })
+          }
+        }
+      })
+    }
   },
   // 设置联系方式
   setContact(){

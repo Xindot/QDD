@@ -71,6 +71,8 @@ Page({
             selectMyPubIndex: 0
           })
           this.getMatchPubList(0)          
+        }else{
+          this.getMatchPubList(-1)
         }
       }
       wx.hideLoading()
@@ -79,25 +81,33 @@ Page({
   },
   // 获取匹配的行程列表
   getMatchPubList(index){
-    const one = this.data.myPubList[index]
+    const _ = db.command
+    let query = {
+      status: 1,
+      tripTime: _.gt(this.data.nowTime),
+    }
+    let one
+    if(index>=0){
+      one = this.data.myPubList[index] || {}
+      query = {
+        ...query,
+        tripType: Number(one.tripType) === 1 ? 0 : 1,
+        'pointA.address': db.RegExp({
+          regexp: one.pointA.ssx
+        }),
+        'pointB.address': db.RegExp({
+          regexp: one.pointB.ssx
+        })
+      }
+    }
     wx.showLoading({
       title: Tips.wx.showLoading,
     })
     setTimeout(function () {
       wx.hideLoading()
     }, Timeout.wx.hideLoading)
-    const _ = db.command
-    db.collection('xpc_pub').where({
-      tripType: Number(one.tripType) === 1 ? 0 : 1,
-      status: 1,
-      tripTime: _.gt(this.data.nowTime),
-      'pointA.address': db.RegExp({
-        regexp: one.pointA.ssx
-      }),
-      'pointB.address': db.RegExp({
-        regexp: one.pointB.ssx
-      })
-    }).orderBy('tripTime', 'asc').get().then(res => {
+    console.log('query=>',query)
+    db.collection('xpc_pub').where(query).orderBy('tripTime', 'asc').get().then(res => {
       // console.log(res)
       if(res.data instanceof Array){
         let matchPubList = res.data || []
@@ -106,11 +116,13 @@ Page({
           const disABrate = app.globalData.disABrate || 0.5
           n.disABmoney = ((Number(n.disAB / 1000) * disABrate).toFixed(0))
 
-          n.disAA = util.distanceByLnglat(one.pointA.longitude, one.pointA.latitude, n.pointA.longitude, n.pointA.latitude)
-          n.disAAshow = app.distanceFormat(n.disAA)
+          if(index>=0){
+            n.disAA = util.distanceByLnglat(one.pointA.longitude, one.pointA.latitude, n.pointA.longitude, n.pointA.latitude)
+            n.disAAshow = app.distanceFormat(n.disAA)
 
-          n.disBB = util.distanceByLnglat(one.pointB.longitude, one.pointB.latitude, n.pointB.longitude, n.pointB.latitude)
-          n.disBBshow = app.distanceFormat(n.disBB)
+            n.disBB = util.distanceByLnglat(one.pointB.longitude, one.pointB.latitude, n.pointB.longitude, n.pointB.latitude)
+            n.disBBshow = app.distanceFormat(n.disBB)
+          }
         })
         this.setData({
           matchPubList,
@@ -128,8 +140,8 @@ Page({
     const openid = e.currentTarget.dataset.openid
 
     const PubMatchTwo = {
-      Me: this.data.myPubList[this.data.selectMyPubIndex],
-      Ta: this.data.matchPubList[idx]
+      Me: this.data.myPubList[this.data.selectMyPubIndex] || {},
+      Ta: this.data.matchPubList[idx] || {}
     }
     console.log(PubMatchTwo)
     if (PubMatchTwo.Me._id && PubMatchTwo.Ta._id) {
@@ -138,13 +150,38 @@ Page({
       wx.navigateTo({
         url: 'detail/index'
       })
+    }else{
+      wx.showModal({
+        title: '查看详情，需要先设置行程',
+        content: '设置行程可更准确匹配合适的行程',
+        success: (res) => {
+          if (res.confirm) {
+            this.pubMyTrip()
+          }
+        }
+      })
     }
   },
   // 设置我的行程
   pubMyTrip(){
-    wx.navigateTo({
-      url: 'add/index'
-    })
+    const WXUserInfo = wx.getStorageSync('WXUserInfo')
+    if (WXUserInfo && WXUserInfo.phone && (/^0?(13|14|15|17|18)[0-9]{9}$/.test(WXUserInfo.phone)) ){
+      wx.navigateTo({
+        url: 'add/index'
+      })
+    }else{
+      wx.showModal({
+        title: '设置行程，需要先设置联系方式',
+        content: '方便需要的时候能联系到您',
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '../me/contact/index'
+            })
+          }
+        }
+      })
+    }
   },
 });
 

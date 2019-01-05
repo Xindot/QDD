@@ -22,6 +22,7 @@
   box-sizing:border-box;
 }
 
+.trip-no-match,
 .trip-new {
   text-align: center;
   background-color:#ffffff;

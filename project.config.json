@@ -11,7 +11,7 @@
 		"uglifyFileName": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.4.1",
+	"libVersion": "2.4.3",
 	"appid": "wxebdf16d05e5efaa7",
 	"projectname": "%E5%BF%83%E6%8B%BC%E8%BD%A6",
 	"miniprogramRoot": "src/",
