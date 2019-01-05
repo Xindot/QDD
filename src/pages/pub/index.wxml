@@ -13,7 +13,7 @@
               <text style="font-size:10px;">{{item.tripPerson}}</text>
             </view>
             <view>
-              <image src="../../images/common/go.png" style="width:18px" mode="widthFix"></image>          
+              <image src="../../images/common/go.png" style="width:18px;height:auto;" mode="widthFix"></image>
             </view>
           </view>
           <text>{{item.pointB.ssx}}</text>

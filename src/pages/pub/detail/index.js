@@ -49,7 +49,7 @@ Page({
       points.forEach(n=>{
         const Who = (n.sige === 'Me') ? Me: Ta
         const SF = (n.sige === 'Me') ? '(我)' : ''
-        const Icon = (Number(Who.tripType) === 1) ? 'car' : 'person'
+        const Icon = (Number(Who.tripType) === 1) ? 'car-1' : 'person-1'
         markers.push({
           // iconPath: Who.userInfo.avatarUrl,
           iconPath: '../../../images/common/' + Icon+'.png',

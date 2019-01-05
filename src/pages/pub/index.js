@@ -44,6 +44,9 @@ Page({
   },
   // 获取我的行程列表
   getMyPubList() {
+    this.setData({
+      myPubList: null,
+    })
     wx.showLoading({
       title: Tips.wx.showLoading,
     })
@@ -81,6 +84,9 @@ Page({
   },
   // 获取匹配的行程列表
   getMatchPubList(index){
+    this.setData({
+      matchPubList: null,
+    })
     const _ = db.command
     let query = {
       status: 1,
