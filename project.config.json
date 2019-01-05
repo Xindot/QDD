@@ -35,7 +35,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 4,
 			"list": [
 				{
 					"id": 0,
@@ -60,6 +60,12 @@
 					"name": "设置联系方式",
 					"pathName": "pages/me/contact/index",
 					"query": "uid=XCwxYHffS3SWbVWo"
+				},
+				{
+					"id": -1,
+					"name": "查看行程",
+					"pathName": "pages/pub/detail/index",
+					"query": ""
 				}
 			]
 		}

@@ -6,7 +6,7 @@
   height:44px;
   line-height:44px;
   font-size: 14px;
-  opacity: .5;
+  opacity: .3;
 }
 .fb-header .fb-tab-one.active{
   opacity: 1;
@@ -43,5 +43,5 @@
   background-color: #fff;
 }
 .fb-list-tips > text{
-  opacity: .5;
+  opacity: .3;
 }

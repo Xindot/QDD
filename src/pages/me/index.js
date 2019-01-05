@@ -81,9 +81,9 @@ Page({
       if (res.errMsg === 'collection.get:ok' && res.data instanceof Array) {
         let myPubList = res.data || []
         myPubList.forEach(n => {
-          n.disABshow = app.disABFormat(n.disAB)
+          n.disABshow = app.distanceFormat(n.disAB)
           const disABrate = app.globalData.disABrate || 0.5
-          n.disABmoney = '￥' + ((Number(n.disAB / 1000) * disABrate).toFixed(2))
+          n.disABmoney = ((Number(n.disAB / 1000) * disABrate).toFixed(0))
         })
         this.setData({
           myPubList,

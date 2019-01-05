@@ -2,6 +2,7 @@
   "pages":[
     "pages/pub/index",
     "pages/pub/add/index",
+    "pages/pub/detail/index",
     "pages/me/index",
     "pages/me/login/index",
     "pages/me/contact/index",

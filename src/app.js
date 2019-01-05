@@ -259,16 +259,16 @@ App({
       }
     })
   },
-  disABFormat(disAB) {
-    let disABShow = {
-      num: Number(Number(disAB).toFixed(1)),
+  distanceFormat(distance) {
+    let distanceShow = {
+      num: Number(Number(distance).toFixed(1)),
       unit: 'm'
     }
-    if (Number(disAB) > 1000) {
-      disABShow.num = Number((Number(disAB) / 1000).toFixed(1))
-      disABShow.unit = 'km'
+    if (Number(distance) > 1000) {
+      distanceShow.num = Number((Number(distance) / 1000).toFixed(1))
+      distanceShow.unit = 'km'
     }
-    return disABShow.num + disABShow.unit
+    return distanceShow.num + distanceShow.unit
   },
   globalData:{
     Version,
