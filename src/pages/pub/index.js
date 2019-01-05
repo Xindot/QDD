@@ -46,6 +46,7 @@ Page({
   getMyPubList() {
     this.setData({
       myPubList: null,
+      matchPubList: null,
     })
     wx.showLoading({
       title: Tips.wx.showLoading,
