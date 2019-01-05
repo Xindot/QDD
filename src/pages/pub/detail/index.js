@@ -24,19 +24,19 @@ Page({
       const points = [{
         longitude: Me.pointA.longitude,
         latitude: Me.pointA.latitude,
-        sige: 'Me',
+        sige: 'Me.A',
       }, {
         longitude: Ta.pointA.longitude,
         latitude: Ta.pointA.latitude,
-        sige: 'Ta',
+        sige: 'Ta.A',
       }, {
         longitude: Ta.pointB.longitude,
         latitude: Ta.pointB.latitude,
-        sige: 'Ta',
+        sige: 'Ta.B',
       }, {
         longitude: Me.pointB.longitude,
         latitude: Me.pointB.latitude,
-        sige: 'Me',
+        sige: 'Me.B',
       }]
       // const includePoints = points.slice(0,1)
       const polyline = [{
@@ -47,19 +47,19 @@ Page({
       }]
       const markers = []
       points.forEach(n=>{
-        const Who = (n.sige === 'Me') ? Me: Ta
-        const SF = (n.sige === 'Me') ? '(我)' : ''
-        const Icon = (Number(Who.tripType) === 1) ? 'car-1' : 'person-1'
+        const PUB = (n.sige.indexOf('Me')>=0) ? Me: Ta
+        const RM = (n.sige.indexOf('Me') >= 0) ? '(我)' : (n.sige.indexOf('.A') >= 0) ? '(' + Ta.disAAshow + ')' : '('+Ta.disBBshow+')'
+        const Icon = (Number(PUB.tripType) === 1) ? 'car-1' : 'person-1'
         markers.push({
-          // iconPath: Who.userInfo.avatarUrl,
+          // iconPath: PUB.userInfo.avatarUrl,
           iconPath: '../../../images/common/' + Icon+'.png',
-          id: Who._id,
+          id: PUB._id,
           longitude: n.longitude,
           latitude: n.latitude,
           width: 15,
           height: 15,
           callout: {
-            content: Who.userInfo.nickName + SF,
+            content: PUB.userInfo.nickName + RM,
             fontSize: 10,
             color: '#666666',
             bgColor:'#ffffff',
