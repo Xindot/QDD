@@ -58,8 +58,8 @@
               </view>
             </view>
             <view>
-              <text wx:if="{{pubForm.disABmoney}}" style="font-size:18px;vertical-align: top;">￥</text>
-              <input type="digit" disabled placeholder="{{item.placeholder}}" value="{{pubForm.disABmoney}}" bindinput="disABmoneyChange" class="{{pubForm.disABmoney?'':'empty'}}" maxlength="6"/>
+              <text wx:if="{{pubForm.disABmoney}}" style="font-size:18px;vertical-align:6px;">￥</text>
+              <input type="digit" placeholder="{{item.placeholder}}" value="{{pubForm.disABmoney}}" bindinput="disABmoneyChange" class="{{pubForm.disABmoney?'':'empty'}}" maxlength="6"/>
             </view>
           </view>
         </view>

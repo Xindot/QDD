@@ -10,8 +10,8 @@
         <view class="ellipsis" style="font-size:12px;color:#666;">
           <text>{{item.pointA.name}}</text>
         </view>
-        <view class="ellipsis" style="font-size:12px;color:#666;">
-          <image src="../../images/common/time.png" style="width:10px;height:10px;vertical-align:-1px;margin-right:2px;" mode="aspectFit"></image>
+        <view class="ellipsis" style="font-size:12px;">
+          <!-- <image src="../../images/common/time.png" style="width:10px;height:10px;vertical-align:-1px;margin-right:2px;" mode="aspectFit"></image> -->
           <text>{{item.tripTimeShow||item.tripTime}}</text>
           <text wx:if="{{item.tripTime<nowTime}}" style="color:red;">·过期</text>
         </view>
@@ -19,7 +19,7 @@
 
       <view class="point-go">
         <view style="font-size:12px;">
-          <image src="../../images/common/{{item.tripType==1?'car':'person'}}.png" style="width:14px;height:14px;vertical-align:-2px;margin-right:2px;" mode="widthFix"></image>
+          <image src="../../images/common/{{item.tripType==1?'car':'person'}}.png" style="width:14px;height:14px;vertical-align:-3px;margin-right:2px;" mode="widthFix"></image>
           <text>{{item.tripPerson}}{{item.tripType==1?'座':'人'}}</text>
         </view>
         <view style="font-size:0;">
@@ -43,8 +43,8 @@
         <view class="ellipsis" style="font-size:12px;color:#666;">
           <text>{{item.pointB.name}}</text>              
         </view>
-        <view class="ellipsis" style="font-size:12px;color:#666;">
-          <image src="../../images/common/remark.png" style="width:10px;height:10px;vertical-align:-1px;margin-right:2px;" mode="aspectFit"></image>
+        <view class="ellipsis" style="font-size:12px;">
+          <!-- <image src="../../images/common/remark.png" style="width:10px;height:10px;vertical-align:-1px;margin-right:2px;" mode="aspectFit"></image> -->
           <text wx:if="{{item.remark}}">{{item.remark}}</text>
           <text wx:if="{{!item.remark}}" style="color:#ccc;">暂无备注</text>
         </view>

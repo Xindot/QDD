@@ -125,5 +125,32 @@ Page({
         wx.stopPullDownRefresh()
       })
     }
+  },
+  delOne(e){
+    console.log(e)
+    const fbid = e.currentTarget.id
+    if(fbid){
+      wx.showModal({
+        title: '确定删除？',
+        content: '该操作不可恢复',
+        success: (res) => {
+          if (res.confirm) {
+            db.collection('xpc_feedback').doc(fbid).remove().then(res => {
+              // console.log(res)
+              if (res.errMsg === 'document.remove:ok') {
+                this.getMyFeedbackList()
+                wx.showToast({
+                  title: '删除成功',
+                  icon: 'success',
+                  duration: 1500
+                })
+              }
+            }).catch(err => {
+              console.error(err)
+            })
+          }
+        }
+      })
+    }
   }
 })

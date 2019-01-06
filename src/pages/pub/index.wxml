@@ -7,9 +7,9 @@
       <view wx:for="{{myPubList}}" wx:key="{{index}}" class="my-trip-one {{selectMyPubIndex==index?'selected':''}}" style="width:{{100/myPubList.length}}%;" data-idx="{{index}}" bindtap="selectOnePub">
         <view class="ellipsis">
           <text>{{item.pointA.ssx}}</text>
-          <view style="font-size:0;color:#666;display:inline-block;margin:0 1px;">
+          <view style="font-size:0;display:inline-block;margin:0 1px;">
             <view>
-              <image src="../../images/common/{{item.tripType==1?'car':'person'}}.png" style="width:12px;height:12px;vertical-align:-2px;" mode="widthFix"></image>
+              <image src="../../images/common/{{item.tripType==1?'car':'person'}}.png" style="width:12px;height:12px;vertical-align:-2px;margin-right:1px;" mode="widthFix"></image>
               <text style="font-size:10px;">{{item.tripPerson}}</text>
             </view>
             <view>
@@ -18,7 +18,7 @@
           </view>
           <text>{{item.pointB.ssx}}</text>
         </view>
-        <view class="ellipsis" style="font-size:10px;color:#666;">
+        <view class="ellipsis" style="font-size:10px;">
           <text>{{item.tripTimeShow||item.tripTime}}</text>
           <text wx:if="{{item.tripTime<nowTime}}" style="color:red;">·过期</text>
         </view>

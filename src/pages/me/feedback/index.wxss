@@ -5,7 +5,7 @@
   text-align:center;
   height:44px;
   line-height:44px;
-  font-size: 14px;
+  font-size: 18px;
   opacity: .3;
 }
 .fb-header .fb-tab-one.active{
@@ -15,7 +15,7 @@
 /* 主体 */
 .fb-submit textarea {
   padding: 10px;
-  font-size: 14px;
+  font-size: 18px;
   width: 100%;
   background-color: #fff;
   box-sizing:border-box;
@@ -27,6 +27,7 @@
   height:50px;
   line-height:50px;
   margin-top:10px;
+  font-size: 18px;
 }
 .fb-list-one{
   background-color: #fff;
@@ -36,7 +37,7 @@
   border-top: dashed 1px #efefef;
 }
 .fb-list-tips {
-  font-size: 14px;
+  font-size: 18px;
   text-align: center;
   padding: 15px;
   background-color: #fff;

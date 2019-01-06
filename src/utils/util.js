@@ -106,16 +106,16 @@ const Rad = (d) => {
 
 
 // JS 正则表达式从地址中提取省市县 https://www.jb51.net/article/149398.htm
-// const reg = /.+?(省|市|自治区|自治州|县|区)/g;
+// const reg = /.+?(省|市|自治区|自治州|盟|县|区)/g;
 const extractStrS = (str) => {
-  return (str.match(/.+?(省|市|自治区|自治州|县)/g) || []).reverse()[0] || ''
+  return (str.match(/.+?(省|市|自治区|自治州|盟|县)/g) || []).reverse()[0] || ''
 }
 const extractSSX = (address) => {
   if (address) {
     address = address.replace(/（|）/g,'')
     let str0 = ((address.match(/\((.+?)\)/g) || []).reverse()[0] || '').replace(/(\(|\))/g,'') || ''
     let str1 = address.replace(/\((.+?)\)/g,'') || ''
-    return (extractStrS(str0) || extractStrS(str1) || '').replace(/(省|市|自治区|自治州|县)/g,'') || ''
+    return (extractStrS(str0) || extractStrS(str1) || '').replace(/(省|市|自治区|自治州|盟|县)/g,'') || ''
   } else {
     return ''
   }

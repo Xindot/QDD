@@ -47,7 +47,6 @@
   color:#000;
   display: inline-block;
   width: 80%;
-  vertical-align: top;
 }
 .picker-one input.empty {
   padding:15px;

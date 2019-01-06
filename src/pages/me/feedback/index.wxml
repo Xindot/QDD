@@ -12,15 +12,15 @@
     </view>
 
     <view wx:if="{{header.selectIndex==1}}" class="fb-list">
-      <view wx:if="{{fbList && fbList.length>0}}" wx:for="{{fbList}}" wx:key="{{index}}" class="fb-list-one">
-        <view style="font-size:12px;opacity:.5;">{{item.created_at}}</view>
-        <view style="font-size:15px;">{{item.content}}</view>
-        <view wx:if="{{item.reply}}" style="font-size:12px;color:green;">回复：{{item.reply}}</view>
+      <view wx:if="{{fbList && fbList.length>0}}" wx:for="{{fbList}}" wx:key="{{index}}" class="fb-list-one" id="{{item._id}}" bindlongpress="delOne">
+        <view style="font-size:14px;color:#666;">{{item.created_at}}</view>
+        <view style="font-size:18px;">{{item.content}}</view>
+        <view wx:if="{{item.reply}}" style="font-size:14px;color:green;">回复：{{item.reply}}</view>
       </view>
       <view wx:if="{{fbListTips}}" class="fb-list-tips">
         <text>{{fbListTips}}</text>
       </view>
     </view>
-    
+
   </view>
 </view>
