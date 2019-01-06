@@ -58,7 +58,7 @@
               </view>
             </view>
             <view>
-              <text wx:if="{{pubForm.disABmoney}}" style="font-size:18px;vertical-align:6px;">￥</text>
+              <text wx:if="{{pubForm.disABmoney}}" style="font-size:18px;vertical-align:-3px;">￥</text>
               <input type="digit" placeholder="{{item.placeholder}}" value="{{pubForm.disABmoney}}" bindinput="disABmoneyChange" class="{{pubForm.disABmoney?'':'empty'}}" maxlength="6"/>
             </view>
           </view>
