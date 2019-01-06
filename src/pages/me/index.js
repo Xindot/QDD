@@ -87,12 +87,14 @@ Page({
       if (res.errMsg === 'collection.get:ok' && res.data instanceof Array) {
         let myPubList = res.data || []
         myPubList.forEach(n => {
-          n.disABshow = app.distanceFormat(n.disAB)
-          if(!(n.disABmoney>0)){
-            const disABrate = app.globalData.disABrate || 0.5
-            n.disABmoney = ((Number(n.disAB / 1000) * disABrate).toFixed(0))
-          }
+          n.disABshow = util.distanceFormat(n.disAB)
           n.tripTimeShow = n.tripTime.replace(this.data.YEAR_, '')
+
+          const disABrate = app.globalData.disABrate || 0.5
+          const disAB = Number(n.disAB)
+          if (disAB > 0) {
+            n.disABmoneyVary = ((Number(disAB / 1000) * disABrate).toFixed(0))
+          }
         })
         const nowTime = util.formatTime(new Date(), '-:2')
         this.setData({

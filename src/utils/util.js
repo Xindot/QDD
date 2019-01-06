@@ -75,7 +75,6 @@ const base64 = {
   }
 }
 
-
 /**
  * 获取两个经纬度之间的距离
  * @param lng1 第一点的经度
@@ -85,6 +84,9 @@ const base64 = {
  * @returns {Number}
  */
 const distanceByLnglat = (lng1, lat1, lng2, lat2) => {
+  if(lng1===lng2 && lat1===lat1){
+    return 0
+  }
   var radLat1 = Rad(lat1);
   var radLat2 = Rad(lat2);
   var a = radLat1 - radLat2;
@@ -119,10 +121,24 @@ const extractSSX = (address) => {
   }
 }
 
+// 距离格式化
+const distanceFormat = (distance) => {
+  let distanceShow = {
+    num: Number(Number(distance).toFixed(1)),
+    unit: 'm'
+  }
+  if (Number(distance) > 1000) {
+    distanceShow.num = Number((Number(distance) / 1000).toFixed(1))
+    distanceShow.unit = 'km'
+  }
+  return distanceShow.num + distanceShow.unit
+}
+
 module.exports = {
   formatTime,
   indexOfArrSmallest,
   base64,
   distanceByLnglat,
   extractSSX,
+  distanceFormat,
 }

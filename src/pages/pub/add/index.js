@@ -8,6 +8,7 @@ Page({
     pid: null,
     nowTime: util.formatTime(new Date(), '-:2'),
     YEAR_: new Date().getFullYear() + '-',
+    disABrate: app.globalData.disABrate || 0.5,
     tripTypes: [{
       label: '人找车',
       person: '有几个人'
@@ -38,15 +39,11 @@ Page({
       remark: '',
       status: 1,
     },
-    disABShow: {
-      num: 0,
-      unit: 'm',
-      fee: 0,
-    },
+    disABShow: null,
     pickerList: [{
       mode: 'input',
-      label: '参考费用/人',
-      placeholder: '参考费用'
+      label: '行程参考费/人',
+      placeholder: '行程费'
     },{
       mode: 'date',
       value: '',
@@ -62,6 +59,8 @@ Page({
       label: '行程时间',
       placeholder: '啥时走'
     }],
+    distanceMin: 5000,
+    distanceMinShow: '5km',
     distanceV: false,
     submitBtn: {
       clickable: true,
@@ -77,12 +76,31 @@ Page({
       })
       this.getPubDetail(pid)
     }
+    this.getDisABrate()
+
+    this.setData({
+      distanceMinShow: util.distanceFormat(this.data.distanceMin)
+    })
   },
   onReady() {},
   onShow() {},
   onHide() {},
   onUnload() {},
   onPullDownRefresh() {},
+  getDisABrate(){
+    app.getGlobalConfig('disABrate', res => {
+      // console.log(res)
+      const disABrate = Number(res) || 0.5
+      if (disABrate > 0) {
+        console.log('disABrate=>', disABrate)
+        this.setData({
+          disABrate,
+        })
+        app.globalData.disABrate = disABrate
+        wx.setStorageSync('disABrate', disABrate)
+      }
+    })
+  },
   // 获取行程详情
   getPubDetail(pid){
     const MyPubOneDetail = wx.getStorageSync('MyPubOneDetail')
@@ -231,23 +249,16 @@ Page({
       const disAB = util.distanceByLnglat(lngA, latA, lngB, latB) || 0
       // console.log('disAB=>',disAB)
       let distanceV = false
-      if(Number(disAB)>=(5*1000)){
+      if (Number(disAB) >= Number(this.data.distanceMin)){
         distanceV = true
       }
       const pubForm = this.data.pubForm
       pubForm.disAB = disAB
-      let disABShow = {
-        num: Number(Number(disAB).toFixed(1)),
-        unit: 'm'
-      }
-      if (Number(disAB) > 1000) {
-        disABShow.num = Number((Number(disAB)/1000).toFixed(1))
-        disABShow.unit = 'km'
-      }
-      if (!(pubForm.disABmoney>0)){
-        const disABrate = app.globalData.disABrate || 0.5
-        pubForm.disABmoney = ((Number(disAB / 1000) * disABrate).toFixed(0))
-      }
+
+      let disABShow = util.distanceFormat(disAB)
+
+      const disABrate = app.globalData.disABrate || 0.5
+      pubForm.disABmoney = ((Number(disAB / 1000) * disABrate).toFixed(0))
 
       this.setData({
         pubForm,

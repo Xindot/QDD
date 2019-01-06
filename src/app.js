@@ -14,6 +14,8 @@ App({
     this.getWXOPENID()
     // 获取七牛配置项
     this.getQNConfig()
+    // 获取距离参考费率
+    this.getDisABrate()
   },
   // 获取用户OPENID by缓存
   getWXOPENID(){
@@ -252,22 +254,35 @@ App({
       }
     })
   },
-  distanceFormat(distance) {
-    let distanceShow = {
-      num: Number(Number(distance).toFixed(1)),
-      unit: 'm'
-    }
-    if (Number(distance) > 1000) {
-      distanceShow.num = Number((Number(distance) / 1000).toFixed(1))
-      distanceShow.unit = 'km'
-    }
-    return distanceShow.num + distanceShow.unit
+  // 获取小程序配置项
+  getGlobalConfig(category,callback){
+    db.collection('xpc_config').where({
+      category,
+    }).get().then(res => {
+      if (res.errMsg === 'collection.get:ok' && res.data && res.data[0].content) {
+        const content = res.data[0].content
+        callback(content[category])   
+      }
+    })
+  },
+  // 获取距离参考费率
+  getDisABrate(){
+    this.getGlobalConfig('disABrate',res=>{
+      // console.log(res)
+      const disABrate = Number(res) || 0.5
+      if (disABrate > 0) {
+        console.log('disABrate=>', disABrate)
+        this.globalData.disABrate = disABrate
+        wx.setStorageSync('disABrate', disABrate)
+      }
+    })
   },
   globalData:{
     Version,
     ENV,
     db,
     showRefresh: false,
+    disABrate: .5,
     QNConfig: {
       upHost: 'https://up.qbox.me',
     },

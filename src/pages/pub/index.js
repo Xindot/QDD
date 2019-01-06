@@ -10,6 +10,7 @@ Page({
   data: {
     nowTime: util.formatTime(new Date(), '-:2'),
     YEAR_: new Date().getFullYear() + '-',
+    disABrate: app.globalData.disABrate || 0.5,
     pageName: 'pub',
     tripTypes: [{
       label: '人找车',
@@ -67,11 +68,6 @@ Page({
       if (res.data instanceof Array) {
         let myPubList = res.data || []
         myPubList.forEach(n => {
-          n.disABshow = app.distanceFormat(n.disAB)
-          if (!(n.disABmoney > 0)) {
-            const disABrate = app.globalData.disABrate || 0.5
-            n.disABmoney = ((Number(n.disAB / 1000) * disABrate).toFixed(0))
-          }
           n.tripTimeShow = n.tripTime.replace(this.data.YEAR_, '')
         })
         const nowTime = util.formatTime(new Date(), '-:2')
@@ -104,9 +100,12 @@ Page({
     }
     let one
     if(index>=0){
+      const WXContext = wx.getStorageSync('WXContext')
+      const OPENID = WXContext.OPENID
       one = this.data.myPubList[index] || {}
       query = {
         ...query,
+        _openid: _.neq(OPENID),
         tripType: Number(one.tripType) === 1 ? 0 : 1,
         'pointA.address': db.RegExp({
           regexp: one.pointA.ssx
@@ -122,25 +121,37 @@ Page({
     setTimeout(function () {
       wx.hideLoading()
     }, Timeout.wx.hideLoading)
-    console.log('query=>',query)
+    // console.log('query=>',query)
     db.collection('xpc_pub').where(query).orderBy('tripTime', 'asc').get().then(res => {
       // console.log(res)
       if(res.data instanceof Array){
         let matchPubList = res.data || []
         matchPubList.forEach(n=>{
-          n.disABshow = app.distanceFormat(n.disAB)
-          if (!(n.disABmoney > 0)) {
-            const disABrate = app.globalData.disABrate || 0.5
-            n.disABmoney = ((Number(n.disAB / 1000) * disABrate).toFixed(0))
+          n.disABshow = util.distanceFormat(n.disAB)
+          n.tripTimeShow = n.tripTime.replace(this.data.YEAR_, '')
+
+          const disABrate = Number(app.globalData.disABrate) || 0.5
+
+          const disAB = Number(n.disAB)
+          if (disAB > 0) {
+            n.disABmoneyVary = ((Number(disAB / 1000) * disABrate).toFixed(0))
           }
+
           if(index>=0){
             n.disAA = util.distanceByLnglat(one.pointA.longitude, one.pointA.latitude, n.pointA.longitude, n.pointA.latitude)
-            n.disAAshow = app.distanceFormat(n.disAA)
+            n.disAAshow = util.distanceFormat(n.disAA)
 
             n.disBB = util.distanceByLnglat(one.pointB.longitude, one.pointB.latitude, n.pointB.longitude, n.pointB.latitude)
-            n.disBBshow = app.distanceFormat(n.disBB)
+            n.disBBshow = util.distanceFormat(n.disBB)
+
+            const disAABB = Number(n.disAA) + Number(n.disBB)
+            // console.log(disAABB)
+
+            if(disAABB>0){
+              n.disAABBmoneyVary = ((Number(disAABB / 1000) * disABrate).toFixed(0))
+            }
           }
-          n.tripTimeShow = n.tripTime.replace(this.data.YEAR_, '')
+          
         })
         this.setData({
           matchPubList,

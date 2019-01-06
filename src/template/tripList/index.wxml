@@ -28,8 +28,10 @@
         <view style="font-size:12px;color:#666;">
           <text>{{item.disABshow}}</text>            
         </view>
-        <view style="font-size:10px;color:#666;">
-          <text>约￥{{item.disABmoney}}/人</text>            
+        <view wx:if="{{item.disABmoneyVary}}" style="font-size:10px;color:#666;">
+          <text>约￥{{item.disABmoneyVary}}</text>
+          <text wx:if="{{item.disAABBmoneyVary>0}}">+{{item.disAABBmoneyVary}}</text>
+          <text>/人</text>
         </view>
       </view>
       

@@ -28,12 +28,11 @@
         </view>
       </view>
 
-      <view class="dis-AB" wx:if="{{disABShow.num>0}}">
+      <view class="dis-AB" wx:if="{{pubForm.disAB>0}}">
         <view style="color:#666;font-size:12px;">
-          <text>距离约</text>
-          <text style="color:#000;font-size:15px;">{{disABShow.num}}</text>
-          <text>{{disABShow.unit}}</text>
-          <text style="color:red;font-size:10px;" wx:if="{{!distanceV}}">「暂不支持小于5km的搭车」</text>
+          <text>距离约{{disABShow}}</text>
+          <text style="color:red;font-size:10px;" wx:if="{{!distanceV}}">「暂不支持小于{{distanceMinShow}}的行程」</text>
+          <text style="font-size:10px;" wx:if="{{distanceV}}">「当前行程参考费率￥{{disABrate}}/km」</text>
         </view>
       </view>
 
@@ -60,7 +59,7 @@
             </view>
             <view>
               <text wx:if="{{pubForm.disABmoney}}" style="font-size:18px;vertical-align: top;">￥</text>
-              <input type="digit" placeholder="{{item.placeholder}}" value="{{pubForm.disABmoney}}" bindinput="disABmoneyChange" class="{{pubForm.disABmoney?'':'empty'}}" maxlength="6"/>
+              <input type="digit" disabled placeholder="{{item.placeholder}}" value="{{pubForm.disABmoney}}" bindinput="disABmoneyChange" class="{{pubForm.disABmoney?'':'empty'}}" maxlength="6"/>
             </view>
           </view>
         </view>
