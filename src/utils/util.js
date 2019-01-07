@@ -17,31 +17,40 @@ const formatTime = (date,returnType) => {
   const ms = DATE.getMilliseconds()
   const week = DATE.getDay()
 
+  // yyyy/MM/dd hh:mm:ss
   if(returnType=='/:'){
     return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
   }
+  // yyyy-MM-dd hh:mm:ss
   if(returnType=='-:'){
     return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
   }
-  if (returnType == '-:2') {
+  // yyyy-MM-dd hh:mm
+  if (returnType == '-:4') {
     return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute].map(formatNumber).join(':')
   }
+  // yyyy-MM-dd
   if(returnType=='-'){
     return [year, month, day].map(formatNumber).join('-')
   }
+  // hh:mm
   if(returnType==':4'){
     return [hour, minute].map(formatNumber).join(':')
   }
+  // yyyyMMdd
   if(returnType=='8'){
     return [year, month, day].map(formatNumber).join('')
   }
+  // yyyy.MM.dd 星期w
   if(returnType=='CN'){
     const weeksCN = [ '日', '一', '二', '三', '四', '五', '六' ];
     return year+'.'+month+'.'+day+' 星期'+weeksCN[week];
   }
+  // yyyyMMddhhmmssSSS
   if(returnType=='19'){
     return [year, month, day, hour, minute, second, ms].map(formatNumber).join('')
   }
+  // yyyyMMdd
   return [year, month, day].map(formatNumber).join('')
 }
 
@@ -94,7 +103,6 @@ const distanceByLnglat = (lng1, lat1, lng2, lat2) => {
   var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
   s = s * 6378137.0; // 取WGS84标准参考椭球中的地球长半径(单位:m)
   s = Math.round(s * 10000) / 10000;
-  // alert(s);
   return s
   // //下面为两点间空间距离（非球面体）
   // var value= Math.pow(Math.pow(lng1-lng2,2)+Math.pow(lat1-lat2,2),1/2);

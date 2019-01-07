@@ -6,7 +6,7 @@ const db = app.globalData.db
 Page({
   data: {
     pid: null,
-    nowTime: util.formatTime(new Date(), '-:2'),
+    nowTime: util.formatTime(new Date(), '-:4'),
     YEAR_: new Date().getFullYear() + '-',
     disABrate: app.globalData.disABrate || 0.5,
     tripTypes: [{
@@ -42,14 +42,16 @@ Page({
     disABShow: null,
     pickerList: [{
       mode: 'input',
-      label: '行程参考费/人',
+      label: '行程费用',
+      labels: '/人(可自定)',
       placeholder: '行程费'
     },{
       mode: 'date',
       value: '',
       start: util.formatTime(new Date(), '-') || '',
-      end: '',
+      end: util.formatTime(new Date(new Date().getTime() + 30 * 24 * 3600 * 1000),'-')||'',
       label: '行程日期',
+      labels: '/近30天',
       placeholder: '哪天走'
     }, {
       mode: 'time',
@@ -57,6 +59,7 @@ Page({
       start: '',
       end: '',
       label: '行程时间',
+      labels: '/避开夜间',
       placeholder: '啥时走'
     }],
     distanceMin: 5000,
@@ -258,7 +261,10 @@ Page({
       let disABShow = util.distanceFormat(disAB)
 
       const disABrate = app.globalData.disABrate || 0.5
-      pubForm.disABmoney = ((Number(disAB / 1000) * disABrate).toFixed(0))
+      pubForm.disABmoneyVary = ((Number(disAB / 1000) * disABrate).toFixed(0))
+      if(!(pubForm.disABmoney>0)){
+        pubForm.disABmoney = pubForm.disABmoneyVary
+      }
 
       this.setData({
         pubForm,
@@ -269,7 +275,7 @@ Page({
   },
   // 选择日期 或 选择时间
   bindPickerChange(e){
-    console.log(e)
+    // console.log(e)
     const mode = e.currentTarget.dataset.mode || ''
     const pickerList = this.data.pickerList
     pickerList.forEach(n=>{

@@ -9,7 +9,7 @@ const Version = app.globalData.Version
 Page({
   data: {
     Version,
-    nowTime: util.formatTime(new Date(), '-:2'),
+    nowTime: util.formatTime(new Date(), '-:4'),
     YEAR_: new Date().getFullYear() + '-',
     pageName: 'me',
     userInfo: null,
@@ -96,7 +96,7 @@ Page({
             n.disABmoneyVary = ((Number(disAB / 1000) * disABrate).toFixed(0))
           }
         })
-        const nowTime = util.formatTime(new Date(), '-:2')
+        const nowTime = util.formatTime(new Date(), '-:4')
         this.setData({
           nowTime,
           myPubList,

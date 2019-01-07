@@ -8,7 +8,7 @@ const Tips = app.globalData.Tips
 
 Page({
   data: {
-    nowTime: util.formatTime(new Date(), '-:2'),
+    nowTime: util.formatTime(new Date(), '-:4'),
     YEAR_: new Date().getFullYear() + '-',
     disABrate: app.globalData.disABrate || 0.5,
     pageName: 'pub',
@@ -51,6 +51,7 @@ Page({
   getMyPubList() {
     this.setData({
       myPubList: null,
+      matchPubList: null,
     })
     wx.showLoading({
       title: Tips.wx.showLoading,
@@ -70,16 +71,20 @@ Page({
         myPubList.forEach(n => {
           n.tripTimeShow = n.tripTime.replace(this.data.YEAR_, '')
         })
-        const nowTime = util.formatTime(new Date(), '-:2')
+        const nowTime = util.formatTime(new Date(), '-:4')
         this.setData({
           nowTime,
           myPubList,
         })
         if(myPubList.length>0){
+          let selectMyPubIndex = this.data.selectMyPubIndex || 0
+          if (selectMyPubIndex > myPubList.length-1){
+            selectMyPubIndex = 0
+          }
           this.setData({
-            selectMyPubIndex: 0
+            selectMyPubIndex,
           })
-          this.getMatchPubList(0)          
+          this.getMatchPubList(selectMyPubIndex)          
         }else{
           this.getMatchPubList(-1)
         }

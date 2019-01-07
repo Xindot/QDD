@@ -32,7 +32,7 @@
         <view style="color:#666;font-size:12px;">
           <text>距离约{{disABShow}}</text>
           <text style="color:red;font-size:10px;" wx:if="{{!distanceV}}">「暂不支持小于{{distanceMinShow}}的行程」</text>
-          <text style="font-size:10px;" wx:if="{{distanceV}}">「当前行程参考费率￥{{disABrate}}/km」</text>
+          <text style="font-size:10px;" wx:if="{{distanceV}}">「费用约￥{{pubForm.disABmoneyVary}}，参考费率￥{{disABrate}}/km」</text>
         </view>
       </view>
 
@@ -40,8 +40,9 @@
         <view class="picker-one" wx:for="{{pickerList}}" wx:key="{{index}}" style="width:{{100/pickerList.length}}%;">
           <picker wx:if="{{item.mode=='date'||item.mode=='time'}}" mode="{{item.mode}}" value="{{item.value}}" start="{{item.start}}" end="{{item.end}}" data-mode="{{item.mode}}" bindchange="bindPickerChange">
             <view wx:if="{{item.value}}">
-              <view style="color:#666;font-size:14px;">
+              <view class="ellipsis" style="color:#666;font-size:14px;">
                 <text>{{item.label}}</text>
+                <text style="font-size:8px;">{{item.labels}}</text>
               </view>
               <view style="font-size:18px;">
                 <text>{{item.showValue||item.value}}</text>            
@@ -53,8 +54,9 @@
           </picker>
           <view wx:if="{{item.mode=='input'}}">
             <view wx:if="{{pubForm.disABmoney}}">
-              <view style="color:#666;font-size:14px;">
+              <view class="ellipsis" style="color:#666;font-size:14px;">
                 <text>{{item.label}}</text>
+                <text style="font-size:8px;">{{item.labels}}</text>
               </view>
             </view>
             <view>
