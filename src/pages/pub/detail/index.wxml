@@ -84,23 +84,44 @@
 
   <view>
     <view class="ta-userInfo">
+
       <view style="display:inline-block;width:15%;text-align:center;">
-        <image src="{{taUserInfo.avatarUrl}}" style="width:38px;height:38px;border-radius:50px;border:solid 1px #efefef;vertical-align:middle;" mode="widthFix"></image>
+        <!-- <image src="{{taUserInfo.avatarUrl}}" style="width:38px;height:38px;border-radius:50px;border:solid 1px #efefef;vertical-align:middle;" mode="widthFix"></image> -->
+        <image src="../../../images/common/{{taUserInfo.tripType==1?'car':'person'}}.png" style="width:38px;height:38px;vertical-align:-13px;" mode="widthFix"></image>
       </view>
-      <view style="display:inline-block;width:70%;height:40px;text-align:left;padding-left:10px;box-sizing:border-box;vertical-align:top;position:relative;">
+
+      <view style="display:inline-block;width:30%;height:40px;text-align:left;padding-left:5px;box-sizing:border-box;vertical-align:top;position:relative;">
         <view class="ttY-50" style="position:absolute;top:50%;">
-          <view style="font-size:14px;vertical-align:20px;">
+          <view class="ellipsis" style="font-size:14px;">
             <text>{{taUserInfo.nickName}}</text>
           </view>
-          <view style="font-size:12px;color:#666;">
+          <view class="ellipsis" style="font-size:12px;color:#666;">
             <text>{{taUserInfo.city}}</text>    
           </view>
         </view>
       </view>
+
+      <view style="display:inline-block;width:40%;height:40px;text-align:left;padding-left:5px;box-sizing:border-box;vertical-align:top;position:relative;" data-wxh="{{taUserInfo.otherContact}}" bindtap="wxSetClipboardData">
+        <view class="ttY-50" style="position:absolute;top:50%;">
+          <view class="ellipsis" style="font-size:14px;color:#666;">
+            <text>微信号</text>
+            <text style="font-size:10px;">「点击复制」</text>
+          </view>
+          <view class="ellipsis" style="font-size:14px;">
+            <text>{{taUserInfo.otherContact}}</text>
+          </view>
+        </view>
+      </view>
+
       <view wx:if="{{taUserInfo.phone}}" style="display:inline-block;width:15%;font-size:0;text-align:center;height:40px;box-sizing:border-box;padding:5px 0;" data-phone="{{taUserInfo.phone}}" bindtap="callPhone">
         <image src="../../../images/common/phone.png" style="width:30px;height:30px;margin-right:1px;vertical-align:-10px;"></image>
       </view>
     </view>
+
+    <view class="footer-tips">
+      <text>以上信息仅供参考，如有错误请及时反馈</text>
+    </view>
+
   </view>
 
 </view>

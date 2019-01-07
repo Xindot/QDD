@@ -82,7 +82,7 @@ Page({
     db.collection('xpc_pub').where({
       _openid: OPENID,
       status: 1
-    }).orderBy('tripTime', 'asc').get().then(res => {
+    }).orderBy('tripTime', 'asc').limit(3).get().then(res => {
       // console.log(res)
       if (res.errMsg === 'collection.get:ok' && res.data instanceof Array) {
         let myPubList = res.data || []

@@ -245,6 +245,7 @@ Page({
   markertap(e) {
     // console.log(e.markerId)
   },
+  // 点击切换按钮
   controltap(e) {
     const selectArea = this.data.mapExtra.selectArea
     const DS = (selectArea === 'A') ? 'AB' : (selectArea === 'AB') ? 'B' : 'A'
@@ -260,6 +261,7 @@ Page({
     this.setMap(DS)
     this.setTripPoints(DS)
   },
+  // 打电话
   callPhone(e){
     const phoneNumber = e.currentTarget.dataset.phone || ''
     if (phoneNumber){
@@ -268,4 +270,20 @@ Page({
       })
     }
   },
+  // 复制微信号
+  wxSetClipboardData(e){
+    const wxh = e.currentTarget.dataset.wxh || ''
+    if(wxh){
+      wx.setClipboardData({
+        data: wxh,
+        success:(res)=> {
+          wx.getClipboardData({
+            success:(res)=> {
+              console.log(res.data)
+            }
+          })
+        }
+      })
+    }
+  }
 })

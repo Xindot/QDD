@@ -13,7 +13,7 @@
         <view class="ellipsis" style="font-size:12px;">
           <text>{{item.tripTimeShow||item.tripTime}}</text>
           <text wx:if="{{item.tripTime<nowTime}}" style="color:red;margin-left:2px;">!过期</text>
-          <text wx:if="{{item.timeDifShow}}" style="color:red;margin-left:2px;">!差约{{item.timeDifShow}}</text>
+          <text wx:if="{{item.timeDifShow}}" style="color:red;margin-left:2px;">!差{{item.timeDifShow}}</text>
         </view>
       </view>
 

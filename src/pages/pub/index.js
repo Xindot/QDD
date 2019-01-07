@@ -64,7 +64,7 @@ Page({
     db.collection('xpc_pub').where({
       _openid: OPENID,
       status: 1
-    }).orderBy('tripTime', 'asc').get().then(res => {
+    }).orderBy('tripTime', 'asc').limit(3).get().then(res => {
       // console.log(res)
       if (res.data instanceof Array) {
         let myPubList = res.data || []
@@ -127,7 +127,7 @@ Page({
       wx.hideLoading()
     }, Timeout.wx.hideLoading)
     // console.log('query=>',query)
-    db.collection('xpc_pub').where(query).orderBy('tripTime', 'asc').get().then(res => {
+    db.collection('xpc_pub').where(query).orderBy('tripTime', 'asc').limit(100).get().then(res => {
       // console.log(res)
       if(res.data instanceof Array){
         let matchPubList = res.data || []
