@@ -142,7 +142,6 @@ Page({
                 wx.showToast({
                   title: '删除成功',
                   icon: 'success',
-                  duration: 1500
                 })
               }
             }).catch(err => {

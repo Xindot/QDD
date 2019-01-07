@@ -20,8 +20,8 @@ Page({
     myPubList: null,
     selectMyPubIndex: 0,
     matchPubList: null,
-    wheel: {
-      loader: false 
+    errTips: {
+      server: ''
     }
   },
   onLoad() {
@@ -155,6 +155,23 @@ Page({
             if(disAABB>0){
               n.disAABBmoneyVary = ((Number(disAABB / 1000) * disABrate).toFixed(0))
             }
+
+            if (n.tripTime&&one.tripTime){
+              n.timeDifShow = util.timeDifferenceFormat(n.tripTime, one.tripTime)
+            }
+
+            // console.log(n.tripPerson, one.tripPerson, one.tripType)
+            if (Number(n.tripPerson)>0 && Number(one.tripPerson)>0) {
+              // 如果我是乘客 且乘客人数大于司机座位数
+              if (Number(one.tripType) === 0 && (Number(one.tripPerson) > Number(n.tripPerson))){
+                n.personDifshow = '座位不足'
+              }
+              // 如果我是司机 且我的座位数小于乘客人数
+              if (Number(one.tripType) === 1 && (Number(one.tripPerson) < Number(n.tripPerson))) {
+                n.personDifshow = '座位不足'
+              }
+            }
+
           }
           
         })

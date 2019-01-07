@@ -19,7 +19,7 @@ Page({
       label: '车找人',
     }],
     myPubList: null,
-    list2: ['意见或建议', '用户使用须知'],
+    list2: ['意见或建议', ''], //用户使用须知
     contactList: [{
       label: '手机号',
       key: 'phone',

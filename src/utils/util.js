@@ -142,6 +142,19 @@ const distanceFormat = (distance) => {
   return distanceShow.num + distanceShow.unit
 }
 
+// 计算两个时间差并格式化
+const timeDifferenceFormat = (t1Str,t2Str) => {
+  t1Str = t1Str.replace(/-/g, '/')
+  t2Str = t2Str.replace(/-/g,'/')
+  const hours = Math.abs((new Date(t1Str).getTime() - new Date(t2Str).getTime())/(1000*3600))
+  if (hours<24){
+    return Number(hours).toFixed(0) + 'h'
+  }else{
+    return (Number(hours)/24).toFixed(0) + '天'
+  }
+}
+
+
 module.exports = {
   formatTime,
   indexOfArrSmallest,
@@ -149,4 +162,5 @@ module.exports = {
   distanceByLnglat,
   extractSSX,
   distanceFormat,
+  timeDifferenceFormat,
 }

@@ -40,7 +40,7 @@
       </view>
     </view>
 
-    <view wx:for="{{list2}}" wx:key="{{index}}" data-text="{{item}}" bindtap="goPage" class="me-list-one">
+    <view wx:for="{{list2}}" wx:key="{{index}}" wx:if="{{item}}" data-text="{{item}}" bindtap="goPage" class="me-list-one">
       <text>{{item}}</text>
     </view>
   </view>

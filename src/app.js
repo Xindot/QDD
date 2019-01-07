@@ -16,7 +16,23 @@ App({
     this.getQNConfig()
     // 获取距离参考费率
     this.getDisABrate()
+    // 监听网络状态变化事件
+    // this.getNetWork()
   },
+  // 监听网络状态变化事件
+  // getNetWork(){
+  //   wx.getNetworkType({
+  //     success:(res)=> {
+  //       console.log(res)
+  //       const networkType = res.networkType
+  //     }
+  //   })
+  //   wx.onNetworkStatusChange((res)=> {
+  //     console.log(res)
+  //     console.log(res.isConnected)
+  //     console.log(res.networkType)
+  //   })
+  // },
   // 获取用户OPENID by缓存
   getWXOPENID(){
     try {
