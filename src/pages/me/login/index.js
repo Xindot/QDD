@@ -14,23 +14,23 @@ Page({
   },
   onLoad(options) {
     // 查看是否授权
-    wx.getSetting({
-      success:(res)=> {
-        console.log(res)
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-          wx.getUserInfo({
-            success:(res)=> {
-              const wxUserInfo = res.userInfo
-              // console.log('getUserInfo,0=>', wxUserInfo)
-              this.addUserToDB(wxUserInfo)
-            }
-          })
-        } else {
-          // this.wxOpenSetting()
-        }
-      }
-    })
+    // wx.getSetting({
+    //   success:(res)=> {
+    //     console.log(res)
+    //     if (res.authSetting['scope.userInfo']) {
+    //       // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+    //       wx.getUserInfo({
+    //         success:(res)=> {
+    //           const wxUserInfo = res.userInfo
+    //           // console.log('getUserInfo,0=>', wxUserInfo)
+    //           this.addUserToDB(wxUserInfo)
+    //         }
+    //       })
+    //     } else {
+    //       // this.wxOpenSetting()
+    //     }
+    //   }
+    // })
   },
   onReady() {},
   onShow() {},
@@ -127,7 +127,7 @@ Page({
           }
           wx.showModal({
             title: '',
-            content: '登录成功',
+            content: '授权登录成功',
             showCancel: false,
             success: (res) => {
               if (res.confirm) {

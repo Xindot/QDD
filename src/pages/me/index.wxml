@@ -1,17 +1,17 @@
 <view class="me-box">
 	<view style="text-align:center;padding:10px 0;">
-    <view wx:if="{{userInfo.nickName}}">
+    <view wx:if="{{dbUserInfo.nickName}}">
       <view>
-        <image wx:if="{{userInfo.avatarUrl}}" style="width: 50px; height: 50px;font-size: 0;border-radius: 50px;vertical-align:middle;" src="{{userInfo.avatarUrl}}"></image>
+        <image wx:if="{{dbUserInfo.avatarUrl}}" style="width: 50px; height: 50px;font-size: 0;border-radius: 50px;vertical-align:middle;" src="{{dbUserInfo.avatarUrl}}"></image>
       </view>
       <view>
-        <text>{{userInfo.nickName}}</text>
+        <text>{{dbUserInfo.nickName}}</text>
       </view>
       <view style="color:#666;font-size: 12px;">
-        <text>{{userInfo.city}}</text>
+        <text>{{dbUserInfo.city}}</text>
       </view>
     </view>
-    <view wx:if="{{!userInfo.nickName}}" style="padding:10px 50px;"  data-text="微信登录" bindtap="goPage">
+    <view wx:if="{{!dbUserInfo.nickName}}" style="padding:10px 50px;"  data-text="微信登录" bindtap="goPage">
       <button type="primary">微信登录</button>
     </view>
 	</view>
@@ -34,21 +34,21 @@
 
   <view class="my-list-2">
 
-    <view class="contact-2 {{userInfo.phone?'':'empty'}}" bindtap="setContact">
+    <view class="contact-2 {{dbUserInfo.phone?'':'empty'}}" bindtap="setContact">
 
-      <view wx:if="{{userInfo.phone}}" style="color:#000;">
+      <view wx:if="{{dbUserInfo.phone}}" style="color:#000;">
         <view wx:for="{{contactList}}" wx:key="cl-{{index}}" class="contact-one">
           <view style="font-size:14px;color:#666">
             <text>{{item.label}}</text>
           </view>
           <view style="font-size:18px;">
-            <text wx:if="{{userInfo[item.key]}}">{{userInfo[item.key]}}</text>
-            <text wx:if="{{!userInfo[item.key]}}" style="opacity:0;">暂无</text>
+            <text wx:if="{{dbUserInfo[item.key]}}">{{dbUserInfo[item.key]}}</text>
+            <text wx:if="{{!dbUserInfo[item.key]}}" style="opacity:0;">暂无</text>
           </view>
         </view>
       </view>
 
-      <view wx:if="{{!userInfo.phone}}">
+      <view wx:if="{{!dbUserInfo.phone}}">
         <text>设置联系方式</text>    
       </view>
     </view>

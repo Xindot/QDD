@@ -12,7 +12,7 @@ Page({
     nowTime: util.formatTime(new Date(), '-:4'),
     YEAR_: new Date().getFullYear() + '-',
     pageName: 'me',
-    userInfo: null,
+    dbUserInfo: null,
     tripTypes: [{
       label: '人找车',
     }, {
@@ -66,10 +66,12 @@ Page({
     }).get().then(res => {
       // console.log(res)
       if (res.errMsg=== 'collection.get:ok'){
-        const dbUserInfo = res.data[0]
-        this.setData({
-          userInfo: dbUserInfo,
-        })
+        const dbUserInfo = res.data[0] || null
+        if (dbUserInfo){
+          this.setData({
+            dbUserInfo,
+          })
+        }
         app.setDBUserInfo(dbUserInfo)
       }
       wx.stopPullDownRefresh()

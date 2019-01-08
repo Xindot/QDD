@@ -215,19 +215,21 @@ Page({
       },
       fail:(err)=>{
         // console.log(err)
-        wx.showModal({
-          title: '您已设置【不允许使用我的地理位置】',
-          content: '如果需要开启，可以在小程序设置界面（「右上角」-「关于」-「右上角」-「设置」）中控制对该小程序的授权状态',
-          success: (res) => {
-            if (res.confirm) {
-              wx.openSetting({
-                success: (res) => {
-                  console.log(res.authSetting)
-                }
-              })
+        if (err.errMsg !='chooseLocation:fail cancel'){
+          wx.showModal({
+            title: '您已设置【不允许使用我的地理位置】',
+            content: '如果需要开启，可以在小程序设置界面（「右上角」-「关于」-「右上角」-「设置」）中控制对该小程序的授权状态',
+            success: (res) => {
+              if (res.confirm) {
+                wx.openSetting({
+                  success: (res) => {
+                    console.log(res.authSetting)
+                  }
+                })
+              }
             }
-          }
-        })
+          })
+        }
       }
     })
   },

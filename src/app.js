@@ -102,6 +102,8 @@ App({
         console.error(e)
       }
     }else{
+      this.globalData.dbUserInfo = null
+      this.globalData.insertUserInfo = null
       try {
         wx.removeStorageSync('dbUserInfo')
         wx.removeStorageSync('insertUserInfo')
