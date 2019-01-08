@@ -6,11 +6,11 @@
 }
 
 .set-map-up {
-  height: 40px;
+  height: 44px;
   text-align: center;
   background-color: #fff;
   font-size: 14px;
-  padding: 10px;
+  padding: 12px;
   border-bottom: dashed 1px #efefef;
   box-sizing: border-box;
   color: #999;
@@ -22,7 +22,7 @@
 }
 .s-tab-one {
   display: inline-block;
-  padding: 10px 5px;
+  padding: 12px 5px;
   box-sizing: border-box;
   text-align: center;
   border-bottom: dashed 1px #efefef;

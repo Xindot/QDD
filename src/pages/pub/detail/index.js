@@ -75,7 +75,7 @@ Page({
       const windowHeight = Number(SystemInfo.windowHeight) || 600
       if (windowHeight>0){
         this.setData({
-          'mapExtra.maxHeight': windowHeight - 40
+          'mapExtra.maxHeight': windowHeight - 44
         })
       }
     } catch (e) {
@@ -349,12 +349,24 @@ Page({
   wxOpenLocation(point){
     // console.log(point)
     if (point && point.longitude && point.latitude) {
-      wx.openLocation({
-        longitude: point.longitude,
-        latitude: point.latitude,
-        // scale: 18,
-        name: point.name,
-        address: point.address,
+      wx.showModal({
+        title: '温馨提示',
+        content: '点击新页面右下角按钮可选择导航方式',
+        cancelText: '取消导航',
+        cancelColor: '#666666',
+        confirmText: '去导航页',
+        // confirmColor: '',
+        success: (res) => {
+          if (res.confirm) {
+            wx.openLocation({
+              longitude: point.longitude,
+              latitude: point.latitude,
+              // scale: 18,
+              name: point.name,
+              address: point.address,
+            })
+          }
+        }
       })
     }
   }
