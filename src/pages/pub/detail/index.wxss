@@ -1,3 +1,20 @@
+.map {
+  transition: height .3s;
+  -moz-transition: height .3s;	/* Firefox 4 */
+  -webkit-transition: height .3s;	/* Safari 和 Chrome */
+  -o-transition: height .3s;	/* Opera */
+}
+
+.set-map-up {
+  height: 40px;
+  text-align: center;
+  background-color: #fff;
+  font-size: 14px;
+  padding: 10px;
+  border-bottom: dashed 1px #efefef;
+  box-sizing: border-box;
+  color: #666;
+}
 
 .s-tabs {
   background-color: #fff;
@@ -8,13 +25,20 @@
   padding: 10px 5px;
   box-sizing: border-box;
   text-align: center;
-  color: #ccc;
   border-bottom: dashed 1px #efefef;
 }
+.s-tab-one > text,
+.s-tab-one > image {
+  opacity: .3;
+}
 .s-tab-one.selected {
-  color: #000;
   border-bottom: none;
 }
+.s-tab-one.selected > text,
+.s-tab-one.selected > image {
+  opacity: 1;
+}
+
 .s-tab-one + .s-tab-one {
   border-left: dashed 1px #efefef;
 }
@@ -39,7 +63,6 @@
   text-align: center;
   font-size: 0;
   height: 40px;
-  padding: 5px 0;
   box-sizing: border-box;
 }
 .t-point-one .right {
@@ -48,6 +71,7 @@
   text-align: left;
   vertical-align:top;
   height: 40px;
+  box-sizing: border-box;
 }
 
 .t-t-info {
@@ -55,13 +79,14 @@
   border-top: dashed 1px #efefef;
   padding: 5px 10px;
   font-size: 14px;
+  word-break: break-all;
 }
 
 .ta-userInfo {
   background-color: #fff;
-  padding: 10px;
+  padding: 5px;
   border-top: dashed 1px #efefef;
-  height:60px;
+  height:50px;
   box-sizing:border-box;
 }
 .ttY-50 {
@@ -71,10 +96,17 @@
   -webkit-transform:translateY(-50%);
   -o-transform:translateY(-50%);
 }
+.ttY-100 {
+  transform:translateY(-100%);
+  -ms-transform:translateY(-100%);
+  -moz-transform:translateY(-100%);
+  -webkit-transform:translateY(-100%);
+  -o-transform:translateY(-100%);
+}
 
 .footer-tips {
   background-color: #fff;
-  padding: 10px;
+  padding: 5px;
   box-sizing: border-box;
   text-align: center;
   font-size: 12px;

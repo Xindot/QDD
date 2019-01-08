@@ -1,6 +1,6 @@
 <view>
   <view>
-    <map id="map" 
+    <map id="map" class="map"
     longitude="{{map.center.longitude}}" 
     latitude="{{map.center.latitude}}" 
     scale="{{map.scale}}" 
@@ -12,22 +12,31 @@
     bindmarkertap="markertap" 
     bindregionchange="regionchange" 
     show-location 
-    style="width: 100%; height: 300px;"></map>
+    style="width: 100%; height: {{mapExtra[mapExtra.hS+'Height']}}px;"></map>
+  </view>
+
+  <view wx:if="{{mapExtra.hS=='max'}}" class="set-map-up" bindtap="setMapUp" bindtouchend="setMapUp">
+    <text>收起</text>
   </view>
 
   <view wx:if="{{switchTabs}}" class="s-tabs">
     <view wx:for="{{switchTabs}}" wx:key="ss-{{index}}" class="s-tab-one {{ssTabIndex==index?'selected':''}}" style="width:{{100/switchTabs.length}}%;" data-idx="{{index}}" bindtap="selectOneTab">
-      <text>{{item.label}}</text>
+      <text wx:if="{{item.label!='go'}}">{{item.label}}</text>
+      <image wx:if="{{item.label=='go'}}" src="../../../images/common/go.png" style="width:100%;height:10px;vertical-align:3px;" mode="aspectFit"></image>
     </view>
   </view>
 
   <view wx:if="{{tripPoints}}" class="t-points">
     <view wx:for="{{tripPoints}}" wx:key="tp-{{index}}" class="t-point-one">
       <view class="left">
-        <image src="../../../images/common/{{item.Icon}}.png" style="width:30px;height:30px;vertical-align:middle;" mode="widthFix"></image>
+        <image src="../../../images/common/{{item.Icon}}.png" style="width:25px;height:25px;vertical-align:top;" mode="widthFix"></image>
+        <view class="ellipsis" style="font-size:10px;color:#666;">
+          <text>{{item.SF.userInfo.nickName}}</text>
+          <text>{{item.WHOstr}}</text>
+        </view>
       </view>
       <view class="right">
-        <view class="ellipsis" style="font-size:14px;">
+        <view class="ellipsis" style="font-size:15px;">
           <text>{{item.point.ssx}}·</text>
           <text>{{item.point.name}}</text>
         </view>
@@ -80,28 +89,32 @@
       <text wx:if="{{Ta.disBBshow}}">+{{Ta.disBBshow}}<text style="font-size:10px;color:#666;">(送)</text></text>
     </view>
 
+    <view wx:if="{{Ta.remark||Me.remark}}">
+      <image src="../../../images/common/remark.png" style="width:12px;height:12px;vertical-align:-1px;margin-right:2px;" mode="aspectFit"></image>
+      <text style="color:#666;">行程备注：</text>
+      <text wx:if="{{Ta.remark}}">{{Ta.remark}}</text>
+      <text wx:if="{{Ta.remark&&Me.remark}}" style="color:#ccc;margin:0 3px;">|</text>
+      <text wx:if="{{Me.remark}}">
+        <text>{{Me.remark}}</text>
+        <text style="font-size:10px;color:#666;">(我)</text>
+      </text>
+    </view>
+
   </view>
 
   <view>
     <view class="ta-userInfo">
 
-      <view style="display:inline-block;width:15%;text-align:center;">
+      <view style="display:inline-block;width:20%;text-align:center;height:40px;">
         <!-- <image src="{{taUserInfo.avatarUrl}}" style="width:38px;height:38px;border-radius:50px;border:solid 1px #efefef;vertical-align:middle;" mode="widthFix"></image> -->
-        <image src="../../../images/common/{{taUserInfo.tripType==1?'car':'person'}}.png" style="width:38px;height:38px;vertical-align:-13px;" mode="widthFix"></image>
-      </view>
-
-      <view style="display:inline-block;width:30%;height:40px;text-align:left;padding-left:5px;box-sizing:border-box;vertical-align:top;position:relative;">
-        <view class="ttY-50" style="position:absolute;top:50%;">
-          <view class="ellipsis" style="font-size:14px;">
-            <text>{{taUserInfo.nickName}}</text>
-          </view>
-          <view class="ellipsis" style="font-size:12px;color:#666;">
-            <text>{{taUserInfo.city}}</text>    
-          </view>
+        <image src="../../../images/common/{{taUserInfo.tripType==1?'car':'person'}}.png" style="width:25px;height:25px;vertical-align:top;" mode="widthFix"></image>
+        <view class="ellipsis" style="font-size:10px;color:#666;">
+          <text>{{taUserInfo.nickName}}</text>
+          <text wx:if="{{taUserInfo.city}}">·{{taUserInfo.city}}</text>   
         </view>
       </view>
 
-      <view style="display:inline-block;width:40%;height:40px;text-align:left;padding-left:5px;box-sizing:border-box;vertical-align:top;position:relative;" data-wxh="{{taUserInfo.otherContact}}" bindtap="wxSetClipboardData">
+      <view style="display:inline-block;width:30%;height:40px;text-align:left;padding-left:5px;box-sizing:border-box;vertical-align:top;position:relative;" data-wxh="{{taUserInfo.otherContact}}" bindtap="wxSetClipboardData">
         <view class="ttY-50" style="position:absolute;top:50%;">
           <view class="ellipsis" style="font-size:14px;color:#666;">
             <text>微信号</text>
@@ -113,7 +126,7 @@
         </view>
       </view>
 
-      <view wx:if="{{taUserInfo.phone}}" style="display:inline-block;width:15%;font-size:0;text-align:center;height:40px;box-sizing:border-box;padding:5px 0;" data-phone="{{taUserInfo.phone}}" bindtap="callPhone">
+      <view wx:if="{{taUserInfo.phone}}" style="display:inline-block;width:20%;font-size:0;text-align:center;height:40px;box-sizing:border-box;padding:5px 0;vertical-align:top;float:right;" data-phone="{{taUserInfo.phone}}" bindtap="callPhone">
         <image src="../../../images/common/phone.png" style="width:30px;height:30px;margin-right:1px;vertical-align:-10px;"></image>
       </view>
     </view>

@@ -8,6 +8,9 @@ Page({
   data: {
     mapExtra: {
       selectArea: 'A',
+      minHeight: 250,
+      maxHeight: 600,
+      hS: 'min',
     },
     map: {
       center: null,
@@ -31,7 +34,7 @@ Page({
       label: '出发地',
       sign: 'A',
     }, {
-      label: '行程中',
+      label: 'go',
       sign: 'AB',
     }, {
       label: '目的地',
@@ -58,12 +61,27 @@ Page({
     if (Ta.userInfo && Ta.userInfo.openId){
       this.getTaUserInfo(Ta.userInfo.openId)
     }
+    this.wxGetSystemInfoSync()
   },
   onReadyonLoad() {},
   onShowonLoad() {},
   onHideonLoad() {},
   onUnloadonLoad() {},
   onPullDownRefreshonLoad() {},
+  wxGetSystemInfoSync(){
+    try {
+      const SystemInfo = wx.getSystemInfoSync()
+      console.log(SystemInfo)
+      const windowHeight = Number(SystemInfo.windowHeight) || 600
+      if (windowHeight>0){
+        this.setData({
+          'mapExtra.maxHeight': windowHeight - 40
+        })
+      }
+    } catch (e) {
+      // Do something when catch error
+    }
+  },
   getTaUserInfo(openId) {
     if (openId){
       wx.showLoading({
@@ -104,12 +122,14 @@ Page({
       const tripPoints = []
       tp2.forEach(sign => {
         const SF = (sign.indexOf('Me') >= 0) ? Me : Ta
+        const WHOstr = (sign.indexOf('Me') >= 0) ? '(我)' : ''
         const Icon = (Number(SF.tripType) === 1) ? 'car-1' : 'person-1'
         const SI = sign.split('.')[1]
         tripPoints.push({
           point: SF['point' + SI],
-          // _SF,
+          SF,
           Icon,
+          WHOstr,
           // sign,
         })
       })
@@ -241,6 +261,12 @@ Page({
   },
   regionchange(e) {
     // console.log(e)
+    if (e.causedBy === 'drag' && e.type === 'end'){
+      const hS = this.data.mapExtra.hS
+      if(hS==='min'){
+        this.setMapHeight('max')
+      }
+    }
   },
   markertap(e) {
     // console.log(e.markerId)
@@ -284,6 +310,19 @@ Page({
           })
         }
       })
+    }
+  },
+  // 设置地图高度
+  setMapHeight(hS){
+    this.setData({
+      'mapExtra.hS': hS
+    })
+  },
+  setMapUp(){
+    const hS = this.data.mapExtra.hS
+    // console.log(hS)
+    if (hS === 'max') {
+      this.setMapHeight('min')
     }
   }
 })
