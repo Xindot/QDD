@@ -191,8 +191,8 @@ Page({
             longitude: res.longitude,
             latitude: res.latitude,
           }
-          const pointList = this.data.pointList
           const pubForm = this.data.pubForm
+          const pointList = this.data.pointList
           pointList.forEach(n=>{
             if(n.sign===sign){
               n.point = point

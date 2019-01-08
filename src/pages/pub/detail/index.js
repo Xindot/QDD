@@ -324,5 +324,20 @@ Page({
     if (hS === 'max') {
       this.setMapHeight('min')
     }
+  },
+  // 打开位置
+  wxOpenLocation(e){
+    const idx = e.currentTarget.dataset.idx
+    if(idx>=0){
+      const point = this.data.tripPoints[idx].point
+      console.log(point)
+      if(point && point.longitude && point.latitude) {
+        wx.openLocation({
+          longitude: point.longitude,
+          latitude: point.latitude,
+          scale: 18
+        })
+      }
+    }
   }
 })
