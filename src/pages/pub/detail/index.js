@@ -330,12 +330,14 @@ Page({
     const idx = e.currentTarget.dataset.idx
     if(idx>=0){
       const point = this.data.tripPoints[idx].point
-      console.log(point)
+      // console.log(point)
       if(point && point.longitude && point.latitude) {
         wx.openLocation({
           longitude: point.longitude,
           latitude: point.latitude,
-          scale: 18
+          // scale: 18,
+          name: point.name,
+          address: point.address,
         })
       }
     }

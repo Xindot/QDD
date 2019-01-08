@@ -61,16 +61,27 @@
   width: 15%;
   display: inline-block;
   text-align: center;
+  vertical-align:top;
   font-size: 0;
   height: 40px;
   box-sizing: border-box;
 }
-.t-point-one .right {
-  width: 85%;
+.t-point-one .center {
+  width: 70%;
   display: inline-block;
   text-align: left;
   vertical-align:top;
   height: 40px;
+  box-sizing: border-box;
+}
+.t-point-one .right {
+  width: 15%;
+  display: inline-block;
+  text-align: center;
+  vertical-align:top;
+  font-size: 0;
+  height: 40px;
+  padding: 5px 0;
   box-sizing: border-box;
 }
 

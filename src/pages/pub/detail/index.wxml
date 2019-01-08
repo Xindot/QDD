@@ -29,7 +29,8 @@
     </view>
 
     <view wx:if="{{tripPoints}}" class="t-points">
-      <view wx:for="{{tripPoints}}" wx:key="tp-{{index}}" class="t-point-one" data-idx="{{index}}" bindtap="wxOpenLocation">
+      <view wx:for="{{tripPoints}}" wx:key="tp-{{index}}" class="t-point-one">
+
         <view class="left">
           <image src="../../../images/common/{{item.Icon}}.png" style="width:25px;height:25px;vertical-align:top;" mode="widthFix"></image>
           <view class="ellipsis" style="font-size:10px;color:#666;">
@@ -37,7 +38,8 @@
             <text>{{item.WHOstr}}</text>
           </view>
         </view>
-        <view class="right">
+
+        <view class="center">
           <view class="ellipsis" style="font-size:15px;">
             <text>{{item.point.ssx}}·</text>
             <text>{{item.point.name}}</text>
@@ -46,6 +48,11 @@
             <text>{{item.point.address}}</text>
           </view>
         </view>
+
+        <view class="right" data-idx="{{index}}" bindtap="wxOpenLocation">
+          <image src="../../../images/common/map.png" style="width:100%;height:30px;vertical-align:top;" mode="aspectFit"></image>
+        </view>
+
       </view>
     </view>
 
