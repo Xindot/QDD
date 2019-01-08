@@ -1,5 +1,5 @@
 const ENV = ['dev','prod'][0]
-const Version = 'v1.1.0'
+const Version = 'v1.0.1'
 const util = require('utils/util')
 // console.log('wx.cloud=>',wx.cloud)
 wx.cloud.init({
