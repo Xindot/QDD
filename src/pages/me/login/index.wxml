@@ -15,7 +15,7 @@
       </view>
 
       <view>
-        <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" type="primary">{{tips.btn}}</button>
+        <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" type="primary" lang="zh_CN">{{tips.btn}}</button>
         <view wx:else>请升级微信版本</view>
       </view>
 

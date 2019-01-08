@@ -1,10 +1,15 @@
-const ENV = ['dev','prod'][1]
-const Version = 'v1.0.1'
 const util = require('utils/util')
+
+const ENV = ['dev-e2a464','prod-e2a464'][1]
+console.log('ENV=>',ENV)
+
+const Version = 'v1.0.1'
+console.log('Version=>', Version)
 
 // console.log('wx.cloud=>',wx.cloud)
 wx.cloud.init({
-  ENV: ENV=='prod' ? 'prod-e2a464' : 'dev-e2a464'
+  ENV,
+  traceUser: true,
 })
 const db = wx.cloud.database()
 
@@ -38,8 +43,8 @@ App({
   // 获取用户OPENID by云函数
   getWXContext(){
     wx.cloud.callFunction({
-      name: 'getWXContext',      // 要调用的云函数名称
-      data: {}      // 传递给云函数的event参数
+      name: 'getWXContext',
+      data: {}
     }).then(res => {
       const WXContext = res.result
       if(WXContext && WXContext.OPENID){

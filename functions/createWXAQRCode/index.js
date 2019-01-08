@@ -1,6 +1,12 @@
+const env = ['dev-e2a464', 'prod-e2a464'][1]
+console.log('env=>', env)
+
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
-cloud.init()
+cloud.init({
+  env,
+})
+
 const superagent = require('superagent')
 
 // 云函数入口函数
