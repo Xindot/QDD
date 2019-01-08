@@ -13,7 +13,7 @@
   padding: 10px;
   border-bottom: dashed 1px #efefef;
   box-sizing: border-box;
-  color: #666;
+  color: #999;
 }
 
 .s-tabs {
