@@ -20,7 +20,7 @@ Page({
         iconPath: '../../../images/common/switch.png',
         position: {
           left: 10,
-          top: 300-60,
+          top: 10,
           width: 30,
           height: 30
         },
