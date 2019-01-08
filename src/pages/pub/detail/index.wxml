@@ -49,7 +49,7 @@
           </view>
         </view>
 
-        <view class="right" data-idx="{{index}}" bindtap="wxOpenLocation">
+        <view class="right" data-idx="{{index}}" bindtap="goNavigation">
           <image src="../../../images/common/map.png" style="width:100%;height:30px;vertical-align:top;" mode="aspectFit"></image>
         </view>
 

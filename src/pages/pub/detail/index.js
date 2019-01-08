@@ -173,6 +173,7 @@ Page({
         points.push({
           longitude: SF['point' + SI].longitude,
           latitude: SF['point' + SI].latitude,
+          point: SF['point' + SI],
           sign,
         })
       })
@@ -192,7 +193,7 @@ Page({
         markers.push({
           // iconPath: _SF.userInfo.avatarUrl || '../../../images/common/' + _Icon + '.png',
           iconPath: '../../../images/common/' + _Icon + '.png',
-          id: _SF._id,
+          id: n.point,
           longitude: n.longitude,
           latitude: n.latitude,
           width: 20,
@@ -227,7 +228,7 @@ Page({
       const _DIS = (DS.indexOf('AB') >= 0) ? '同行约' + Ta.disABshow : (DS.indexOf('A') >= 0) ? '接'+WHOstr+'约' + Ta.disAAshow : '送'+WHOstr+'约' +Ta.disBBshow
       markers.push({
         iconPath: '../../../images/common/car-1.png',
-        id: 'DIS',
+        id: center,
         longitude: center.longitude,
         latitude: center.latitude,
         width: 20,
@@ -244,7 +245,6 @@ Page({
           display: 'ALWAYS',
         },
       })
-
       // console.log(polyline)
       // console.log(markers)
       this.setData({
@@ -259,6 +259,7 @@ Page({
       // })
     }
   },
+  // 地图区域发生改变
   regionchange(e) {
     // console.log(e)
     if (e.causedBy === 'drag' && e.type === 'end'){
@@ -268,8 +269,15 @@ Page({
       }
     }
   },
+  // 点击图标
   markertap(e) {
     // console.log(e.markerId)
+    const point = e.markerId
+    if(point && point.longitude && point.latitude){
+      if(point.name){
+        this.wxOpenLocation(point)
+      }
+    }
   },
   // 点击切换按钮
   controltap(e) {
@@ -318,6 +326,7 @@ Page({
       'mapExtra.hS': hS
     })
   },
+  // 设置地图大/小屏展示
   setMapUp(){
     const hS = this.data.mapExtra.hS
     // console.log(hS)
@@ -325,21 +334,28 @@ Page({
       this.setMapHeight('min')
     }
   },
-  // 打开位置
-  wxOpenLocation(e){
+  // 导航
+  goNavigation(e){
     const idx = e.currentTarget.dataset.idx
     if(idx>=0){
       const point = this.data.tripPoints[idx].point
       // console.log(point)
       if(point && point.longitude && point.latitude) {
-        wx.openLocation({
-          longitude: point.longitude,
-          latitude: point.latitude,
-          // scale: 18,
-          name: point.name,
-          address: point.address,
-        })
+        this.wxOpenLocation(point)
       }
+    }
+  },
+  // 打开位置
+  wxOpenLocation(point){
+    // console.log(point)
+    if (point && point.longitude && point.latitude) {
+      wx.openLocation({
+        longitude: point.longitude,
+        latitude: point.latitude,
+        // scale: 18,
+        name: point.name,
+        address: point.address,
+      })
     }
   }
 })
