@@ -43,3 +43,13 @@
 .my-trip-one.selected {
   opacity: 1;
 }
+
+
+.trip-no-match,
+.trip-set {
+  text-align: center;
+  background-color:#ffffff;
+  font-size:14px;
+  padding: 12px;
+  color:#666;
+}

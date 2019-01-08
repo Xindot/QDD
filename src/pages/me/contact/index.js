@@ -1,5 +1,7 @@
 const app = getApp()
 const db = app.globalData.db
+const Timeout = app.globalData.Timeout
+const Tips = app.globalData.Tips
 
 Page({
   data: {
@@ -26,11 +28,29 @@ Page({
     },
   },
   onLoad(options) {
-    console.log(options)
-    const uid = options.uid || ''
-    this.setData({
-      uid,
-    })
+    // console.log(options)
+    const dbUserInfo = app.globalData.dbUserInfo || wx.getStorageSync('dbUserInfo')
+    const _id = dbUserInfo._id
+    const uid = options.uid || _id || ''
+    if(_id){
+      this.setData({
+        uid,
+      })
+    }else{
+      wx.showModal({
+        title: '',
+        content: '获取用户id错误',
+        showCancel: false,
+        confirmText: '去登录',
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '../login/index',
+            })
+          }
+        }
+      })
+    }
     this.setDefaultValue()
   },
   onReady() {},
@@ -39,10 +59,10 @@ Page({
   onUnload() {},
   onPullDownRefresh() {},
   setDefaultValue(){
-    const WXUserInfo = wx.getStorageSync('WXUserInfo')
+    const dbUserInfo = app.globalData.dbUserInfo || wx.getStorageSync('dbUserInfo')
     const contactList = this.data.contactList
     contactList.forEach(n => {
-      n.value = WXUserInfo[n.key] || ''
+      n.value = dbUserInfo[n.key] || ''
       if (n.key === 'phone') {
         this.checkPhone(n.value)
       }
@@ -51,6 +71,7 @@ Page({
       contactList,
     })
   },
+  // 输入改变
   inputValueChange(e){
     // console.log(e)
     const key = e.currentTarget.dataset.key
@@ -68,6 +89,7 @@ Page({
       contactList,
     })
   },
+  // 检查手机号码格式
   checkPhone(val){
     if (/^0?(13|14|15|17|18)[0-9]{9}$/.test(val)) {
       this.setData({
@@ -79,12 +101,30 @@ Page({
       })
     }
   },
+  // 提交修改
   contactSubmit(){
     if(!this.data.submitBtn.clickable){
       return
     }
-    const uid = this.data.uid
+    this.setData({
+      'submitBtn.clickable': false,
+      'submitBtn.tips': '提交中...'
+    })
+    const uid = this.data.uid || ''
     if (!uid) {
+      wx.showModal({
+        title: '',
+        content: '获取用户id错误',
+        showCancel: false,
+        confirmText: '去登录',
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '../login/index',
+            })
+          }
+        }
+      })
       return
     }
     const sform = {}
@@ -92,11 +132,11 @@ Page({
     contactList.forEach(n => {
       sform[n.key] = n.value
     })
-    console.log('sform=>', sform)
+    // console.log('sform=>', sform)
     db.collection('xpc_user').doc(uid).update({
       data: sform
     }).then(res=>{
-      console.log(res)
+      // console.log(res)
       if (res.errMsg ==='document.update:ok'){
         wx.showModal({
           title: '',

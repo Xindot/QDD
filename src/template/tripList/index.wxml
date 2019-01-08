@@ -51,14 +51,6 @@
 
     </view>
 
-    <view wx:if="{{pubList.length==0&&pageName=='pub'}}" class="trip-no-match">
-      <text style="opacity:.3;">暂无匹配的行程</text>
-    </view>
-
-    <view wx:if="{{pubList.length<=2&&pageName=='me'}}" class="trip-new {{pubList.length>0?'add':'set'}}" bindtap="pubMyTrip">
-      <text wx:if="{{pubList.length==0}}">设置我的行程</text>
-      <text wx:if="{{pubList.length>0}}">新增我的行程</text>
-    </view>
 
   </view>
 </template>

@@ -19,6 +19,19 @@
   <import src="../../template/tripList/index.wxml"/>
   <template is="tripList" data="{{pubList:myPubList,tripTypes,nowTime,pageName}}"/>
 
+  <view wx:if="{{myPubList.length==0}}" class="trip-set" bindtap="pubMyTrip">
+    <text>设置我的行程</text>
+  </view>
+
+  <view class="trip-o-2" wx:if="{{myPubList.length>0 && myPubList.length<=2}}">
+    <view class="trip-o-one" bindtap="pubMyTrip">
+      <text>新增我的行程</text>
+    </view>
+    <!-- <view class="trip-o-one" bindtap="shareMyTrip">
+      <text>分享我的行程</text>
+    </view> -->
+  </view>
+
   <view class="my-list-2">
 
     <view class="contact-2 {{userInfo.phone?'':'empty'}}" bindtap="setContact">

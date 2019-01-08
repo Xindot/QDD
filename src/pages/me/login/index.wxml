@@ -1,12 +1,22 @@
 <view>
 	<view wx:if="{{visible}}" class="login">
-		<view class="logo"></view>
+    <view class="slogan">
+      <view style="font-size:24px;">
+        <text>趣搭·个车</text>
+      </view>
+      <view style="font-size:12px;color:#666;">
+        <text>为您提供更好的信息服务</text>    
+      </view>
+    </view>
     <view class="tips">
+
       <view class="text">
         <text>{{tips.text}}</text>
       </view>
+
       <view>
-    		<button open-type="getUserInfo" type="primary" lang="zh_CN" bindgetuserinfo="onGotUserInfo">{{tips.btn}}</button>  
+        <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" type="primary">{{tips.btn}}</button>
+        <view wx:else>请升级微信版本</view>
       </view>
 
     </view>

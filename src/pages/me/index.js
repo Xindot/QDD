@@ -47,8 +47,14 @@ Page({
     }
   },
   getUserInfo(){
-    const WXContext = wx.getStorageSync('WXContext')
-    const OPENID = WXContext.OPENID
+    const dbUserInfo = app.globalData.dbUserInfo || wx.getStorageSync('dbUserInfo')
+    const _openid = dbUserInfo && dbUserInfo._openid
+    if (!_openid) {
+      wx.navigateTo({
+        url: '../me/login/index',
+      })
+      return
+    }
     wx.showLoading({
       title: Tips.wx.showLoading,
     })
@@ -56,23 +62,29 @@ Page({
       wx.hideLoading()
     }, Timeout.wx.hideLoading)
     db.collection('xpc_user').where({
-      _openid: OPENID
+      _openid,
     }).get().then(res => {
       // console.log(res)
       if (res.errMsg=== 'collection.get:ok'){
-        const userInfo = res.data[0]
+        const dbUserInfo = res.data[0]
         this.setData({
-          userInfo,
+          userInfo: dbUserInfo,
         })
-        app.setWXUserInfo(userInfo)
+        app.setDBUserInfo(dbUserInfo)
       }
       wx.stopPullDownRefresh()
     })
   },
   // 获取行程列表
   getMyPubList() {
-    const WXContext = wx.getStorageSync('WXContext')
-    const OPENID = WXContext.OPENID
+    const dbUserInfo = app.globalData.dbUserInfo || wx.getStorageSync('dbUserInfo')
+    const _openid = dbUserInfo && dbUserInfo._openid
+    if (!_openid) {
+      wx.navigateTo({
+        url: '../me/login/index',
+      })
+      return
+    }
     wx.showLoading({
       title: Tips.wx.showLoading,
     })
@@ -80,7 +92,7 @@ Page({
       wx.hideLoading()
     }, Timeout.wx.hideLoading)
     db.collection('xpc_pub').where({
-      _openid: OPENID,
+      _openid,
       status: 1
     }).orderBy('tripTime', 'asc').limit(3).get().then(res => {
       // console.log(res)
@@ -106,16 +118,40 @@ Page({
       wx.stopPullDownRefresh()
     })
   },
+  // 行程详情
   targetDetail(e){
     // console.log(e)
     const pid = e.currentTarget.id
     const idx = e.currentTarget.dataset.idx || 0
     const openid = e.currentTarget.dataset.openid
-    const WXContext = wx.getStorageSync('WXContext')
-    const OPENID = WXContext.OPENID
-    if(openid===OPENID){
-      const MyPubOneDetail = this.data.myPubList[idx]
-      wx.setStorageSync('MyPubOneDetail', MyPubOneDetail)
+
+    const dbUserInfo = app.globalData.dbUserInfo || wx.getStorageSync('dbUserInfo')
+    const _openid = dbUserInfo && dbUserInfo._openid
+
+    const phone = dbUserInfo && dbUserInfo.phone || ''
+    if (!(phone && (/^0?(13|14|15|17|18)[0-9]{9}$/.test(phone)))) {
+      wx.showModal({
+        title: '设置行程，需要先设置联系方式',
+        content: '方便需要的时候能联系到您',
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '../me/contact/index'
+            })
+          }
+        }
+      })
+      return
+    }
+
+    if (openid === _openid){
+      const myPubOneDetail = this.data.myPubList[idx]
+      app.globalData.myPubOneDetail = myPubOneDetail
+      try {
+        wx.setStorageSync('myPubOneDetail', myPubOneDetail)
+      } catch (e) {
+        console.error(e)
+      }
       wx.navigateTo({
         url: '../pub/add/index?pid='+pid
       })
@@ -123,8 +159,8 @@ Page({
   },
   // 设置我的行程
   pubMyTrip() {
-    const WXUserInfo = wx.getStorageSync('WXUserInfo')
-    if (WXUserInfo && WXUserInfo.phone && (/^0?(13|14|15|17|18)[0-9]{9}$/.test(WXUserInfo.phone))) {
+    const dbUserInfo = app.globalData.dbUserInfo || wx.getStorageSync('dbUserInfo')
+    if (dbUserInfo && dbUserInfo.phone && (/^0?(13|14|15|17|18)[0-9]{9}$/.test(dbUserInfo.phone))) {
       wx.navigateTo({
         url: '../pub/add/index'
       })
@@ -144,13 +180,19 @@ Page({
   },
   // 设置联系方式
   setContact(){
-    const WXUserInfo = wx.getStorageSync('WXUserInfo')
-    const uid = WXUserInfo._id
+    const dbUserInfo = app.globalData.dbUserInfo || wx.getStorageSync('dbUserInfo')
+    const uid = dbUserInfo._id
+    if (!uid) {
+      wx.navigateTo({
+        url: '../me/login/index',
+      })
+      return
+    }
     wx.navigateTo({
       url: 'contact/index?uid=' + uid
     })
   },
-  tips(text){
+  commonTips(text){
     wx.showModal({
       title: '',
       content: text,
@@ -164,16 +206,36 @@ Page({
       case '微信登录': this.wxNavTo('login/index'); break;
       case '意见或建议': this.wxNavTo('feedback/index'); break;
       case '用户使用须知': this.wxNavTo('notice/index'); break;
-      case '': this.tips('努力开发中...'); break;
+      case '': this.commonTips('努力开发中...'); break;
     }
   },
   // 页面跳转
   wxNavTo(url) {
-    const uid = this.data.userInfo._id
-    if(uid){
+    const dbUserInfo = app.globalData.dbUserInfo || wx.getStorageSync('dbUserInfo')
+    const uid = dbUserInfo._id
+    if (!uid) {
       wx.navigateTo({
-        url: url + '?uid=' + uid
+        url: '../me/login/index',
       })
+      return
     }
+    wx.navigateTo({
+      url: url + '?uid=' + uid
+    })
   },
+  // 分享我的行程
+  shareMyTrip(){
+    const SharePubList = this.data.myPubList
+    if (SharePubList instanceof Array && SharePubList.length>0){
+      wx.showModal({
+        title: '',
+        content: '暂未开放',
+        showCancel: false,
+      })
+      // wx.setStorageSync('SharePubList', SharePubList)
+      // wx.navigateTo({
+      //   url: 'share/index'
+      // })
+    }
+  }
 })

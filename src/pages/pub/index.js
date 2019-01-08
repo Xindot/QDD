@@ -8,6 +8,7 @@ const Tips = app.globalData.Tips
 
 Page({
   data: {
+    dbUserInfo: null,
     nowTime: util.formatTime(new Date(), '-:4'),
     YEAR_: new Date().getFullYear() + '-',
     disABrate: app.globalData.disABrate || 0.5,
@@ -53,19 +54,25 @@ Page({
       myPubList: null,
       matchPubList: null,
     })
+    const dbUserInfo = app.globalData.dbUserInfo || wx.getStorageSync('dbUserInfo')
+    const _openid = dbUserInfo && dbUserInfo._openid || ''
+    if (!_openid){
+      this.getMatchPubList(-1)
+      wx.navigateTo({
+        url: '../me/login/index',
+      })
+      return
+    }
     wx.showLoading({
       title: Tips.wx.showLoading,
     })
     setTimeout(function () {
       wx.hideLoading()
     }, Timeout.wx.hideLoading)
-    const WXContext = wx.getStorageSync('WXContext')
-    const OPENID = WXContext.OPENID
     db.collection('xpc_pub').where({
-      _openid: OPENID,
+      _openid,
       status: 1
     }).orderBy('tripTime', 'asc').limit(3).get().then(res => {
-      // console.log(res)
       if (res.data instanceof Array) {
         let myPubList = res.data || []
         myPubList.forEach(n => {
@@ -185,18 +192,36 @@ Page({
   },
   // 行程详情
   targetDetail(e){
+    // 先验证登录
+    const dbUserInfo = app.globalData.dbUserInfo || wx.getStorageSync('dbUserInfo')
+    const _openid = dbUserInfo && dbUserInfo._openid || ''
+    if (!_openid) {
+      wx.navigateTo({
+        url: '../me/login/index',
+      })
+      return
+    }
+
     // console.log(e)
     const pid = e.currentTarget.id || null
     const idx = e.currentTarget.dataset.idx || 0
     const openid = e.currentTarget.dataset.openid
+    
+    const myPubList = this.data.myPubList
+    const matchPubList = this.data.matchPubList
 
-    const PubMatchTwo = {
-      Me: this.data.myPubList[this.data.selectMyPubIndex] || {},
-      Ta: this.data.matchPubList[idx] || {}
+    const pubMatchTwo = {
+      Me: myPubList && myPubList[this.data.selectMyPubIndex] || {},
+      Ta: matchPubList && matchPubList[idx] || {}
     }
-    console.log(PubMatchTwo)
-    if (PubMatchTwo.Me._id && PubMatchTwo.Ta._id) {
-      wx.setStorageSync('PubMatchTwo', PubMatchTwo)
+    // console.log(pubMatchTwo)
+    if (pubMatchTwo.Me._id && pubMatchTwo.Ta._id) {
+      app.globalData.pubMatchTwo = pubMatchTwo
+      try {
+        wx.setStorageSync('pubMatchTwo', pubMatchTwo)
+      } catch (e) {
+        console.error(e)
+      }
       wx.navigateTo({
         url: 'detail/index'
       })
@@ -214,8 +239,8 @@ Page({
   },
   // 设置我的行程
   pubMyTrip(){
-    const WXUserInfo = wx.getStorageSync('WXUserInfo')
-    if (WXUserInfo && WXUserInfo.phone && (/^0?(13|14|15|17|18)[0-9]{9}$/.test(WXUserInfo.phone)) ){
+    const dbUserInfo = app.globalData.dbUserInfo || wx.getStorageSync('dbUserInfo')
+    if (dbUserInfo && dbUserInfo.phone && (/^0?(13|14|15|17|18)[0-9]{9}$/.test(dbUserInfo.phone)) ){
       wx.navigateTo({
         url: 'add/index'
       })

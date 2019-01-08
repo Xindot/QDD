@@ -106,9 +106,9 @@ Page({
   },
   // 获取行程详情
   getPubDetail(pid){
-    const MyPubOneDetail = wx.getStorageSync('MyPubOneDetail')
-    if (MyPubOneDetail._id) {
-      this.setDetail(MyPubOneDetail)
+    const myPubOneDetail = app.globalData.myPubOneDetail || wx.getStorageSync('myPubOneDetail')
+    if (myPubOneDetail._id) {
+      this.setDetail(myPubOneDetail)
     } else {
       db.collection('xpc_pub').doc(pid).get().then(res => {
         // console.log(res)
@@ -125,6 +125,7 @@ Page({
       })
     }
   },
+  // 设置详情
   setDetail(detail){
     const pubForm = this.data.pubForm
     for (var key in pubForm) {
@@ -173,6 +174,7 @@ Page({
   // 选择地点
   getPoint(e){
     const sign = e.currentTarget.dataset.sign || ''
+    // console.log('sign=>', sign)
     if (sign){
       this.wxChooseLocation(sign)
     }
@@ -213,21 +215,19 @@ Page({
       },
       fail:(err)=>{
         // console.log(err)
-        if (err.errMsg ==='chooseLocation:fail:auth denied'){
-          wx.showModal({
-            title: '您已设置【不允许使用我的地理位置】',
-            content: '如果需要开启，可以在小程序设置界面（「右上角」-「关于」-「右上角」-「设置」）中控制对该小程序的授权状态',
-            success: (res) => {
-              if (res.confirm) {
-                wx.openSetting({
-                  success: (res) => {
-                    console.log(res.authSetting)
-                  }
-                })
-              }
+        wx.showModal({
+          title: '您已设置【不允许使用我的地理位置】',
+          content: '如果需要开启，可以在小程序设置界面（「右上角」-「关于」-「右上角」-「设置」）中控制对该小程序的授权状态',
+          success: (res) => {
+            if (res.confirm) {
+              wx.openSetting({
+                success: (res) => {
+                  console.log(res.authSetting)
+                }
+              })
             }
-          })
-        }
+          }
+        })
       }
     })
   },
@@ -250,7 +250,15 @@ Page({
     })
     if (lngA && latA && lngB && latB){
       const disAB = util.distanceByLnglat(lngA, latA, lngB, latB) || 0
-      // console.log('disAB=>',disAB)
+      console.log('disAB=>',disAB)
+      if(Number(disAB)===0){
+        wx.showModal({
+          title: '',
+          content: '目的地和出发地不能是一个位置, 请重新选择目的地',
+          showCancel: false,
+        })
+        return
+      }
       let distanceV = false
       if (Number(disAB) >= Number(this.data.distanceMin)){
         distanceV = true
@@ -371,7 +379,7 @@ Page({
       return
     }
 
-    const userInfo = wx.getStorageSync('InsertUserInfo')
+    const userInfo = app.globalData.insertUserInfo || wx.getStorageSync('insertUserInfo')
     // console.log('userInfo=>', userInfo)
     if (!(userInfo && userInfo.nickName)){
       // console.log('用户信息获取错误')

@@ -2,7 +2,7 @@
 <view class="pub-box">
   <!-- 正文 -->
   <view class="content">
-
+    
     <view wx:if="{{myPubList}}">
       <view wx:for="{{myPubList}}" wx:key="{{index}}" class="my-trip-one {{selectMyPubIndex==index?'selected':''}}" style="width:{{100/myPubList.length}}%;" data-idx="{{index}}" bindtap="selectOnePub">
         <view class="ellipsis">
@@ -24,7 +24,7 @@
         </view>
       </view>
 
-      <view wx:if="{{myPubList.length==0}}" class="trip-new set" bindtap="pubMyTrip" style="margin-bottom:1px;">
+      <view wx:if="{{myPubList.length==0}}" class="trip-set" bindtap="pubMyTrip" style="margin-bottom:1px;">
         <text>设置我的行程</text>
         <view style="color:#ccc;font-size:10px;">
           <text>设置行程可更准确匹配合适的同程</text>
@@ -36,6 +36,9 @@
     <import src="../../template/tripList/index.wxml"/>
     <template is="tripList" data="{{pubList:matchPubList,tripTypes,nowTime,pageName}}"/>
 
+    <view wx:if="{{matchPubList.length==0}}" class="trip-no-match">
+      <text style="opacity:.3;">暂无匹配的行程</text>
+    </view>
 
     <view wx:if="{{errTips.server}}" style="padding:15px 5px;text-align:center;font-size:14px;background-color:#fff;margin-top:10px;color:#999;">
       <text>{{errTips.server}}</text>

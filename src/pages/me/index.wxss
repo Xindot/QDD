@@ -29,6 +29,33 @@
   border-left: dashed 1px #efefef;
 }
 
+
+.trip-set {
+  text-align: center;
+  background-color:#ffffff;
+  font-size:14px;
+  padding: 12px;
+  color:#666;
+}
+
+.trip-o-2 {
+  border-top: dashed 1px #efefef;
+  text-align: center;
+  background-color:#ffffff;
+  font-size:14px;
+  color:#666;
+}
+.trip-o-one {
+  width: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 12px 0;
+}
+.trip-o-one + .trip-o-one {
+  border-left: dashed 1px #efefef;
+}
+
+
 .Version {
   margin-top: 10px;
   text-align:center;

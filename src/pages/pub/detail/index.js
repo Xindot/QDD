@@ -48,19 +48,21 @@ Page({
   },
   onLoad(options) {
     const DS = this.data.mapExtra.selectArea || 'A'
-    const PubMatchTwo = wx.getStorageSync('PubMatchTwo')
-    console.log('PubMatchTwo=>', PubMatchTwo)
-    const Me = PubMatchTwo.Me
-    const Ta = PubMatchTwo.Ta
+    const pubMatchTwo = app.globalData.pubMatchTwo || wx.getStorageSync('pubMatchTwo')
+    console.log('pubMatchTwo=>', pubMatchTwo)
+    const Me = pubMatchTwo.Me
+    const Ta = pubMatchTwo.Ta
     this.setData({
       Me,
       Ta,
     })
     this.setMap(DS)
     this.setTripPoints(DS)
+
     if (Ta.userInfo && Ta.userInfo.openId){
       this.getTaUserInfo(Ta.userInfo.openId)
     }
+    // 获取设备信息
     this.wxGetSystemInfoSync()
   },
   onReadyonLoad() {},
@@ -71,7 +73,7 @@ Page({
   wxGetSystemInfoSync(){
     try {
       const SystemInfo = wx.getSystemInfoSync()
-      console.log(SystemInfo)
+      // console.log(SystemInfo)
       const windowHeight = Number(SystemInfo.windowHeight) || 600
       if (windowHeight>0){
         this.setData({
@@ -95,10 +97,12 @@ Page({
       }).get().then(res => {
         console.log(res)
         if (res.errMsg === 'collection.get:ok') {
-          const taUserInfo = res.data[0]
-          this.setData({
-            taUserInfo,
-          })
+          const taUserInfo = res.data[0] || ''
+          if (taUserInfo){
+            this.setData({
+              taUserInfo,
+            })
+          }
         }
         wx.hideLoading()
       })
@@ -133,7 +137,7 @@ Page({
           // sign,
         })
       })
-      console.log('tripPoints=>',tripPoints)
+      // console.log('tripPoints=>',tripPoints)
       this.setData({
         tripPoints,
       })

@@ -21,16 +21,4 @@
   vertical-align:top;
   box-sizing:border-box;
 }
-
-.trip-no-match,
-.trip-new {
-  text-align: center;
-  background-color:#ffffff;
-  font-size:14px;
-  padding: 12px;
-  color:#666;
-}
-.trip-new.add {
-  border-top: dashed 1px #efefef;
-}
 /* pubList end */

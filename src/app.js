@@ -1,6 +1,7 @@
-const ENV = ['dev','prod'][0]
+const ENV = ['dev','prod'][1]
 const Version = 'v1.0.1'
 const util = require('utils/util')
+
 // console.log('wx.cloud=>',wx.cloud)
 wx.cloud.init({
   ENV: ENV=='prod' ? 'prod-e2a464' : 'dev-e2a464'
@@ -16,30 +17,16 @@ App({
     this.getQNConfig()
     // 获取距离参考费率
     this.getDisABrate()
-    // 监听网络状态变化事件
-    // this.getNetWork()
   },
-  // 监听网络状态变化事件
-  // getNetWork(){
-  //   wx.getNetworkType({
-  //     success:(res)=> {
-  //       console.log(res)
-  //       const networkType = res.networkType
-  //     }
-  //   })
-  //   wx.onNetworkStatusChange((res)=> {
-  //     console.log(res)
-  //     console.log(res.isConnected)
-  //     console.log(res.networkType)
-  //   })
-  // },
   // 获取用户OPENID by缓存
   getWXOPENID(){
     try {
       const WXContext = wx.getStorageSync('WXContext')
       if (WXContext && WXContext.OPENID) {
         console.log('OPENID缓存中存在')
-        this.checkUser()
+        this.globalData.WXContext = WXContext
+        const OPENID = WXContext.OPENID
+        this.checkDBUser(OPENID)
       } else {
         console.log('OPENID缓存中不存在')
         this.getWXContext()
@@ -56,9 +43,11 @@ App({
     }).then(res => {
       const WXContext = res.result
       if(WXContext && WXContext.OPENID){
+        this.globalData.WXContext = WXContext
+        const OPENID = WXContext.OPENID
+        this.checkDBUser(OPENID)
         try {
           wx.setStorageSync('WXContext', WXContext)
-          this.checkUser()
         } catch (e) {
           console.error(e)
         }
@@ -68,23 +57,20 @@ App({
     })
   },
   // 判断当前用户是否在库中
-  checkUser(){
-    const WXContext = wx.getStorageSync('WXContext')
-    if(WXContext && WXContext.OPENID){
+  checkDBUser(OPENID){
+    if (OPENID){
       db.collection('xpc_user').where({
-        _openid: WXContext.OPENID // 填入当前用户 openid
+        _openid: OPENID
       }).get({
         success: (res)=> {
           if(res.errMsg=='collection.get:ok'){
             if(res.data && res.data instanceof Array && res.data.length>0){
               console.log('判断当前用户：在库中')
-              const WXUserInfo = res.data[0]
-              this.setWXUserInfo(WXUserInfo)
+              const dbUserInfo = res.data[0]
+              this.setDBUserInfo(dbUserInfo)
             }else{
               console.log('判断当前用户：不在库中')
-              wx.navigateTo({
-                url: '/pages/me/login/index'
-              })
+              this.setDBUserInfo(null)
             }
           }else{
             console.error(res.errMsg)
@@ -94,85 +80,30 @@ App({
     }
   },
   // 设置用户信息
-  setWXUserInfo(WXUserInfo){
-    if(WXUserInfo.nickName){
-      wx.setStorageSync('WXUserInfo', WXUserInfo)
-      const InsertUserInfo = {
-        openId: WXUserInfo._openid,
-        nickName: WXUserInfo.nickName,
-        avatarUrl: WXUserInfo.avatarUrl,
-        gender: WXUserInfo.gender,
+  setDBUserInfo(dbUserInfo){
+    if (dbUserInfo && dbUserInfo._openid && dbUserInfo.nickName){
+      const insertUserInfo = {
+        openId: dbUserInfo._openid,
+        nickName: dbUserInfo.nickName,
+        avatarUrl: dbUserInfo.avatarUrl,
+        gender: dbUserInfo.gender,
       }
-      wx.setStorageSync('InsertUserInfo', InsertUserInfo)
-    }
-  },
-  // 增加用户到数据库
-  addUserToDB(){
-    const WXContext = wx.getStorageSync('WXContext')
-    const WXUserInfo = wx.getStorageSync('WXUserInfo')
-    if(!(WXContext && WXContext.OPENID)){
-      console.log('获取OPENID错误')
-      return
-    }
-    if(!(WXUserInfo && WXUserInfo.nickName)){
-      console.log('获取用户信息错误')
-      return
-    }
-    const OPENID = WXContext.OPENID
-    db.collection('xpc_user').where({
-      _openid: OPENID // 填入当前用户 openid
-    }).get({
-      success: (res)=> {
-        if(res.errMsg=='collection.get:ok'){
-          if(res.data && res.data instanceof Array && res.data.length>0){
-            console.log('新增用户提示：用户已存在')
-            const user = res.data[0]
-            db.collection('xpc_user').doc(user._id).update({
-              data: {
-                updated_at: util.formatTime(new Date(), '-:'),
-                ...WXUserInfo                
-              }
-            }).then(res=>{
-              console.log(res)
-            }).catch(err=>{
-              console.error(err)
-            })
-          }else{
-            console.log('新增用户提示：用户不存在')
-            const newUser = {
-              created_at: util.formatTime(new Date(),'-:'),
-              updated_at: util.formatTime(new Date(),'-:'),
-              ...WXUserInfo
-            }
-            db.collection('xpc_user').add({
-              data: newUser
-            }).then(res => {
-              // console.log(res)
-              if(res.errMsg=='collection.add:ok'){
-                console.log('新增用户提示：添加成功')
-                this.checkUser()
-              }
-            }).catch(err =>{
-              console.error(err)
-            })
-          }
-          wx.showModal({
-            title: '',
-            content: '登录成功',
-            showCancel: false,
-            success:(res) => {
-              if (res.confirm) {
-                wx.navigateBack({
-                  delta: 1
-                })
-              }
-            }
-          })
-        }else{
-          console.error(res.errMsg)
-        }
+      this.globalData.dbUserInfo = dbUserInfo
+      this.globalData.insertUserInfo = insertUserInfo
+      try {
+        wx.setStorageSync('dbUserInfo', dbUserInfo)
+        wx.setStorageSync('insertUserInfo', insertUserInfo)
+      } catch (e) {
+        console.error(e)
       }
-    })
+    }else{
+      try {
+        wx.removeStorageSync('dbUserInfo')
+        wx.removeStorageSync('insertUserInfo')
+      } catch (e) {
+        console.error(e)
+      }
+    }
   },
   // 获取七牛上传token by缓存
   getQNConfig(){
@@ -284,21 +215,38 @@ App({
   // 获取距离参考费率
   getDisABrate(){
     this.getGlobalConfig('disABrate',res=>{
-      // console.log(res)
       const disABrate = Number(res) || 0.5
       if (disABrate > 0) {
-        console.log('disABrate=>', disABrate)
-        this.globalData.disABrate = disABrate
         wx.setStorageSync('disABrate', disABrate)
+      }else{
+        wx.removeStorageSync('disABrate')
       }
     })
   },
+  // 监听网络状态变化事件
+  // getNetWork(){
+  //   wx.getNetworkType({
+  //     success:(res)=> {
+  //       console.log(res)
+  //       const networkType = res.networkType
+  //     }
+  //   })
+  //   wx.onNetworkStatusChange((res)=> {
+  //     console.log(res)
+  //     console.log(res.isConnected)
+  //     console.log(res.networkType)
+  //   })
+  // },
   globalData:{
     Version,
     ENV,
     db,
+    WXContext: null,
+    dbUserInfo: null,
+    insertUserInfo: null,
+    myPubOneDetail: null,
+    pubMatchTwo: null,
     showRefresh: false,
-    disABrate: .5,
     QNConfig: {
       upHost: 'https://up.qbox.me',
     },
