@@ -3,7 +3,7 @@ const util = require('utils/util')
 const ENV = ['dev-e2a464','prod-e2a464'][1]
 console.log('ENV=>',ENV)
 
-const Version = 'v1.0.1'
+const Version = 'v1.0.2'
 console.log('Version=>', Version)
 
 // console.log('wx.cloud=>',wx.cloud)

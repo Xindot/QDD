@@ -2,7 +2,7 @@
 	<view wx:if="{{visible}}" class="login">
     <view class="slogan">
       <view style="font-size:24px;">
-        <text>趣搭·个车</text>
+        <text>趣搭搭·搭个车</text>
       </view>
       <view style="font-size:12px;color:#666;">
         <text>为您提供更好的信息服务</text>    
