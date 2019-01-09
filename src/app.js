@@ -1,5 +1,5 @@
 const util = require('utils/util')
-
+// 提交发布审核时要注意环境
 const env = ['dev-e2a464','prod-e2a464'][1]
 console.log('env=>',env)
 
