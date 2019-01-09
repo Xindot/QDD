@@ -1,4 +1,4 @@
-# 趣搭车·小程序
+# 趣搭搭·小程序
 <img src="https://img.6h5.cn/quda/logo/qada-xxc-qrcode.jpg" alt="Sample"  width="200">
 
 ## 版本功能记录
