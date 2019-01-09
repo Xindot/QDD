@@ -1,14 +1,14 @@
 const util = require('utils/util')
 
-const ENV = ['dev-e2a464','prod-e2a464'][1]
-console.log('ENV=>',ENV)
+const env = ['dev-e2a464','prod-e2a464'][1]
+console.log('env=>',env)
 
-const Version = 'v1.0.2'
+const Version = 'v1.0.1'
 console.log('Version=>', Version)
 
 // console.log('wx.cloud=>',wx.cloud)
 wx.cloud.init({
-  ENV,
+  env,
   traceUser: true,
 })
 const db = wx.cloud.database()
@@ -168,12 +168,12 @@ App({
     const WXContext = wx.getStorageSync('WXContext')
     const OPENID = WXContext.OPENID;
     const rStr4 =  Math.random().toString(36).substr(2).substring(0,4);
-    if(!(ENV&&Version&&OPENID)){
-      callback({code:-1,msg:'ENV或Version或OPENID错误'})
+    if(!(env&&Version&&OPENID)){
+      callback({code:-1,msg:'env或Version或OPENID错误'})
       return
     }
     const OPENID8 = OPENID.substring(0,8)
-    const key = 'xpc/'+ENV+'/'+Version+'/'+util.formatTime(new Date(),'19')+'/'+OPENID8+'/'+rStr4+'.png';
+    const key = 'xpc/'+env+'/'+Version+'/'+util.formatTime(new Date(),'19')+'/'+OPENID8+'/'+rStr4+'.png';
 
     const url = this.globalData.QNConfig.upHost;
     const token = this.globalData.QNConfig.uptoken;
@@ -213,9 +213,17 @@ App({
     db.collection('xpc_config').where({
       category,
     }).get().then(res => {
-      if (res.errMsg === 'collection.get:ok' && res.data && res.data[0].content) {
-        const content = res.data[0].content
-        callback(content[category])   
+      console.log(res)
+      if (res.errMsg === 'collection.get:ok' && res.data) {
+        const one = res.data
+        if (one instanceof Array && one.length>0){
+          const content = one.content || {}
+          callback(content[category] || 0.5) 
+        }else{
+          callback(0.5)
+        }
+      }else{
+        callback(0.5)
       }
     })
   },
@@ -246,7 +254,7 @@ App({
   // },
   globalData:{
     Version,
-    ENV,
+    env,
     db,
     WXContext: null,
     dbUserInfo: null,
