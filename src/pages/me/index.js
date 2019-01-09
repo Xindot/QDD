@@ -94,7 +94,6 @@ Page({
     }, Timeout.wx.hideLoading)
     db.collection('xpc_pub').where({
       _openid,
-      status: 1
     }).orderBy('tripTime', 'asc').limit(3).get().then(res => {
       // console.log(res)
       if (res.errMsg === 'collection.get:ok' && res.data instanceof Array) {

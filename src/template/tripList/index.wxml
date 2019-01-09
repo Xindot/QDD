@@ -1,7 +1,11 @@
 <template name="tripList">
   <view wx:if="{{pubList}}">
     <view wx:if="{{pubList.length>0}}" wx:for="{{pubList}}" wx:key="{{index}}" id="{{item._id}}" data-openid="{{item._openid}}" data-idx="{{index}}" bindtap="targetDetail" class="pub-one">
-
+      <view class="status-0" wx:if="{{item.status!=1}}">
+        <view>
+          <text>已下架</text>
+        </view>
+      </view>
       <view class="point-one">
         <view class="ellipsis" style="font-size:20px;">
           <text>{{item.pointA.ssx}}</text>
