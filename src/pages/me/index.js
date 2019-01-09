@@ -46,10 +46,11 @@ Page({
       app.globalData.showRefresh = false
     }
   },
+  // 获取用户信息
   getUserInfo(){
     const dbUserInfo = app.globalData.dbUserInfo || wx.getStorageSync('dbUserInfo')
-    const _openid = dbUserInfo && dbUserInfo._openid
-    if (!_openid) {
+    const _id = dbUserInfo && dbUserInfo._id
+    if (!_id) {
       wx.navigateTo({
         url: '../me/login/index',
       })
@@ -61,12 +62,10 @@ Page({
     setTimeout(function () {
       wx.hideLoading()
     }, Timeout.wx.hideLoading)
-    db.collection('xpc_user').where({
-      _openid,
-    }).get().then(res => {
+    db.collection('xpc_user').doc(_id).get().then(res => {
       // console.log(res)
-      if (res.errMsg=== 'collection.get:ok'){
-        const dbUserInfo = res.data[0] || null
+      if (res.errMsg === 'document.get:ok'){
+        const dbUserInfo = res.data || null
         if (dbUserInfo){
           this.setData({
             dbUserInfo,
@@ -162,6 +161,13 @@ Page({
   // 设置我的行程
   pubMyTrip() {
     const dbUserInfo = app.globalData.dbUserInfo || wx.getStorageSync('dbUserInfo')
+    const uid = dbUserInfo && dbUserInfo._id || ''
+    if (!uid) {
+      wx.navigateTo({
+        url: '../me/login/index',
+      })
+      return
+    }
     if (dbUserInfo && dbUserInfo.phone && (/^0?(13|14|15|17|18)[0-9]{9}$/.test(dbUserInfo.phone))) {
       wx.navigateTo({
         url: '../pub/add/index'
@@ -173,7 +179,7 @@ Page({
         success: (res) => {
           if (res.confirm) {
             wx.navigateTo({
-              url: '../me/contact/index'
+              url: '../me/contact/index?uid=' + uid
             })
           }
         }

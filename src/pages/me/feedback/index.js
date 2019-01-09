@@ -54,6 +54,8 @@ Page({
       created_at: util.formatTime(new Date, '-:'),
       updated_at: util.formatTime(new Date, '-:'),
     })
+    const userInfo = app.globalData.insertUserInfo || wx.getStorageInfoSync('insertUserInfo')
+    fbSubmit.userInfo = userInfo
     // console.log('fbSubmit=>',fbSubmit)
     if (fbSubmit.content==''){
       wx.showModal({

@@ -239,7 +239,15 @@ Page({
   },
   // 设置我的行程
   pubMyTrip(){
+    // 先验证登录
     const dbUserInfo = app.globalData.dbUserInfo || wx.getStorageSync('dbUserInfo')
+    const uid = dbUserInfo && dbUserInfo._id || ''
+    if (!uid) {
+      wx.navigateTo({
+        url: '../me/login/index',
+      })
+      return
+    }
     if (dbUserInfo && dbUserInfo.phone && (/^0?(13|14|15|17|18)[0-9]{9}$/.test(dbUserInfo.phone)) ){
       wx.navigateTo({
         url: 'add/index'
@@ -251,7 +259,7 @@ Page({
         success: (res) => {
           if (res.confirm) {
             wx.navigateTo({
-              url: '../me/contact/index'
+              url: '../me/contact/index?uid=' + uid
             })
           }
         }

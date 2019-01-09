@@ -29,29 +29,19 @@ Page({
   },
   onLoad(options) {
     // console.log(options)
-    const dbUserInfo = app.globalData.dbUserInfo || wx.getStorageSync('dbUserInfo')
-    const _id = dbUserInfo._id
-    const uid = options.uid || _id || ''
-    if(_id){
+    const uid = options.uid || ''
+    if (uid){
       this.setData({
         uid,
       })
+      this.setDefaultValue()
     }else{
       wx.showModal({
         title: '',
         content: '获取用户id错误',
         showCancel: false,
-        confirmText: '去登录',
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '../login/index',
-            })
-          }
-        }
       })
     }
-    this.setDefaultValue()
   },
   onReady() {},
   onShow() {},
@@ -116,14 +106,6 @@ Page({
         title: '',
         content: '获取用户id错误',
         showCancel: false,
-        confirmText: '去登录',
-        success: (res) => {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '../login/index',
-            })
-          }
-        }
       })
       return
     }
@@ -144,7 +126,8 @@ Page({
           showCancel: false,
           success: (res) => {
             if (res.confirm) {
-              app.globalData.showRefresh = true         
+              this.getUserInfo(uid)
+              app.globalData.showRefresh = true     
               wx.navigateBack({
                 delta: 1
               })
@@ -155,6 +138,27 @@ Page({
     }).catch(err=>{
       console.error(err)
     })
-
-  }
+  },
+  // 获取用户信息
+  getUserInfo(uid) {
+    wx.showLoading({
+      title: Tips.wx.showLoading,
+    })
+    setTimeout(function () {
+      wx.hideLoading()
+    }, Timeout.wx.hideLoading)
+    db.collection('xpc_user').doc(uid).get().then(res => {
+      // console.log(res)
+      if (res.errMsg === 'document.get:ok') {
+        const dbUserInfo = res.data || null
+        if (dbUserInfo) {
+          this.setData({
+            dbUserInfo,
+          })
+        }
+        app.setDBUserInfo(dbUserInfo)
+      }
+      wx.stopPullDownRefresh()
+    })
+  },
 })

@@ -122,7 +122,7 @@
         </view>
       </view>
 
-      <view style="display:inline-block;width:30%;height:40px;text-align:left;padding-left:5px;box-sizing:border-box;vertical-align:top;position:relative;" data-wxh="{{taUserInfo.otherContact}}" bindtap="wxSetClipboardData">
+      <view wx:if="{{taUserInfo.otherContact}}" style="display:inline-block;width:30%;height:40px;text-align:left;padding-left:5px;box-sizing:border-box;vertical-align:top;position:relative;" data-wxh="{{taUserInfo.otherContact}}" bindtap="wxSetClipboardData">
         <view class="ttY-50" style="position:absolute;top:50%;">
           <view class="ellipsis" style="font-size:14px;color:#666;">
             <text>微信号</text>
