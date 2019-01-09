@@ -6,10 +6,6 @@ const db = app.globalData.db
 Page({
   data: {
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    tips: {
-      text: '请完成微信授权以继续使用',
-      btn: '授权微信用户信息'
-    },
     visible: true,
   },
   onLoad(options) {

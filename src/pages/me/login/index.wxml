@@ -5,17 +5,17 @@
         <text>趣搭搭·搭个车</text>
       </view>
       <view style="font-size:12px;color:#666;">
-        <text>为您提供更好的信息服务</text>    
+        <text>为您提供更好的信息服务</text>
       </view>
     </view>
     <view class="tips">
 
       <view class="text">
-        <text>{{tips.text}}</text>
+        <text>请完成微信授权以继续使用</text>
       </view>
 
       <view>
-        <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" type="primary" lang="zh_CN">{{tips.btn}}</button>
+        <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" type="primary" lang="zh_CN">授权微信用户信息</button>
         <view wx:else>请升级微信版本</view>
       </view>
 
