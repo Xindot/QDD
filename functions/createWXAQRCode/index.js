@@ -1,4 +1,4 @@
-const env = ['dev-e2a464', 'prod-e2a464'][0]
+const env = ['dev-e2a464', 'prod-e2a464'][1]
 console.log('env=>', env)
 
 // 云函数入口文件
