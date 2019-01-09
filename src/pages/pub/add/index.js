@@ -497,5 +497,52 @@ Page({
         }
       })
     }
+  },
+  // 行程上下架
+  pubChangeStatus(e){
+    const pid = e.currentTarget.id || null
+    if(pid){
+      const status = this.data.pubForm.status || 0
+      const tips = Number(status) === 1 ? '确定下架？' : '确定上架？'
+      const newStatus = Number(status) === 1 ? 0 : 1
+      wx.showModal({
+        title: tips,
+        content: '',
+        success: (res) => {
+          if (res.confirm) {
+            // console.log('用户点击确定')
+            this.setData({
+              'submitBtn.clickable': false,
+            })
+            db.collection('xpc_pub').doc(pid).update({
+              data: {
+                status: newStatus
+              }
+            }).then(res=>{
+              console.log(res)
+              if (res.errMsg=== "document.update:ok"){
+                wx.showModal({
+                  title: '',
+                  content: '操作成功',
+                  showCancel: false,
+                  success: (res) => {
+                    if (res.confirm) {
+                      app.globalData.showRefresh = true
+                      wx.navigateBack({
+                        delta: 1
+                      })
+                    }
+                  }
+                })
+              }
+            }).catch(err=>{
+              console.error(err)
+            })
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    }    
   }
 })

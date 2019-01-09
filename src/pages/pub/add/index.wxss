@@ -106,8 +106,15 @@
 .del-btn {
   text-align:center;
   background-color:#fff;
-  color:red;
   height:50px;
   line-height:50px;
   margin-top:10px;
+}
+.del-btn view {
+  width: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+}
+.del-btn view + view {
+  border-left: dashed 1px #dfdfdf;
 }

@@ -91,8 +91,13 @@
       <text style="{{distanceV&&submitBtn.clickable?'':'opacity:.5'}}">{{submitBtn.tips}}</text>
     </view>
 
-	  <view wx:if="{{pid}}" class="del-btn" id="{{pid}}" bindtap="pubDel">
-      <text style="{{distanceV&&submitBtn.clickable?'':'opacity:.5'}}">{{submitBtn.del}}</text>
+	  <view wx:if="{{pid}}" class="del-btn">
+      <view style="color:#666;opacity:.5;" id="{{pid}}" bindtap="pubChangeStatus">
+        <text style="{{distanceV&&submitBtn.clickable?'':'opacity:.5'}}">{{pubForm.status==1?'下架':'上架'}}</text>
+      </view>
+      <view style="color:red;opacity:.5;" id="{{pid}}" bindtap="pubDel">
+        <text style="{{distanceV&&submitBtn.clickable?'':'opacity:.5'}}">{{submitBtn.del}}</text>
+      </view>
     </view>
 
 	</view>
